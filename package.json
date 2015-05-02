@@ -10,5 +10,12 @@
   "bugs": {
     "url": "https://github.com/yernende/flageolet/issues"
   },
-  "homepage": "https://github.com/yernende/flageolet#readme"
+  "homepage": "https://github.com/yernende/flageolet#readme",
+  "devDependencies": {
+    "babel": "^5.2.6"
+  },
+  "scripts": {
+    "transpile": "babel src --out-dir lib",
+    "watch": "npm run transpile -- --watch"
+  }
 }
