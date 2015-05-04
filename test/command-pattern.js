@@ -15,9 +15,14 @@ describe("CommandPattern", () => {
         });
 
         describe("a word in angle brackets", () => {
+            let getPattern = new CommandPattern("get <word>");
+
             it("should match a single arbitrary word", () => {
-                let getPattern = new CommandPattern("get <word>");
                 assert.ok(getPattern.test("get sword"));
+            });
+
+            it("should match several arbitrary single-quoted words", () => {
+                assert.ok(getPattern.test("get 'rusty sword'"));
             });
         })
     });
