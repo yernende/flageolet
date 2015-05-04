@@ -24,6 +24,10 @@ describe("CommandPattern", () => {
             it("should match several arbitrary single-quoted words", () => {
                 assert.ok(getPattern.test("get 'rusty sword'"));
             });
+
+            it("should match several arbitrary double-quoted words", () => {
+                assert.ok(getPattern.test("get \"rusty sword\""));
+            });
         })
     });
 });
