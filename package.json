@@ -13,6 +13,7 @@
   "homepage": "https://github.com/yernende/flageolet#readme",
   "devDependencies": {
     "babel": "^5.2.6",
+    "chai": "^2.3.0",
     "mocha": "^2.2.4"
   },
   "scripts": {
