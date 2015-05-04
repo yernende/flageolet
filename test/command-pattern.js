@@ -13,5 +13,12 @@ describe("CommandPattern", () => {
             let quitPattern = new CommandPattern("quit");
             assert.notOk(quitPattern.test("quit the world"));
         });
+
+        describe("a word in angle brackets", () => {
+            it("should match a single arbitrary word", () => {
+                let getPattern = new CommandPattern("get <word>");
+                assert.ok(getPattern.test("get sword"));
+            });
+        })
     });
 });
