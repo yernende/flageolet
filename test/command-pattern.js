@@ -8,5 +8,10 @@ describe("CommandPattern", () => {
             assert.ok(lookPattern.test("look"));
             assert.notOk(lookPattern.test("smile"));
         });
+
+        it("should check a whole string for matching", () => {
+            let quitPattern = new CommandPattern("quit");
+            assert.notOk(quitPattern.test("quit the world"));
+        });
     });
 });
