@@ -1,32 +1,34 @@
 import {assert} from "chai";
 import CommandPattern from "../lib/command-pattern";
 
+let commandPatterns = {
+    look: new CommandPattern("look"),
+    quit: new CommandPattern("quit"),
+    get: new CommandPattern("get <item>")
+}
+
 describe("CommandPattern", () => {
     describe("#test", () => {
         it("should return whether a passed string matches a pattern or not", () => {
-            let lookPattern = new CommandPattern("look");
-            assert.ok(lookPattern.test("look"));
-            assert.notOk(lookPattern.test("smile"));
+            assert.ok(commandPatterns.look.test("look"));
+            assert.notOk(commandPatterns.look.test("smile"));
         });
 
         it("should check a whole string for matching", () => {
-            let quitPattern = new CommandPattern("quit");
-            assert.notOk(quitPattern.test("quit the world"));
+            assert.notOk(commandPatterns.quit.test("quit the world"));
         });
 
         describe("a word in angle brackets", () => {
-            let getPattern = new CommandPattern("get <word>");
-
             it("should match a single arbitrary word", () => {
-                assert.ok(getPattern.test("get sword"));
+                assert.ok(commandPatterns.get.test("get sword"));
             });
 
             it("should match several arbitrary single-quoted words", () => {
-                assert.ok(getPattern.test("get 'rusty sword'"));
+                assert.ok(commandPatterns.get.test("get 'rusty sword'"));
             });
 
             it("should match several arbitrary double-quoted words", () => {
-                assert.ok(getPattern.test("get \"rusty sword\""));
+                assert.ok(commandPatterns.get.test("get \"rusty sword\""));
             });
         })
     });
@@ -34,21 +36,18 @@ describe("CommandPattern", () => {
     describe("#exec", () => {
         describe("if no arguments passed", () => {
             it("should return null", () => {
-                let lookPattern = new CommandPattern("look");
-                assert.isNull(lookPattern.exec());
+                assert.isNull(commandPatterns.look.exec());
             });
         });
 
         describe("if a string passed as an argument", () => {
             describe("result", () => {
                 it("should be an instance of Map", () => {
-                    let getPattern = new CommandPattern("get <item>");
-                    assert.instanceOf(getPattern.exec("get sword"), Map);
+                    assert.instanceOf(commandPatterns.get.exec("get sword"), Map);
                 });
 
                 it("should store parameter values by parameter names as keys", () => {
-                    let getPattern = new CommandPattern("get <item>");
-                    let parameters = getPattern.exec("get 'rusty sword'");
+                    let parameters = commandPatterns.get.exec("get 'rusty sword'");
 
                     assert.equal(parameters.get("item"), "rusty sword");
                 });
