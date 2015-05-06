@@ -30,4 +30,29 @@ describe("CommandPattern", () => {
             });
         })
     });
+
+    describe("#exec", () => {
+        describe("if no arguments passed", () => {
+            it("should return null", () => {
+                let lookPattern = new CommandPattern("look");
+                assert.isNull(lookPattern.exec());
+            });
+        });
+
+        describe("if a string passed as an argument", () => {
+            describe("result", () => {
+                it("should be an instance of Map", () => {
+                    let getPattern = new CommandPattern("get <item>");
+                    assert.instanceOf(getPattern.exec("get sword"), Map);
+                });
+
+                it("should store parameter values by parameter names as keys", () => {
+                    let getPattern = new CommandPattern("get <item>");
+                    let parameters = getPattern.exec("get 'rusty sword'");
+
+                    assert.equal(parameters.get("item"), "rusty sword");
+                });
+            });
+        });
+    });
 });
