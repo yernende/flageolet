@@ -25,7 +25,18 @@ gulp.task("transpile", function() {
                 });
             }
         }))
-        .pipe(babel())
+        .pipe(babel({
+            blacklist: [
+                "es6.classes",
+                "es6.blockScoping",
+                "es6.constants",
+                "es6.forOf",
+                "es6.templateLiterals",
+                "es6.properties.computed",
+                "es6.properties.shorthand",
+                "regenerator"
+            ]
+        }))
         .pipe(plumber.stop())
         .pipe(gulp.dest(PATHS.DESTINATION));
 });
