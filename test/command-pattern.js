@@ -48,14 +48,14 @@ describe("CommandPattern", () => {
 
         describe("if a string passed that matches the pattern", () => {
             describe("result", () => {
-                it("should be an instance of Map", () => {
-                    assert.instanceOf(commandPatterns.get.exec("get sword"), Map);
+                it("should be an object", () => {
+                    assert.isObject(commandPatterns.get.exec("get sword"));
                 });
 
                 it("should store parameter values by parameter names as keys", () => {
                     let parameters = commandPatterns.get.exec("get 'rusty sword'");
 
-                    assert.equal(parameters.get("item"), "rusty sword");
+                    assert.equal(parameters.item, "rusty sword");
                 });
             });
         });

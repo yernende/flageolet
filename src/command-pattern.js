@@ -42,11 +42,11 @@ export default class CommandPattern extends RegExp {
         }
 
         let [, ...values] = executionResult;
-        let parameters = new Map();
+        let parameters = {};
 
         for (let [index, value] of values.entries()) {
             value = stripSurroundingQuotes(value);
-            parameters.set(this.parameterNames[index], value);
+            parameters[this.parameterNames[index]] = value;
         }
 
         return parameters;
