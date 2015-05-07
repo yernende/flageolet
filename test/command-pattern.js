@@ -40,7 +40,13 @@ describe("CommandPattern", () => {
             });
         });
 
-        describe("if a string passed as an argument", () => {
+        describe("if a string passed that doesn't match the pattern", () => {
+            it("should return null", () => {
+                assert.isNull(commandPatterns.look.exec("smile"));
+            })
+        });
+
+        describe("if a string passed that matches the pattern", () => {
             describe("result", () => {
                 it("should be an instance of Map", () => {
                     assert.instanceOf(commandPatterns.get.exec("get sword"), Map);

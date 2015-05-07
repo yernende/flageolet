@@ -35,8 +35,13 @@ export default class CommandPattern extends RegExp {
             return null;
         }
 
-        let [, ...values] = super.exec(string);
+        let executionResult = super.exec(string);
 
+        if (executionResult === null) {
+            return null;
+        }
+
+        let [, ...values] = executionResult;
         let parameters = new Map();
 
         for (let [index, value] of values.entries()) {
