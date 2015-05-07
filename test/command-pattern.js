@@ -30,7 +30,7 @@ describe("CommandPattern", () => {
             it("should match several arbitrary double-quoted words", () => {
                 assert.ok(commandPatterns.get.test("get \"rusty sword\""));
             });
-        })
+        });
     });
 
     describe("#exec", () => {
@@ -43,7 +43,7 @@ describe("CommandPattern", () => {
         describe("if a string passed that doesn't match the pattern", () => {
             it("should return null", () => {
                 assert.isNull(commandPatterns.look.exec("smile"));
-            })
+            });
         });
 
         describe("if a string passed that matches the pattern", () => {
