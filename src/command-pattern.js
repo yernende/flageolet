@@ -1,11 +1,10 @@
 export default class CommandPattern extends RegExp {
     constructor(pattern) {
         let parameterNames = [];
-        let nodePatterns = [];
 
-        pattern.match(/\S+|<.+?>/g).map((node) => {
+        let nodePatterns = pattern.match(/\S+|<.+?>/g).map((node) => {
             if (/<.+?>/.test(node)) {
-                let [, name] = /<(.+?)>/.exec(node);
+                let name = node.slice(1, -1);
                 return {
                     type: "parameter",
                     name
@@ -16,20 +15,14 @@ export default class CommandPattern extends RegExp {
                     value: node
                 };
             }
-        }).forEach((node, index) => {
-            let nodePattern;
-
+        }).map((node) => {
             switch (node.type) {
                 case "word":
-                    nodePattern = node.value;
-                    break;
+                    return node.value;
                 case "parameter":
                     parameterNames.push(node.name);
-                    nodePattern = String.raw`(\S+|'.+?'|".+?")`;
-                    break;
+                    return String.raw`(\S+|'.+?'|".+?")`;
             }
-
-            nodePatterns.push(nodePattern);
         });
 
         super(`^${nodePatterns.join(" ")}$`);
@@ -42,22 +35,26 @@ export default class CommandPattern extends RegExp {
             return null;
         }
 
-        let parameters = new Map();
         let [, ...values] = super.exec(string);
 
-        values.forEach((value, index) => {
+        let parameters = new Map();
+
+        for (let [index, value] of values.entries()) {
             value = stripSurroundingQuotes(value);
             parameters.set(this.parameterNames[index], value);
-        });
+        }
 
         return parameters;
     }
-};
+}
 
 function stripSurroundingQuotes(string) {
-    if (string.startsWith("'") && string.endsWith("'")) {
+    let firstSymbol = string[0];
+    let lastSymbol = string[string.length - 1];
+
+    if (firstSymbol == "'" && lastSymbol == "'") {
         string = string.slice(1, -1);
-    } else if (string.startsWith("\"") && string.endsWith("\"")) {
+    } else if (firstSymbol == "\"" && lastSymbol == "\"") {
         string = string.slice(1, -1);
     }
 
