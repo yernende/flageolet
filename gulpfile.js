@@ -1,21 +1,19 @@
-"use strict";
-
-let gulp = require("gulp");
-let babel = require("gulp-babel");
-let changed = require("gulp-changed");
-let plumber = require("gulp-plumber");
-let notifier = require("node-notifier");
+import gulp from "gulp";
+import babel from "gulp-babel";
+import changed from "gulp-changed";
+import plumber from "gulp-plumber";
+import notifier from "node-notifier";
 
 const PATHS = {
     DESTINATION: "./lib",
     SOURCES: "./src/**/*"
 }
 
-gulp.task("transpile", function() {
+gulp.task("transpile", () => {
     gulp.src(PATHS.SOURCES)
         .pipe(changed(PATHS.DESTINATION))
         .pipe(plumber({
-            errorHandler: function(error) {
+            errorHandler: (error) => {
                 console.log(`${error.name}: ${error.message}`);
                 console.log(error.codeFrame);
 
@@ -41,7 +39,7 @@ gulp.task("transpile", function() {
         .pipe(gulp.dest(PATHS.DESTINATION));
 });
 
-gulp.task("watch", function() {
+gulp.task("watch", () => {
     gulp.watch(PATHS.SOURCES, ["transpile"]);
 });
 
