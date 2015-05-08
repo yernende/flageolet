@@ -14,7 +14,12 @@
   "devDependencies": {
     "babel": "^5.2.6",
     "chai": "^2.3.0",
-    "mocha": "^2.2.4"
+    "mocha": "^2.2.4",
+    "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0",
+    "gulp-changed": "^1.2.1",
+    "gulp-plumber": "^1.0.0",
+    "node-notifier": "^4.2.1"
   },
   "scripts": {
     "transpile": "gulp transpile",
