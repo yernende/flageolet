@@ -22,8 +22,8 @@
     "node-notifier": "^4.2.1"
   },
   "scripts": {
-    "transpile": "gulp transpile",
-    "watch": "gulp watch",
+    "transpile": "gulp transpile --require babel/register-without-polyfill",
+    "watch": "gulp watch --require babel/register-without-polyfill",
     "test": "mocha --harmony --compilers js:babel/register-without-polyfill"
   }
 }
