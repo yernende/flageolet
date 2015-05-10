@@ -24,6 +24,6 @@
   "scripts": {
     "transpile": "gulp transpile",
     "watch": "gulp watch",
-    "test": "mocha --harmony --compilers js:babel/register"
+    "test": "mocha --harmony --compilers js:babel/register-without-polyfill"
   }
 }

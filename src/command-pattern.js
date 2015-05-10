@@ -27,7 +27,7 @@ export default class CommandPattern extends RegExp {
 
         super(`^${nodePatterns.join(" ")}$`);
 
-        Object.assign(this, {parameterNames});
+        this.parameterNames = parameterNames;
     }
 
     exec(string) {
