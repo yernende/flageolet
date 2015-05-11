@@ -24,7 +24,7 @@
   "scripts": {
     "gulp": "gulp --require babel/register-without-polyfill",
     "transpile": "npm run gulp -- transpile",
-    "watch": "gulp run gulp -- watch",
+    "watch": "npm run gulp -- watch",
     "test": "mocha --harmony --require babel/register-without-polyfill"
   }
 }
