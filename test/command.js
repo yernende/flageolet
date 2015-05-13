@@ -22,6 +22,18 @@ describe("Command", () => {
 
 				assert.ok(model.touched);
 			});
+
+			it("should pass to a called action values of a command's call parameters", () => {
+				let character = {};
+
+				let setNameCommand = new Command("name <name>", function({name}) {
+					this.name = name;
+				});
+
+				setNameCommand.perform("name frodo", character);
+
+				assert.equal(character.name, "frodo");
+			});
 		});
 	});
 });

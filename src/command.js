@@ -11,6 +11,7 @@ export default class Command {
 	}
 
 	perform(query, actor) {
-		this.action.call(actor);
+		let parameters = this.pattern.exec(query);
+		this.action.call(actor, parameters);
 	}
 }
