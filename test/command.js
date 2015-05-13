@@ -8,4 +8,20 @@ describe("Command", () => {
 			assert.ok(lookCommand.test("look"));
 		});
 	});
+
+	describe("#perform", () => {
+		describe("when a passed string matches a command's pattern", () => {
+			it("should call a command's action in the context of a passed object", () => {
+				let model = {};
+
+				let touchCommand = new Command("touch", function() {
+					this.touched = true;
+				});
+
+				touchCommand.perform("touch", model);
+
+				assert.ok(model.touched);
+			});
+		});
+	});
 });
