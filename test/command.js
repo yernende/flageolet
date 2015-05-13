@@ -34,6 +34,14 @@ describe("Command", () => {
 
 				assert.equal(character.name, "frodo");
 			});
+
+			it("should throw an error when calling with a mismatching query", () => {
+				let lookCommand = new Command("look", () => {});
+
+				assert.throw(() => {
+					lookCommand.perform("smile", {})
+				}, "query should match the command's pattern");
+			});
 		});
 	});
 });

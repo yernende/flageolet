@@ -12,6 +12,11 @@ export default class Command {
 
 	perform(query, actor) {
 		let parameters = this.pattern.exec(query);
+
+		if (parameters == null) {
+			throw new Error("query should match the command's pattern");
+		}
+
 		this.action.call(actor, parameters);
 	}
 }
