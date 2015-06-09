@@ -18,6 +18,19 @@ describe("User", () => {
 					user.queries.write(queryToSend);
 				});
 			});
+
+			it("should be a string", () => {
+				return new Promise((resolve, reject) => {
+					let user = new User();
+
+					user.acceptQuery().then((query) => {
+						assert.typeOf(query, "string");
+						resolve();
+					}).catch(reject);
+
+					user.queries.write("smile");
+				});
+			});
 		});
 	});
 });

@@ -7,7 +7,7 @@ export default class User {
 
 	acceptQuery() {
 		return new Promise((resolve) => {
-			this.queries.once("data", (data) => resolve(data));
+			this.queries.once("data", (data) => resolve(data.toString()));
 		});
 	}
 }
