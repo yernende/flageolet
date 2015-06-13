@@ -33,4 +33,22 @@ describe("User", () => {
 			});
 		});
 	});
+
+	describe("request", () => {
+		it("should buffer incoming data and transmit it into the user#queries when a LF comes", () => {
+			return new Promise((resolve, reject) => {
+				let user = new User();
+
+				user.queries.once("data", (query) => {
+					assert.equal(query, "smile");
+					resolve();
+				});
+
+				user.request.write("smi");
+				user.request.write("l");
+				user.request.write("e");
+				user.request.write("\n");
+			});
+		});
+	});
 });
