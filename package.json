@@ -26,5 +26,8 @@
     "transpile": "npm run gulp -- transpile",
     "watch": "npm run gulp -- watch",
     "test": "mocha --harmony --require babel/register-without-polyfill"
+  },
+  "dependencies": {
+    "byline": "^4.2.1"
   }
 }
