@@ -26,8 +26,4 @@ gulp.task("transpile", () => {
 		.pipe(gulp.dest(PATHS.DESTINATION));
 });
 
-gulp.task("watch", () => {
-	gulp.watch(PATHS.SOURCES, ["transpile"]);
-});
-
-gulp.task("default", ["watch"]);
+gulp.task("default", ["transpile"]);
