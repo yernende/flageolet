@@ -1,6 +1,7 @@
 import {assert} from "chai";
 import User from "../lib/user";
 import stream from "stream";
+import util from "util";
 
 describe("User", () => {
 	describe("#acceptQuery", () => {
@@ -31,6 +32,18 @@ describe("User", () => {
 					user.queries.write("smile");
 				});
 			});
+		});
+	});
+
+	describe("#renderEvent", () => {
+		it("should render a passed object in the way similar to `util.inspect`", () => {
+			let user = new User();
+			let event = {
+				name: "notification",
+				data: "hello"
+			};
+
+			assert.equal(user.renderEvent(event), util.inspect(event));
 		});
 	});
 

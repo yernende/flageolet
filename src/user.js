@@ -1,4 +1,6 @@
 import stream from "stream";
+import {inspect} from "util";
+
 import {LineStream} from "byline";
 
 export default class User {
@@ -13,5 +15,9 @@ export default class User {
 		return new Promise((resolve) => {
 			this.queries.once("data", (data) => resolve(data.toString()));
 		});
+	}
+
+	renderEvent(event) {
+		return inspect(event);
 	}
 }
