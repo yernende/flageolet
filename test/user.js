@@ -6,7 +6,7 @@ import util from "util";
 describe("User", () => {
 	describe("#acceptQuery", () => {
 		describe("result", () => {
-			it("should be a next user#queries query pushed after the call", () => {
+			it("should be a next `user#queries` query pushed after the call", () => {
 				return new Promise((resolve, reject) => {
 					let user = new User();
 					let queryToSend = "smile";
@@ -47,8 +47,8 @@ describe("User", () => {
 		});
 	});
 
-	describe("request", () => {
-		it("should buffer incoming data and transmit it into the user#queries when a LF comes", () => {
+	describe("#request", () => {
+		it("should buffer incoming data and transmit it into `user#queries` when LF comes", () => {
 			return new Promise((resolve, reject) => {
 				let user = new User();
 
