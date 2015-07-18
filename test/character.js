@@ -2,6 +2,7 @@ import {assert} from "chai";
 import Character from "../lib/character";
 
 import stream from "stream";
+import Room from "../lib/room";
 
 describe("Character", () => {
 	describe("#events", () => {
@@ -24,6 +25,16 @@ describe("Character", () => {
 				character.events.pipe(eventReciever);
 				character.events.write(eventToSend);
 			});
+		});
+	});
+
+	describe("#move", () => {
+		it("should change the character's location to a passed destination object", () => {
+			let character = new Character();
+			let destination = new Room();
+
+			character.move(destination);
+			assert.equal(character.location, destination);
 		});
 	});
 });

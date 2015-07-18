@@ -6,4 +6,8 @@ export default class Character {
 			objectMode: true
 		});
 	}
+
+	move(destination) {
+		this.location = destination;
+	}
 }
