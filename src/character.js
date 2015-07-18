@@ -9,5 +9,6 @@ export default class Character {
 
 	move(destination) {
 		this.location = destination;
+		destination.members.add(this);
 	}
 }

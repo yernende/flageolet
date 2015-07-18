@@ -36,5 +36,13 @@ describe("Character", () => {
 			character.move(destination);
 			assert.equal(character.location, destination);
 		});
+
+		it("should add the character to the destination's members", () => {
+			let character = new Character();
+			let destination = new Room();
+
+			character.move(destination);
+			assert.ok(destination.members.has(character));
+		});
 	});
 });
