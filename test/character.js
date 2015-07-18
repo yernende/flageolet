@@ -44,5 +44,16 @@ describe("Character", () => {
 			character.move(destination);
 			assert.ok(destination.members.has(character));
 		});
+
+		it("should delete the character from its previous location members", () => {
+			let character = new Character();
+			let location = new Room();
+			let destination = new Room();
+
+			character.move(location);
+			character.move(destination);
+
+			assert.notOk(location.members.has(character));
+		});
 	});
 });
