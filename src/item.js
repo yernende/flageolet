@@ -1,10 +1,5 @@
-export default class Item {
-	move(destination) {
-		if (this.location) {
-			this.location.members.delete(this);
-		}
+import Movable from "../lib/movable";
 
-		this.location = destination;
-		destination.members.add(this);
-	}
+export default class Item extends Movable {
+
 }
