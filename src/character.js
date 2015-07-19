@@ -9,5 +9,9 @@ export default class Character extends Movable {
 		this.events = new stream.PassThrough({
 			objectMode: true
 		});
+
+		this.inventory = {
+			members: new Set()
+		}
 	}
 }
