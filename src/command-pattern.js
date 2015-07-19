@@ -2,7 +2,9 @@ export default class CommandPattern extends RegExp {
 	constructor(pattern) {
 		let parameterNames = [];
 
-		let nodePatterns = pattern.match(/\S+|<.+?>/g).map((node) => {
+		let nodes = pattern.match(/\S+|<.+?>/g);
+
+		let ast = nodes.map((node) => {
 			if (/<.+?>/.test(node)) {
 				let name = node.slice(1, -1);
 				return {
@@ -15,7 +17,9 @@ export default class CommandPattern extends RegExp {
 					value: node
 				};
 			}
-		}).map((node) => {
+		});
+
+		let astRender = ast.map((node) => {
 			switch (node.type) {
 				case "word":
 					return node.value;
@@ -23,9 +27,9 @@ export default class CommandPattern extends RegExp {
 					parameterNames.push(node.name);
 					return String.raw`(\S+|'.+?'|".+?")`;
 			}
-		});
+		}).join(" ");
 
-		super(`^${nodePatterns.join(" ")}$`);
+		super(`^${astRender}$`);
 
 		this.parameterNames = parameterNames;
 	}
@@ -54,12 +58,9 @@ export default class CommandPattern extends RegExp {
 }
 
 function stripSurroundingQuotes(string) {
-	let firstSymbol = string[0];
-	let lastSymbol = string[string.length - 1];
-
-	if (firstSymbol == "'" && lastSymbol == "'") {
+	if (string.startsWith("'") && string.endsWith("'")) {
 		string = string.slice(1, -1);
-	} else if (firstSymbol == "\"" && lastSymbol == "\"") {
+	} else if (string.startsWith("\"") && string.endsWith("\"")) {
 		string = string.slice(1, -1);
 	}
 
