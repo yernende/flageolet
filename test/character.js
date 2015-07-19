@@ -4,6 +4,8 @@ import Character from "../lib/character";
 import stream from "stream";
 import Room from "../lib/room";
 
+import describeAMovable from "./shared/describe-a-movable";
+
 describe("Character", () => {
 	describe("#events", () => {
 		it("should pe a pipeable stream", () => {
@@ -28,32 +30,5 @@ describe("Character", () => {
 		});
 	});
 
-	describe("#move", () => {
-		it("should change the character's location to a passed destination object", () => {
-			let character = new Character();
-			let destination = new Room();
-
-			character.move(destination);
-			assert.equal(character.location, destination);
-		});
-
-		it("should add the character to the destination's members", () => {
-			let character = new Character();
-			let destination = new Room();
-
-			character.move(destination);
-			assert.ok(destination.members.has(character));
-		});
-
-		it("should delete the character from its previous location members", () => {
-			let character = new Character();
-			let location = new Room();
-			let destination = new Room();
-
-			character.move(location);
-			character.move(destination);
-
-			assert.notOk(location.members.has(character));
-		});
-	});
+	describeAMovable(Character);
 });
