@@ -27,6 +27,8 @@ export default class User {
 	}
 
 	renderEvent(event) {
-		return inspect(event);
+		return inspect(event, {
+			colors: true
+		});
 	}
 }
