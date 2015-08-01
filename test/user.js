@@ -4,6 +4,40 @@ import stream from "stream";
 import util from "util";
 
 describe("User", () => {
+	describe("constructor", () => {
+		describe("when a socket object is passed", () => {
+			it("should pipe the socket object to the user's request", () => {
+				return new Promise((resolve, reject) => {
+					let socket = new stream.PassThrough();
+					let user = new User(socket);
+					let queryToSend = "smile";
+
+					user.request.once("data", (data) => {
+						assert.equal(data, queryToSend);
+						resolve();
+					});
+
+					socket.write(queryToSend);
+				});
+			});
+
+			it("should pipe the user's response to the socket object", () => {
+				return new Promise((resolve, reject) => {
+					let socket = new stream.PassThrough();
+					let user = new User(socket);
+					let queryToSend = "smile";
+
+					socket.once("data", (data) => {
+						assert.equal(data, queryToSend);
+						resolve();
+					});
+
+					user.response.write(queryToSend);
+				});
+			});
+		});
+	});
+
 	describe("#acceptQuery", () => {
 		describe("result", () => {
 			it("should be a next `user#queries` query pushed after the call", () => {

@@ -4,7 +4,7 @@ import {inspect} from "util";
 import {LineStream} from "byline";
 
 export default class User {
-	constructor() {
+	constructor(socket) {
 		this.queries = new stream.PassThrough();
 		this.request = new stream.PassThrough();
 
@@ -18,6 +18,11 @@ export default class User {
 		this.response = new stream.PassThrough();
 
 		this.request.pipe(new LineStream()).pipe(this.queries);
+
+		if (socket) {
+			socket.pipe(this.request);
+			this.response.pipe(socket);
+		}
 	}
 
 	acceptQuery() {
