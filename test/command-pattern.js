@@ -4,7 +4,8 @@ import CommandPattern from "../lib/command-pattern";
 let commandPatterns = {
 	look: new CommandPattern("look"),
 	quit: new CommandPattern("quit"),
-	get: new CommandPattern("get <item>")
+	get: new CommandPattern("get <item>"),
+	go: new CommandPattern("<direction:north>")
 }
 
 describe("CommandPattern", () => {
@@ -29,6 +30,13 @@ describe("CommandPattern", () => {
 
 			it("should treat the word as matching several arbitrary double-quoted words", () => {
 				assert.ok(commandPatterns.get.test("get \"rusty sword\""));
+			});
+
+			describe("when the word is followed with a regular expression", () => {
+				it("should treat the word as matching similar to that regular expression", () => {
+					assert.ok(commandPatterns.go.test("north"));
+					assert.notOk(commandPatterns.go.test("forward"));
+				});
 			});
 		});
 	});
