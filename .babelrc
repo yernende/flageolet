@@ -6,8 +6,7 @@
         "es6.forOf",
         "es6.templateLiterals",
         "es6.properties.computed",
-        "es6.properties.shorthand",
-        "regenerator"
+        "es6.properties.shorthand"
     ],
     "ignore": ["lib"]
 }
