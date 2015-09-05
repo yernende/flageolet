@@ -8,5 +8,6 @@
         "es6.properties.computed",
         "es6.properties.shorthand"
     ],
+    "optional": ["runtime"],
     "ignore": ["lib"]
 }

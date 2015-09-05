@@ -13,6 +13,7 @@
   "homepage": "https://github.com/yernende/flageolet#readme",
   "devDependencies": {
     "babel": "^5.2.6",
+    "babel-runtime": "^5.8.20",
     "chai": "^2.3.0",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
