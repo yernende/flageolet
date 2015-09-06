@@ -36,4 +36,18 @@ export default class User {
 			colors: true
 		});
 	}
+
+	async authorize(accounts) {
+		let login = await this.acceptQuery();
+		let password = await this.acceptQuery();
+
+		let account = accounts.find((account) => account.login == login && account.password == password);
+
+		this.assignAccount(account);
+	}
+
+	assignAccount(account) {
+		this.login = account.login;
+		this.password = account.password;
+	}
 }

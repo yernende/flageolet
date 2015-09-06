@@ -84,6 +84,30 @@ describe("User", () => {
 		});
 	});
 
+	describe("#authorize", () => {
+		it("should assign to the user a one account of passed to the method that matches sent credentials", () => {
+			return new Promise((resolve, reject) => {
+				let user = new User();
+				let account = {
+					login: "user",
+					password: "12345"
+				};
+
+				user.authorize([account]).then(() => {
+					assert.equal(user.login, account.login);
+					assert.equal(user.password, account.password);
+					resolve();
+				}).catch(reject);
+
+				user.queries.write(account.login);
+
+				setImmediate(() => {
+					user.queries.write(account.password);
+				});
+			});
+		});
+	});
+
 	describe("#request", () => {
 		it("should buffer incoming data and transmit it into `user#queries` when LF comes", () => {
 			return new Promise((resolve, reject) => {
