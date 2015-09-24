@@ -6,7 +6,8 @@
         "es6.forOf",
         "es6.templateLiterals",
         "es6.properties.computed",
-        "es6.properties.shorthand"
+        "es6.properties.shorthand",
+        "es6.arrowFunctions"
     ],
     "optional": ["runtime"],
     "ignore": ["lib"]
