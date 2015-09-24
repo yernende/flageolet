@@ -1,5 +1,6 @@
 import {assert} from "chai";
 import User from "../lib/user";
+import Command from "../lib/command";
 import stream from "stream";
 import util from "util";
 
@@ -104,6 +105,29 @@ describe("User", () => {
 				setImmediate(() => {
 					user.queries.write(account.password);
 				});
+			});
+		});
+	});
+
+	describe("#acceptCommand", () => {
+		it("should accept a query and perform a one command of passed to the method that matches it", () => {
+			return new Promise((resolve, reject) => {
+				let user = new User();
+				let command = new Command("resolve", () => {
+					resolve();
+				});
+
+				user.acceptCommand([command]);
+				user.queries.write("resolve");
+			});
+		});
+
+		it("should not reject when the accepted query doesn't match any command", () => {
+			return new Promise((resolve, reject) => {
+				let user = new User();
+
+				user.acceptCommand([]).then(resolve).catch(reject);
+				user.queries.write("unkown query");
 			});
 		});
 	});

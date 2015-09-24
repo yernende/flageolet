@@ -46,6 +46,15 @@ export default class User {
 		this.assignAccount(account);
 	}
 
+	async acceptCommand(commands) {
+		let query = await this.acceptQuery();
+		let command = commands.find((command) => command.test(query));
+
+		if (command) {
+			command.perform(query, this);
+		}
+	}
+
 	assignAccount(account) {
 		this.login = account.login;
 		this.password = account.password;
