@@ -34,6 +34,16 @@ describe("Command", () => {
 
 				assert.equal(character.name, "frodo");
 			});
+
+			it("should return a result of command's action execution", () => {
+				let expectedResult = {};
+
+				let getExpectedResult = new Command("get result", function() {
+					return expectedResult;
+				});
+
+				assert.equal(getExpectedResult.perform("get result"), expectedResult);
+			});
 		});
 
 		describe("when a query passed that doesn't match the command's pattern", () => {
