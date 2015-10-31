@@ -51,7 +51,7 @@ export default class User {
 		let command = commands.find((command) => command.test(query));
 
 		if (command) {
-			command.perform(query, this);
+			return command.perform(query, this);
 		}
 	}
 

@@ -130,6 +130,24 @@ describe("User", () => {
 				user.queries.write("unkown query");
 			});
 		});
+
+		it("should return result of command execution", () => {
+			return new Promise((resolve, reject) => {
+				let	user = new User();
+				let expectedResult = {};
+
+				let command = new Command("get expected result", () => {
+					return expectedResult;
+				});
+
+				user.acceptCommand([command]).then((result) => {
+					assert.equal(result, expectedResult);
+					resolve();
+				});
+
+				user.queries.write("get expected result");
+			});
+		});
 	});
 
 	describe("#request", () => {
