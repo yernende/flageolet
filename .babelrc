@@ -1,14 +1,5 @@
 {
-    "blacklist": [
-        "es6.classes",
-        "es6.blockScoping",
-        "es6.constants",
-        "es6.forOf",
-        "es6.templateLiterals",
-        "es6.properties.computed",
-        "es6.properties.shorthand",
-        "es6.arrowFunctions"
-    ],
-    "optional": ["runtime"],
+    "presets": ["es2015-node5"],
+    "plugins": ["transform-async-to-generator"],
     "ignore": ["lib"]
 }

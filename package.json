@@ -12,7 +12,10 @@
   },
   "homepage": "https://github.com/yernende/flageolet#readme",
   "devDependencies": {
-    "babel": "^5.2.6",
+    "babel": "^6.3.13",
+    "babel-plugin-transform-async-to-generator": "^6.3.13",
+    "babel-preset-es2015-node5": "^1.1.1",
+    "babel-register": "^6.3.13",
     "babel-runtime": "^5.8.20",
     "chai": "^2.3.0",
     "gulp": "^3.8.11",
@@ -24,9 +27,9 @@
     "node-notifier": "^4.2.1"
   },
   "scripts": {
-    "gulp": "gulp --require babel/register-without-polyfill",
+    "gulp": "gulp --require babel-register",
     "transpile": "npm run gulp -- transpile",
-    "test": "mocha --harmony --require babel/register-without-polyfill"
+    "test": "mocha --harmony --require babel-register"
   },
   "dependencies": {
     "byline": "^4.2.1"
