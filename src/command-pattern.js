@@ -2,7 +2,7 @@ export default class CommandPattern extends RegExp {
 	constructor(pattern) {
 		let parameterNames = [];
 
-		let nodes = pattern.match(/\S+|<.+?:.+?>|<.+?>/g);
+		let nodes = pattern.match(/<.+?:.+?>|<.+?>|\w+|\s+/g);
 
 		let ast = nodes.map((node) => {
 			if (/<.+?:.+?>/.test(node)) {
@@ -14,29 +14,33 @@ export default class CommandPattern extends RegExp {
 					name
 				};
 			} else if (/<.+?>/.test(node)) {
-				let name = node.slice(1, -1);
+				let [, name] = /<(.+?)>/.exec(node);
 
 				return {
 					type: "parameter",
+					pattern: /(\S+|'.+?'|".+?")/.source,
 					name
 				};
-			} else {
+			} else if (/\w+/.test(node)) {
 				return {
 					type: "word",
-					value: node
+					pattern: node
 				};
+			} else if (/\s+/.test(node)) {
+				return {
+					type: "space",
+					pattern: /\s+/.source
+				}
 			}
 		});
 
-		let astRender = ast.map((node) => {
-			switch (node.type) {
-				case "word":
-					return node.value;
-				case "parameter":
-					parameterNames.push(node.name);
-					return node.pattern || String.raw`(\S+|'.+?'|".+?")`;
+		for (let node of ast) {
+			if (node.type == "parameter") {
+				parameterNames.push(node.name);
 			}
-		}).join(" ");
+		}
+
+		let astRender = ast.reduce((accumulation, node) => accumulation + `(?:${node.pattern})`, "");
 
 		super(`^${astRender}$`);
 
