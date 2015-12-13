@@ -2,7 +2,7 @@ import {assert} from "chai";
 import CommandPattern from "../lib/command-pattern";
 
 let commandPatterns = {
-	look: new CommandPattern("look"),
+	look: new CommandPattern("l(ook)"),
 	quit: new CommandPattern("quit"),
 	get: new CommandPattern("get <item>"),
 	go: new CommandPattern("<direction:north>")
@@ -17,6 +17,10 @@ describe("CommandPattern", () => {
 
 		it("should check a whole string for matching", () => {
 			assert.notOk(commandPatterns.quit.test("quit the world"));
+		});
+
+		it("should check bracketed symbols as optional", () => {
+			assert.ok(commandPatterns.look.test("l"));
 		});
 
 		describe("when the pattern includes a word in angle brackets", () => {
