@@ -1,8 +1,10 @@
 import stream from "stream";
 
-export default class Room {
+import Destination from "./destination";
+
+export default class Room extends Destination {
 	constructor() {
-		this.members = new Set();
+		super();
 
 		this.events = new stream.Writable({
 			objectMode: true,

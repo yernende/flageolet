@@ -1,6 +1,7 @@
 import stream from "stream";
 
 import Movable from "../lib/movable";
+import Destination from "./destination";
 
 export default class Character extends Movable {
 	constructor() {
@@ -10,8 +11,6 @@ export default class Character extends Movable {
 			objectMode: true
 		});
 
-		this.inventory = {
-			members: new Set()
-		}
+		this.inventory = new Destination();
 	}
 }
