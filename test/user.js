@@ -70,17 +70,17 @@ describe("User", () => {
 		});
 	});
 
-	describe("#renderEvent", () => {
+	describe("#renderMessage", () => {
 		it("should render a passed object in the way similar to `util.inspect with enabled colors`", () => {
 			let user = new User();
-			let event = {
+			let message = {
 				name: "notification",
 				data: "hello"
 			};
 
 			assert.equal(
-				user.renderEvent(event),
-				util.inspect(event, {colors: true})
+				user.renderMessage(message),
+				util.inspect(message, {colors: true})
 			);
 		});
 	});

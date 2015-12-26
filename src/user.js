@@ -23,8 +23,8 @@ export default class User {
 		});
 	}
 
-	renderEvent(event) {
-		return inspect(event, {
+	renderMessage(message) {
+		return inspect(message, {
 			colors: true
 		});
 	}
