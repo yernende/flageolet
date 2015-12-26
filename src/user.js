@@ -7,14 +7,6 @@ export default class User {
 	constructor(socket) {
 		this.queries = new stream.PassThrough();
 		this.request = new stream.PassThrough();
-
-		this.events = new stream.Writable({
-			objectMode: true,
-			write: (data, encoding, done) => {
-				this.response.write(this.renderEvent(data));
-				done();
-			}
-		});
 		this.response = new stream.PassThrough();
 
 		this.request.pipe(new LineStream()).pipe(this.queries);

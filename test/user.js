@@ -167,23 +167,4 @@ describe("User", () => {
 			});
 		});
 	});
-
-	describe("#events", () => {
-		it("should render incoming objects with `user#renderEvent` and pass results to `user#response`", () => {
-			return new Promise((resolve, reject) => {
-				let user = new User();
-				let eventToSend = {
-					name: "notification",
-					data: "hello"
-				};
-
-				user.response.once("data", (data) => {
-					assert.equal(data, user.renderEvent(eventToSend));
-					resolve();
-				});
-
-				user.events.write(eventToSend);
-			});
-		});
-	});
 });
