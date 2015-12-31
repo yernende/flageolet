@@ -7,18 +7,20 @@ import util from "util";
 describe("User", () => {
 	describe("constructor", () => {
 		describe("when a socket object is passed", () => {
-			it("should pipe the socket object to the user's request", () => {
+			it("should make user's `queries` stream to recieve data from the socket divided into lines", () => {
 				return new Promise((resolve, reject) => {
 					let socket = new stream.PassThrough();
 					let user = new User(socket);
-					let queryToSend = "smile";
 
-					user.request.once("data", (data) => {
-						assert.equal(data, queryToSend);
+					user.queries.once("data", (query) => {
+						assert.equal(query, "smile");
 						resolve();
 					});
 
-					socket.write(queryToSend);
+					socket.write("smi");
+					socket.write("l");
+					socket.write("e");
+					socket.write("\n");
 				});
 			});
 
@@ -146,24 +148,6 @@ describe("User", () => {
 				});
 
 				user.queries.write("get expected result");
-			});
-		});
-	});
-
-	describe("#request", () => {
-		it("should buffer incoming data and transmit it into `user#queries` when LF comes", () => {
-			return new Promise((resolve, reject) => {
-				let user = new User();
-
-				user.queries.once("data", (query) => {
-					assert.equal(query, "smile");
-					resolve();
-				});
-
-				user.request.write("smi");
-				user.request.write("l");
-				user.request.write("e");
-				user.request.write("\n");
 			});
 		});
 	});

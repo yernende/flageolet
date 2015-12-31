@@ -6,13 +6,10 @@ import {LineStream} from "byline";
 export default class User {
 	constructor(socket) {
 		this.queries = new stream.PassThrough();
-		this.request = new stream.PassThrough();
 		this.response = new stream.PassThrough();
 
-		this.request.pipe(new LineStream()).pipe(this.queries);
-
 		if (socket) {
-			socket.pipe(this.request);
+			socket.pipe(new LineStream()).pipe(this.queries);
 			this.response.pipe(socket);
 		}
 	}
