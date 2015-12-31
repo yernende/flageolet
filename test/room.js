@@ -3,6 +3,8 @@ import Room from "../lib/room";
 
 import Character from "../lib/character";
 
+import describeAModel from "./shared/describe-a-model";
+
 describe("Room", () => {
 	describe("#events", () => {
 		it("should transmit input objects to its members", () => {
@@ -25,4 +27,6 @@ describe("Room", () => {
 			});
 		});
 	});
+
+	describeAModel(Room);
 });
