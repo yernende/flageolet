@@ -11,5 +11,17 @@ describe("Model", () => {
 				model.emit("event");
 			})
 		});
+
+		it("should transmit the event to its subscribers", () => {
+			return new Promise((resolve, reject) => {
+				let model = new Model();
+				let subscriber = new Model();
+
+				model.subscribers.add(subscriber);
+
+				subscriber.on("event", resolve);
+				model.emit("event");
+			});
+		});
 	});
 });
