@@ -1,4 +1,6 @@
-export default class Movable {
+import Model from "./model";
+
+export default class Movable extends Model {
 	move(destination) {
 		if (this.location) {
 			this.location.members.delete(this);
