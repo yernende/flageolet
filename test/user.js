@@ -4,6 +4,8 @@ import Command from "../lib/command";
 import stream from "stream";
 import util from "util";
 
+import describeAModel from "./shared/describe-a-model";
+
 describe("User", () => {
 	describe("constructor", () => {
 		describe("when a socket object is passed", () => {
@@ -151,4 +153,6 @@ describe("User", () => {
 			});
 		});
 	});
+
+	describeAModel(User);
 });

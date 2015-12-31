@@ -3,8 +3,12 @@ import {inspect} from "util";
 
 import {LineStream} from "byline";
 
-export default class User {
+import Model from "./model";
+
+export default class User extends Model {
 	constructor(socket) {
+		super();
+		
 		this.queries = new stream.PassThrough();
 		this.response = new stream.PassThrough();
 
