@@ -15,13 +15,11 @@ const destinationTypes = [{
 	}
 }];
 
-export default function describeAsMovable(Entity) {
-	let entityName = Entity.name.toLowerCase();
-
+export default function describeAsMovable(entityName, getEntityInstance) {
 	describe("#move", () => {
 		for (let destinationType of destinationTypes) {
 			it(`should change the ${entityName}'s location to a passed ${destinationType.name} object`, () => {
-				let entity = new Entity();
+				let entity = getEntityInstance();
 				let destination = destinationType.getInstance();
 
 				entity.move(destination);
@@ -29,7 +27,7 @@ export default function describeAsMovable(Entity) {
 			});
 
 			it(`should add the ${entityName} to the ${destinationType.name}'s members`, () => {
-				let entity = new Entity();
+				let entity = getEntityInstance();
 				let destination = destinationType.getInstance();
 
 				entity.move(destination);
@@ -38,7 +36,7 @@ export default function describeAsMovable(Entity) {
 		}
 
 		it(`should delete the ${entityName} from its previous location members`, () => {
-			let entity = new Entity();
+			let entity = getEntityInstance();
 			let location = new Room();
 			let destination = new Room();
 

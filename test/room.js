@@ -6,5 +6,5 @@ import Character from "../lib/character";
 import describeAModel from "./shared/describe-a-model";
 
 describe("Room", () => {
-	describeAModel(Room);
+	describeAModel("room", () => new Room());
 });

@@ -154,5 +154,5 @@ describe("User", () => {
 		});
 	});
 
-	describeAModel(User);
+	describeAModel("user", () => new User());
 });

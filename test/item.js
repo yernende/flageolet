@@ -7,6 +7,6 @@ import describeAMovable from "./shared/describe-a-movable";
 import describeAModel from "./shared/describe-a-model";
 
 describe("Item", () => {
-	describeAMovable(Item);
-	describeAModel(Item);
+	describeAMovable("item", () => new Item());
+	describeAModel("item", () => new Item());
 });
