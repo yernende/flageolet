@@ -17,6 +17,6 @@ export default class Command {
 			throw new Error("query should match the command's pattern");
 		}
 
-		return this.action.call(actor, parameters);
+		return this.action.call(actor, ...parameters);
 	}
 }

@@ -1,7 +1,5 @@
 export default class CommandPattern extends RegExp {
 	constructor(pattern) {
-		let parameterNames = [];
-
 		let nodes = pattern.match(/<.+?:.+?>|<.+?>|\(\w+\)|\w+|\s+/g);
 
 		let ast = nodes.map((node) => {
@@ -41,17 +39,9 @@ export default class CommandPattern extends RegExp {
 			}
 		});
 
-		for (let node of ast) {
-			if (node.type == "parameter") {
-				parameterNames.push(node.name);
-			}
-		}
-
 		let astRender = ast.reduce((accumulation, node) => accumulation + `(?:${node.pattern})`, "");
 
 		super(`^${astRender}$`);
-
-		this.parameterNames = parameterNames;
 	}
 
 	exec(string) {
@@ -65,13 +55,8 @@ export default class CommandPattern extends RegExp {
 			return null;
 		}
 
-		let [, ...values] = executionResult;
-		let parameters = {};
-
-		for (let [index, value] of values.entries()) {
-			value = stripSurroundingQuotes(value);
-			parameters[this.parameterNames[index]] = value;
-		}
+		let [, ...parameters] = executionResult;
+		parameters = parameters.map((parameter) => stripSurroundingQuotes(parameter));
 
 		return parameters;
 	}

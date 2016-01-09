@@ -59,8 +59,8 @@ describe("CommandPattern", () => {
 		});
 
 		describe("if a string passed that matches the pattern", () => {
-			it("should return an object", () => {
-				assert.isObject(commandPatterns.look.exec("look"));
+			it("should return an array", () => {
+				assert.isArray(commandPatterns.look.exec("look"));
 			});
 		});
 
@@ -79,7 +79,7 @@ describe("CommandPattern", () => {
 
 			it("should include the word's matched value to the method's result", () => {
 				let parameters = commandPatterns.get.exec("get 'rusty sword'");
-				assert.equal(parameters.item, "rusty sword");
+				assert.equal(parameters[0], "rusty sword");
 			});
 		});
 	});
