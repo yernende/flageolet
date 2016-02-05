@@ -19,7 +19,7 @@
     "babel-runtime": "^5.8.20",
     "chai": "^2.3.0",
     "gulp": "^3.8.11",
-    "gulp-babel": "^5.1.0",
+    "gulp-babel": "^6.1.2",
     "gulp-plumber": "^1.0.0",
     "gulp-watch": "^4.2.4",
     "minimist": "^1.1.1",
