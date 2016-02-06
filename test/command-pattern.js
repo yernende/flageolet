@@ -62,33 +62,33 @@ describe("CommandPattern", () => {
 		describe("<item>", () => {
 			let pattern = new CommandPattern("get <item>");
 
-			let character = new Character();
+			let actor = new Character();
 			let item = new Item();
 			let room = new Room();
 
-			character.move(room);
+			actor.move(room);
 			item.move(room);
 
 			item.name = "tulipe";
 
-			it("should match to name of any item in the actor's room", () => {
-				assert.ok(pattern.test("get tulipe", character));
-				assert.notOk(pattern.test("get rose", character));
+			it("should match to name of an item in the actor's location", () => {
+				assert.ok(pattern.test("get tulipe", actor));
+				assert.notOk(pattern.test("get rose", actor));
 			});
 		});
 
 		describe("<item@inventory>", () => {
 			let pattern = new CommandPattern("drop <item@inventory>");
 
-			let character = new Character();
+			let actor = new Character();
 			let item = new Item()
 
-			item.move(character.inventory);
+			item.move(actor.inventory);
 			item.name = "tulipe";
 
-			it("should match to name of any item in the actor's inventory", () => {
-				assert.ok(pattern.test("drop tulipe", character));
-				assert.notOk(pattern.test("drop rose", character));
+			it("should match to name of an item in the actor's inventory", () => {
+				assert.ok(pattern.test("drop tulipe", actor));
+				assert.notOk(pattern.test("drop rose", actor));
 			});
 		});
 
@@ -117,50 +117,52 @@ describe("CommandPattern", () => {
 		});
 
 		describe("if a string passed that matches the pattern", () => {
-			it("should return an array of matched parameters", () => {
-				let pattern = new CommandPattern("get <string>");
-				let parameters = pattern.exec("get 'rusty sword'");
+			describe("result", () => {
+				it("should include <string> matchings", () => {
+					let pattern = new CommandPattern("get <string>");
+					let parameters = pattern.exec("get 'rusty sword'");
 
-				assert.equal(parameters[0], "rusty sword");
-			});
+					assert.equal(parameters[0], "rusty sword");
+				});
 
-			it("should return `number` type parameters as numbers", () => {
-				let pattern = new CommandPattern("count <number>");
-				let parameters = pattern.exec("count 100");
+				it("should include <number> matchings", () => {
+					let pattern = new CommandPattern("count <number>");
+					let parameters = pattern.exec("count 100");
 
-				assert.isNumber(parameters[0]);
-				assert.equal(parameters[0], 100);
-			});
+					assert.isNumber(parameters[0]);
+					assert.equal(parameters[0], 100);
+				});
 
-			it("should return `item` type parameters as matched items", () => {
-				let pattern = new CommandPattern("get <item>");
+				it("should include <item> matchings", () => {
+					let pattern = new CommandPattern("get <item>");
 
-				let character = new Character();
-				let item = new Item();
-				let room = new Room();
+					let actor = new Character();
+					let item = new Item();
+					let room = new Room();
 
-				character.move(room);
-				item.move(room);
+					actor.move(room);
+					item.move(room);
 
-				item.name = "tulipe";
+					item.name = "tulipe";
 
-				let parameters = pattern.exec("get tulipe", character);
+					let parameters = pattern.exec("get tulipe", actor);
 
-				assert.equal(parameters[0], item);
-			});
+					assert.equal(parameters[0], item);
+				});
 
-			it("should return `item@inventory` parameters as matched items", () => {
-				let pattern = new CommandPattern("drop <item@inventory>");
+				it("should include <item@inventory> matchings", () => {
+					let pattern = new CommandPattern("drop <item@inventory>");
 
-				let character = new Character();
-				let item = new Item()
+					let actor = new Character();
+					let item = new Item()
 
-				item.move(character.inventory);
-				item.name = "tulipe";
+					item.move(actor.inventory);
+					item.name = "tulipe";
 
-				let parameters = pattern.exec("drop tulipe", character);
+					let parameters = pattern.exec("drop tulipe", actor);
 
-				assert.equal(parameters[0], item);
+					assert.equal(parameters[0], item);
+				});
 			});
 		});
 	});
