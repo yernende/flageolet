@@ -4,44 +4,50 @@ import CommandPattern from "../lib/command-pattern";
 let commandPatterns = {
 	look: new CommandPattern("l(ook)"),
 	quit: new CommandPattern("quit"),
-	get: new CommandPattern("get <item>"),
-	go: new CommandPattern("<direction:north>")
+	get: new CommandPattern("get <string>"),
+	go: new CommandPattern("<string:north>")
 }
 
 describe("CommandPattern", () => {
 	describe("#test", () => {
-		it("should return whether a passed string matches a pattern or not", () => {
-			assert.ok(commandPatterns.look.test("look"));
-			assert.notOk(commandPatterns.look.test("smile"));
+		describe("just a word", () => {
+			it("should match to the same word", () => {
+				assert.ok(commandPatterns.look.test("look"));
+				assert.notOk(commandPatterns.look.test("smile"));
+			});
+		});
+
+		describe("bracketed symbols", () => {
+			it("should treat as optional", () => {
+				it("should check bracketed symbols as optional", () => {
+					assert.ok(commandPatterns.look.test("l"));
+				});
+			});
+		});
+
+		describe("<string>", () => {
+			it("should match to any single word", () => {
+				assert.ok(commandPatterns.get.test("get sword"));
+			});
+
+			it("should match to any several single-quoted words", () => {
+				assert.ok(commandPatterns.get.test("get 'rusty sword'"));
+			});
+
+			it("should match to any several double-quoted words", () => {
+				assert.ok(commandPatterns.get.test("get \"rusty sword\""));
+			});
+		});
+
+		describe("<string:[regular expression]>", () => {
+			it("should match according to that regular expression", () => {
+				assert.ok(commandPatterns.go.test("north"));
+				assert.notOk(commandPatterns.go.test("forward"));
+			});
 		});
 
 		it("should check a whole string for matching", () => {
 			assert.notOk(commandPatterns.quit.test("quit the world"));
-		});
-
-		it("should check bracketed symbols as optional", () => {
-			assert.ok(commandPatterns.look.test("l"));
-		});
-
-		describe("when the pattern includes a word in angle brackets", () => {
-			it("should treat the word as matching a single arbitrary word", () => {
-				assert.ok(commandPatterns.get.test("get sword"));
-			});
-
-			it("should treat the word as matching several arbitrary single-quoted words", () => {
-				assert.ok(commandPatterns.get.test("get 'rusty sword'"));
-			});
-
-			it("should treat the word as matching several arbitrary double-quoted words", () => {
-				assert.ok(commandPatterns.get.test("get \"rusty sword\""));
-			});
-
-			describe("when the word is followed with a regular expression", () => {
-				it("should treat the word as matching similar to that regular expression", () => {
-					assert.ok(commandPatterns.go.test("north"));
-					assert.notOk(commandPatterns.go.test("forward"));
-				});
-			});
 		});
 	});
 
@@ -59,25 +65,7 @@ describe("CommandPattern", () => {
 		});
 
 		describe("if a string passed that matches the pattern", () => {
-			it("should return an array", () => {
-				assert.isArray(commandPatterns.look.exec("look"));
-			});
-		});
-
-		describe("when the pattern includes a word in angle brackets", () => {
-			it("should treat the word as matching a single arbitrary word", () => {
-				assert.ok(commandPatterns.get.test("get sword"));
-			});
-
-			it("should treat the word as matching several arbitrary single-quoted words", () => {
-				assert.ok(commandPatterns.get.test("get 'rusty sword'"));
-			});
-
-			it("should treat the word as matching several arbitrary double-quoted words", () => {
-				assert.ok(commandPatterns.get.test("get \"rusty sword\""));
-			});
-
-			it("should include the word's matched value to the method's result", () => {
+			it("should return an array of matched parameters", () => {
 				let parameters = commandPatterns.get.exec("get 'rusty sword'");
 				assert.equal(parameters[0], "rusty sword");
 			});
