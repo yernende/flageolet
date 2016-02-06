@@ -8,7 +8,7 @@ import Model from "./model";
 export default class User extends Model {
 	constructor(socket) {
 		super();
-		
+
 		this.queries = new stream.PassThrough();
 		this.response = new stream.PassThrough();
 
@@ -41,7 +41,7 @@ export default class User extends Model {
 
 	async acceptCommand(commands) {
 		let query = await this.acceptQuery();
-		let command = commands.find((command) => command.test(query));
+		let command = commands.find((command) => command.matches(query));
 
 		if (command) {
 			return command.perform(query, this);

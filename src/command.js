@@ -6,7 +6,7 @@ export default class Command {
 		this.action = action;
 	}
 
-	test(string) {
+	matches(string) {
 		return this.pattern.test(string);
 	}
 
