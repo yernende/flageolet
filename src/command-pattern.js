@@ -17,7 +17,7 @@ export default class CommandPattern extends RegExp {
 
 					case "number":
 						parameterTypes.push("number");
-						pattern = String.raw `\d+?`
+						pattern = String.raw `(\d+?)`;
 						break;
 				}
 			} else if (/\(\w+\)/.test(node)) {
@@ -26,7 +26,7 @@ export default class CommandPattern extends RegExp {
 			} else if (/\w+/.test(node)) {
 				pattern = node;
 			} else if (/\s+/.test(node)) {
-				pattern = String.raw `\s+`
+				pattern = String.raw `\s+`;
 			}
 
 			return pattern;
@@ -49,6 +49,8 @@ export default class CommandPattern extends RegExp {
 				switch (type) {
 					case "string":
 						return stripSurroundingQuotes(parameter);
+					case "number":
+						return Number(parameter);
 				}
 			});
 		}

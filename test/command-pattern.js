@@ -77,6 +77,12 @@ describe("CommandPattern", () => {
 				let parameters = commandPatterns.get.exec("get 'rusty sword'");
 				assert.equal(parameters[0], "rusty sword");
 			});
+
+			it("should return `number` type parameters as numbers", () => {
+				let parameters = commandPatterns.count.exec("count 100");
+				assert.isNumber(parameters[0]);
+				assert.equal(parameters[0], 100);
+			});
 		});
 	});
 });
