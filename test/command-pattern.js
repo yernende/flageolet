@@ -92,6 +92,25 @@ describe("CommandPattern", () => {
 			});
 		});
 
+		describe("<character>", () => {
+			let pattern = new CommandPattern("look <character>");
+
+			let actor = new Character();
+			let target = new Character();
+			let room = new Room();
+
+			actor.move(room);
+			target.move(room);
+
+			actor.name = "player";
+			target.name = "questor";
+
+			it("should match to name of a character in the actor's location", () => {
+				assert.ok(pattern.test("look questor", actor));
+				assert.notOk(pattern.test("look healer", actor));
+			});
+		});
+
 		it("should check a whole string for matching", () => {
 			let pattern = new CommandPattern("quit");
 
@@ -162,6 +181,24 @@ describe("CommandPattern", () => {
 					let parameters = pattern.exec("drop tulipe", actor);
 
 					assert.equal(parameters[0], item);
+				});
+
+				it("should include <character> matchings", () => {
+					let pattern = new CommandPattern("look <character>");
+
+					let actor = new Character();
+					let target = new Character();
+					let room = new Room();
+
+					actor.move(room);
+					target.move(room);
+
+					actor.name = "player";
+					target.name = "questor";
+
+					let parameters = pattern.exec("look questor", actor);
+
+					assert.equal(parameters[0], target);
 				});
 			});
 		});

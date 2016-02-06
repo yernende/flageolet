@@ -1,4 +1,5 @@
 import Item from "./item";
+import Character from "./character";
 
 export default class CommandPattern extends RegExp {
 	constructor(pattern) {
@@ -32,6 +33,11 @@ export default class CommandPattern extends RegExp {
 
 					case "item@inventory":
 						parameters.push("item@inventory");
+						patterns.push(stringPattern);
+						break;
+
+					case "character":
+						parameters.push("character");
 						patterns.push(stringPattern);
 						break;
 				}
@@ -76,6 +82,12 @@ export default class CommandPattern extends RegExp {
 								.some((member) => member instanceof Item && member.name.startsWith(parameter))
 						);
 
+					case "character":
+						return (
+							Array.from(actor.location.members)
+								.some((member) => member instanceof Character && member.name.startsWith(parameter))
+						);
+
 					default:
 						return true;
 				}
@@ -110,6 +122,12 @@ export default class CommandPattern extends RegExp {
 						return (
 							Array.from(actor.inventory.members)
 								.find((member) => member instanceof Item && member.name.startsWith(parameter))
+						);
+
+					case "character":
+						return (
+							Array.from(actor.location.members)
+								.find((member) => member instanceof Character && member.name.startsWith(parameter))
 						);
 				}
 			});
