@@ -1,66 +1,57 @@
 export default class CommandPattern extends RegExp {
 	constructor(pattern) {
+		let parameterTypes = [];
 		let nodes = pattern.match(/<.+?:.+?>|<.+?>|\(\w+\)|\w+|\s+/g);
 
-		let ast = nodes.map((node) => {
+		let patterns = nodes.map((node) => {
+			let pattern;
+
 			if (/<.+?(?::.+?)?>/.test(node)) {
 				let [, type, filter] = /<(.+?)(?::(.+?))?>/.exec(node);
-				let pattern;
 
 				switch (type) {
 					case "string":
-						pattern = filter || /(\S+|'.+?'|".+?")/.source;
+						parameterTypes.push("string");
+						pattern = filter || String.raw `(\S+|'.+?'|".+?")`;
 						break;
 
 					case "number":
-						pattern = /\d+?/.source;
+						parameterTypes.push("number");
+						pattern = String.raw `\d+?`
 						break;
 				}
-
-				return {
-					type: "parameter",
-					pattern
-				};
 			} else if (/\(\w+\)/.test(node)) {
-				let [, pattern] = /\((\w+)\)/.exec(node);
-
-				return {
-					type: "word",
-					pattern: `(?:${pattern})?`
-				}
+				let [, word] = /\((\w+)\)/.exec(node);
+				pattern = String.raw `(?:${word})?`;
 			} else if (/\w+/.test(node)) {
-				return {
-					type: "word",
-					pattern: node
-				};
+				pattern = node;
 			} else if (/\s+/.test(node)) {
-				return {
-					type: "space",
-					pattern: /\s+/.source
-				}
+				pattern = String.raw `\s+`
 			}
+
+			return pattern;
 		});
 
-		let astRender = ast.reduce((accumulation, node) => accumulation + `(?:${node.pattern})`, "");
+		super(`^${patterns.join("")}$`);
 
-		super(`^${astRender}$`);
+		this.parameterTypes = parameterTypes;
 	}
 
 	exec(string) {
-		if (!string) {
-			return null;
-		}
-
 		let executionResult = super.exec(string);
 
 		if (executionResult === null) {
 			return null;
+		} else {
+			return executionResult.slice(1).map((parameter, index) => {
+				let type = this.parameterTypes[index];
+
+				switch (type) {
+					case "string":
+						return stripSurroundingQuotes(parameter);
+				}
+			});
 		}
-
-		let [, ...parameters] = executionResult;
-		parameters = parameters.map((parameter) => stripSurroundingQuotes(parameter));
-
-		return parameters;
 	}
 }
 
