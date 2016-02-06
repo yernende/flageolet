@@ -5,7 +5,7 @@ import Destination from "./destination";
 
 export default class Character extends Movable {
 	constructor() {
-		super();
+		super(...arguments);
 
 		this.inventory = new Destination();
 	}

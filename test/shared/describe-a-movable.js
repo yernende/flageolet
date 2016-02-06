@@ -16,6 +16,21 @@ const destinationTypes = [{
 }];
 
 export default function describeAsMovable(entityName, getEntityInstance) {
+	describe("constructor", () => {
+		it("should accept a name", () => {
+			let character = new Character("player");
+
+			assert.equal(character.name, "player");
+		});
+
+		it("should accept a location", () => {
+			let room = new Room()
+			let character = new Character("player", room);
+
+			assert.equal(character.location, room);
+		});
+	});
+
 	describe("#move", () => {
 		for (let destinationType of destinationTypes) {
 			it(`should change the ${entityName}'s location to a passed ${destinationType.name} object`, () => {

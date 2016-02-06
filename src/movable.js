@@ -1,6 +1,16 @@
 import Model from "./model";
 
 export default class Movable extends Model {
+	constructor(name, location) {
+		super();
+
+		this.name = name;
+
+		if (location) {
+			this.move(location);
+		}
+	}
+
 	move(destination) {
 		if (this.location) {
 			this.location.members.delete(this);
