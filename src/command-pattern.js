@@ -3,21 +3,19 @@ export default class CommandPattern extends RegExp {
 		let nodes = pattern.match(/<.+?:.+?>|<.+?>|\(\w+\)|\w+|\s+/g);
 
 		let ast = nodes.map((node) => {
-			if (/<.+?:.+?>/.test(node)) {
-				let [, name, pattern] = /<(.+?):(.+?)>/.exec(node);
+			if (/<.+?(?::.+?)?>/.test(node)) {
+				let [, type, filter] = /<(.+?)(?::(.+?))?>/.exec(node);
+				let pattern;
+
+				switch (type) {
+					case "string":
+						pattern = filter || /(\S+|'.+?'|".+?")/.source;
+						break;
+				}
 
 				return {
 					type: "parameter",
-					pattern,
-					name
-				};
-			} else if (/<.+?>/.test(node)) {
-				let [, name] = /<(.+?)>/.exec(node);
-
-				return {
-					type: "parameter",
-					pattern: /(\S+|'.+?'|".+?")/.source,
-					name
+					pattern
 				};
 			} else if (/\(\w+\)/.test(node)) {
 				let [, pattern] = /\((\w+)\)/.exec(node);
