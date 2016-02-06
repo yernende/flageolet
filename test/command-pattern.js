@@ -62,14 +62,9 @@ describe("CommandPattern", () => {
 		describe("<item>", () => {
 			let pattern = new CommandPattern("get <item>");
 
-			let actor = new Character();
-			let item = new Item();
 			let room = new Room();
-
-			actor.move(room);
-			item.move(room);
-
-			item.name = "tulipe";
+			let actor = new Character("player", room);
+			let item = new Item("tulipe", room);
 
 			it("should match to name of an item in the actor's location", () => {
 				assert.ok(pattern.test("get tulipe", actor));
@@ -81,10 +76,7 @@ describe("CommandPattern", () => {
 			let pattern = new CommandPattern("drop <item@inventory>");
 
 			let actor = new Character();
-			let item = new Item()
-
-			item.move(actor.inventory);
-			item.name = "tulipe";
+			let item = new Item("tulipe", actor.inventory);
 
 			it("should match to name of an item in the actor's inventory", () => {
 				assert.ok(pattern.test("drop tulipe", actor));
@@ -95,15 +87,9 @@ describe("CommandPattern", () => {
 		describe("<character>", () => {
 			let pattern = new CommandPattern("look <character>");
 
-			let actor = new Character();
-			let target = new Character();
 			let room = new Room();
-
-			actor.move(room);
-			target.move(room);
-
-			actor.name = "player";
-			target.name = "questor";
+			let actor = new Character("player", room);
+			let target = new Character("questor", room);
 
 			it("should match to name of a character in the actor's location", () => {
 				assert.ok(pattern.test("look questor", actor));
@@ -155,14 +141,9 @@ describe("CommandPattern", () => {
 				it("should include <item> matchings", () => {
 					let pattern = new CommandPattern("get <item>");
 
-					let actor = new Character();
-					let item = new Item();
 					let room = new Room();
-
-					actor.move(room);
-					item.move(room);
-
-					item.name = "tulipe";
+					let actor = new Character("player", room);
+					let item = new Item("tulipe", room);
 
 					let parameters = pattern.exec("get tulipe", actor);
 
@@ -173,10 +154,7 @@ describe("CommandPattern", () => {
 					let pattern = new CommandPattern("drop <item@inventory>");
 
 					let actor = new Character();
-					let item = new Item()
-
-					item.move(actor.inventory);
-					item.name = "tulipe";
+					let item = new Item("tulipe", actor.inventory);
 
 					let parameters = pattern.exec("drop tulipe", actor);
 
@@ -186,15 +164,9 @@ describe("CommandPattern", () => {
 				it("should include <character> matchings", () => {
 					let pattern = new CommandPattern("look <character>");
 
-					let actor = new Character();
-					let target = new Character();
 					let room = new Room();
-
-					actor.move(room);
-					target.move(room);
-
-					actor.name = "player";
-					target.name = "questor";
+					let actor = new Character("player", room);
+					let target = new Character("questor", room);
 
 					let parameters = pattern.exec("look questor", actor);
 
