@@ -6,12 +6,12 @@ export default class Command {
 		this.action = action;
 	}
 
-	matches(string) {
-		return this.pattern.test(string);
+	matches(string, actor) {
+		return this.pattern.test(string, actor);
 	}
 
 	perform(query, actor) {
-		let parameters = this.pattern.exec(query);
+		let parameters = this.pattern.exec(query, actor);
 
 		if (parameters == null) {
 			throw new Error("query should match the command's pattern");
