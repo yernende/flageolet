@@ -77,6 +77,21 @@ describe("CommandPattern", () => {
 			});
 		});
 
+		describe("<item@inventory>", () => {
+			let pattern = new CommandPattern("drop <item@inventory>");
+
+			let character = new Character();
+			let item = new Item()
+
+			item.move(character.inventory);
+			item.name = "tulipe";
+
+			it("should match to name of any item in the actor's inventory", () => {
+				assert.ok(pattern.test("drop tulipe", character));
+				assert.notOk(pattern.test("drop rose", character));
+			});
+		});
+
 		it("should check a whole string for matching", () => {
 			let pattern = new CommandPattern("quit");
 
@@ -130,6 +145,20 @@ describe("CommandPattern", () => {
 				item.name = "tulipe";
 
 				let parameters = pattern.exec("get tulipe", character);
+
+				assert.equal(parameters[0], item);
+			});
+
+			it("should return `item@inventory` parameters as matched items", () => {
+				let pattern = new CommandPattern("drop <item@inventory>");
+
+				let character = new Character();
+				let item = new Item()
+
+				item.move(character.inventory);
+				item.name = "tulipe";
+
+				let parameters = pattern.exec("drop tulipe", character);
 
 				assert.equal(parameters[0], item);
 			});

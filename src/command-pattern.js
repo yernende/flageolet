@@ -2,7 +2,7 @@ import Item from "./item";
 
 export default class CommandPattern extends RegExp {
 	constructor(pattern) {
-		let parameterTypes = [];
+		let parameters = [];
 		let nodes = pattern.match(/<.+?:.+?>|<.+?>|\(\w+\)|\w+|\s+/g);
 
 		let patterns = nodes.map((node) => {
@@ -13,17 +13,26 @@ export default class CommandPattern extends RegExp {
 
 				switch (type) {
 					case "string":
-						parameterTypes.push("string");
+						parameters.push("string");
+
 						pattern = filter || String.raw `(\S+|'.+?'|".+?")`;
 						break;
 
 					case "number":
-						parameterTypes.push("number");
+						parameters.push("number");
+
 						pattern = String.raw `(\d+?)`;
 						break;
 
 					case "item":
-						parameterTypes.push("item");
+						parameters.push("item");
+
+						pattern = String.raw `(\S+|'.+?'|".+?")`;
+						break;
+
+					case "item@inventory":
+						parameters.push("item@inventory");
+
 						pattern = String.raw `(\S+|'.+?'|".+?")`;
 						break;
 				}
@@ -41,7 +50,7 @@ export default class CommandPattern extends RegExp {
 
 		super(`^${patterns.join("")}$`);
 
-		this.parameterTypes = parameterTypes;
+		this.parameters = parameters;
 	}
 
 	test(string, actor) {
@@ -51,12 +60,17 @@ export default class CommandPattern extends RegExp {
 			return false;
 		} else {
 			return executionResult.slice(1).every((parameter, index) => {
-				let type = this.parameterTypes[index];
+				let type = this.parameters[index];
 
 				switch (type) {
 					case "item":
 						return (
 							Array.from(actor.location.members)
+								.some((member) => member instanceof Item && member.name.startsWith(parameter))
+						);
+					case "item@inventory":
+						return (
+							Array.from(actor.inventory.members)
 								.some((member) => member instanceof Item && member.name.startsWith(parameter))
 						);
 					default:
@@ -73,7 +87,7 @@ export default class CommandPattern extends RegExp {
 			return null;
 		} else {
 			return executionResult.slice(1).map((parameter, index) => {
-				let type = this.parameterTypes[index];
+				let type = this.parameters[index];
 
 				switch (type) {
 					case "string":
@@ -85,9 +99,24 @@ export default class CommandPattern extends RegExp {
 							Array.from(actor.location.members)
 								.find((member) => member instanceof Item && member.name.startsWith(parameter))
 						);
+					case "item@inventory":
+						return (
+							Array.from(actor.inventory.members)
+								.find((member) => member instanceof Item && member.name.startsWith(parameter))
+						);
 				}
 			});
 		}
+	}
+}
+
+function getLocation(type, actor) {
+	switch (type) {
+		case "inventory":
+			return actor.inventory;
+
+		default:
+			return actor.location;
 	}
 }
 
