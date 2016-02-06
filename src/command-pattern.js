@@ -11,6 +11,10 @@ export default class CommandPattern extends RegExp {
 					case "string":
 						pattern = filter || /(\S+|'.+?'|".+?")/.source;
 						break;
+
+					case "number":
+						pattern = /\d+?/.source;
+						break;
 				}
 
 				return {

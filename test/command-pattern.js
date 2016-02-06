@@ -5,7 +5,8 @@ let commandPatterns = {
 	look: new CommandPattern("l(ook)"),
 	quit: new CommandPattern("quit"),
 	get: new CommandPattern("get <string>"),
-	go: new CommandPattern("<string:north>")
+	go: new CommandPattern("<string:north>"),
+	count: new CommandPattern("count <number>")
 }
 
 describe("CommandPattern", () => {
@@ -43,6 +44,13 @@ describe("CommandPattern", () => {
 			it("should match according to that regular expression", () => {
 				assert.ok(commandPatterns.go.test("north"));
 				assert.notOk(commandPatterns.go.test("forward"));
+			});
+		});
+
+		describe("<number>", () => {
+			it("should match to any number", () => {
+				assert.ok(commandPatterns.count.test("count 1000"));
+				assert.notOk(commandPatterns.count.test("count pie"))
 			});
 		});
 
