@@ -26,7 +26,7 @@ describe("Command", () => {
 			it("should pass to the called action parametres from the query", () => {
 				let character = {};
 
-				let setNameCommand = new Command("name <name>", function(name) {
+				let setNameCommand = new Command("name <string>", function(name) {
 					this.name = name;
 				});
 
