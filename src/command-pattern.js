@@ -2,55 +2,55 @@ import Item from "./item";
 
 export default class CommandPattern extends RegExp {
 	constructor(pattern) {
+		let nodes = pattern.match(/<.+?>|\(\w+\)|\w+|\s+/g);
+
+		let patterns = [];
 		let parameters = [];
-		let nodes = pattern.match(/<.+?:.+?>|<.+?>|\(\w+\)|\w+|\s+/g);
 
-		let patterns = nodes.map((node) => {
-			let pattern;
-
-			if (/<.+?(?::.+?)?>/.test(node)) {
+		for (let node of nodes) {
+			if (/<.+?>/.test(node)) {
 				let [, type, filter] = /<(.+?)(?::(.+?))?>/.exec(node);
+
+				let stringPattern = String.raw `(\S+|'.+?'|".+?")`;
+				let numberPattern = String.raw `(\d+?)`;
 
 				switch (type) {
 					case "string":
 						parameters.push("string");
-
-						pattern = filter || String.raw `(\S+|'.+?'|".+?")`;
+						patterns.push(filter || stringPattern);
 						break;
 
 					case "number":
 						parameters.push("number");
-
-						pattern = String.raw `(\d+?)`;
+						patterns.push(numberPattern);
 						break;
 
 					case "item":
 						parameters.push("item");
-
-						pattern = String.raw `(\S+|'.+?'|".+?")`;
+						patterns.push(stringPattern);
 						break;
 
 					case "item@inventory":
 						parameters.push("item@inventory");
-
-						pattern = String.raw `(\S+|'.+?'|".+?")`;
+						patterns.push(stringPattern);
 						break;
 				}
 			} else if (/\(\w+\)/.test(node)) {
 				let [, word] = /\((\w+)\)/.exec(node);
-				pattern = String.raw `(?:${word})?`;
+				patterns.push(String.raw `(?:${word})?`);
 			} else if (/\w+/.test(node)) {
-				pattern = node;
+				patterns.push(node);
 			} else if (/\s+/.test(node)) {
-				pattern = String.raw `\s+`;
+				patterns.push(String.raw `\s+`);
 			}
-
-			return pattern;
-		});
+		}
 
 		super(`^${patterns.join("")}$`);
 
-		this.parameters = parameters;
+		this.ast = {
+			patterns,
+			parameters
+		};
 	}
 
 	test(string, actor) {
@@ -60,7 +60,8 @@ export default class CommandPattern extends RegExp {
 			return false;
 		} else {
 			return executionResult.slice(1).every((parameter, index) => {
-				let type = this.parameters[index];
+				parameter = stripSurroundingQuotes(parameter);
+				let type = this.ast.parameters[index];
 
 				switch (type) {
 					case "item":
@@ -68,11 +69,13 @@ export default class CommandPattern extends RegExp {
 							Array.from(actor.location.members)
 								.some((member) => member instanceof Item && member.name.startsWith(parameter))
 						);
+
 					case "item@inventory":
 						return (
 							Array.from(actor.inventory.members)
 								.some((member) => member instanceof Item && member.name.startsWith(parameter))
 						);
+
 					default:
 						return true;
 				}
@@ -87,18 +90,22 @@ export default class CommandPattern extends RegExp {
 			return null;
 		} else {
 			return executionResult.slice(1).map((parameter, index) => {
-				let type = this.parameters[index];
+				parameter = stripSurroundingQuotes(parameter);
+				let type = this.ast.parameters[index];
 
 				switch (type) {
 					case "string":
-						return stripSurroundingQuotes(parameter);
+						return parameter;
+
 					case "number":
 						return Number(parameter);
+
 					case "item":
 						return (
 							Array.from(actor.location.members)
 								.find((member) => member instanceof Item && member.name.startsWith(parameter))
 						);
+
 					case "item@inventory":
 						return (
 							Array.from(actor.inventory.members)
@@ -107,16 +114,6 @@ export default class CommandPattern extends RegExp {
 				}
 			});
 		}
-	}
-}
-
-function getLocation(type, actor) {
-	switch (type) {
-		case "inventory":
-			return actor.inventory;
-
-		default:
-			return actor.location;
 	}
 }
 
