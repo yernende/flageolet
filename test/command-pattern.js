@@ -1,5 +1,8 @@
 import {assert} from "chai";
 import CommandPattern from "../lib/command-pattern";
+import Character from "../lib/character";
+import Item from "../lib/item";
+import Room from "../lib/room";
 
 describe("CommandPattern", () => {
 	describe("#test", () => {
@@ -56,6 +59,24 @@ describe("CommandPattern", () => {
 			});
 		});
 
+		describe("<item>", () => {
+			let pattern = new CommandPattern("get <item>");
+
+			let character = new Character();
+			let item = new Item();
+			let room = new Room();
+
+			character.move(room);
+			item.move(room);
+
+			item.name = "tulipe";
+
+			it("should match to name of any item in the actor's room", () => {
+				assert.ok(pattern.test("get tulipe", character));
+				assert.notOk(pattern.test("get rose", character));
+			});
+		});
+
 		it("should check a whole string for matching", () => {
 			let pattern = new CommandPattern("quit");
 
@@ -94,6 +115,23 @@ describe("CommandPattern", () => {
 
 				assert.isNumber(parameters[0]);
 				assert.equal(parameters[0], 100);
+			});
+
+			it("should return `item` type parameters as matched items", () => {
+				let pattern = new CommandPattern("get <item>");
+
+				let character = new Character();
+				let item = new Item();
+				let room = new Room();
+
+				character.move(room);
+				item.move(room);
+
+				item.name = "tulipe";
+
+				let parameters = pattern.exec("get tulipe", character);
+
+				assert.equal(parameters[0], item);
 			});
 		});
 	});

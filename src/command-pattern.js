@@ -1,3 +1,5 @@
+import Item from "./item";
+
 export default class CommandPattern extends RegExp {
 	constructor(pattern) {
 		let parameterTypes = [];
@@ -19,6 +21,11 @@ export default class CommandPattern extends RegExp {
 						parameterTypes.push("number");
 						pattern = String.raw `(\d+?)`;
 						break;
+
+					case "item":
+						parameterTypes.push("item");
+						pattern = String.raw `(\S+|'.+?'|".+?")`;
+						break;
 				}
 			} else if (/\(\w+\)/.test(node)) {
 				let [, word] = /\((\w+)\)/.exec(node);
@@ -37,7 +44,29 @@ export default class CommandPattern extends RegExp {
 		this.parameterTypes = parameterTypes;
 	}
 
-	exec(string) {
+	test(string, actor) {
+		let executionResult = super.exec(string);
+
+		if (executionResult === null) {
+			return false;
+		} else {
+			return executionResult.slice(1).every((parameter, index) => {
+				let type = this.parameterTypes[index];
+
+				switch (type) {
+					case "item":
+						return (
+							Array.from(actor.location.members)
+								.some((member) => member instanceof Item && member.name.startsWith(parameter))
+						);
+					default:
+						return true;
+				}
+			})
+		}
+	}
+
+	exec(string, actor) {
 		let executionResult = super.exec(string);
 
 		if (executionResult === null) {
@@ -51,6 +80,11 @@ export default class CommandPattern extends RegExp {
 						return stripSurroundingQuotes(parameter);
 					case "number":
 						return Number(parameter);
+					case "item":
+						return (
+							Array.from(actor.location.members)
+								.find((member) => member instanceof Item && member.name.startsWith(parameter))
+						);
 				}
 			});
 		}
