@@ -72,6 +72,33 @@ describe("User", () => {
 				});
 			});
 		});
+
+		it("should emit a 'query await' event on call", () => {
+			return new Promise((resolve, reject) => {
+				let user = new User();
+
+				user.once("query await", () => {
+					resolve();
+				});
+
+				user.acceptQuery();
+			});
+		});
+
+		it("should emit a 'query accept' event on data receive", () => {
+			return new Promise((resolve, reject) => {
+				let user = new User();
+				let queryToSend = "smile";
+
+				user.once("query accept", (query) => {
+					assert.equal(query, queryToSend);
+					resolve();
+				});
+
+				user.acceptQuery();
+				user.queries.write("smile");
+			});
+		});
 	});
 
 	describe("#renderMessage", () => {

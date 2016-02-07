@@ -20,7 +20,14 @@ export default class User extends Model {
 
 	acceptQuery() {
 		return new Promise((resolve) => {
-			this.queries.once("data", (data) => resolve(data.toString()));
+			this.emit("query await");
+
+			this.queries.once("data", (data) => {
+				let query = data.toString();
+
+				this.emit("query accept", query);
+				resolve(query);
+			});
 		});
 	}
 
