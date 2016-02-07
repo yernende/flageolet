@@ -162,21 +162,36 @@ describe("User", () => {
 			});
 		});
 
-		it("should return result of command execution", () => {
-			return new Promise((resolve, reject) => {
-				let	user = new User();
-				let expectedResult = {};
+		describe("when the query is right", () => {
+			it("should return result of command execution", () => {
+				return new Promise((resolve, reject) => {
+					let	user = new User();
+					let expectedResult = {};
 
-				let command = new Command("get expected result", () => {
-					return expectedResult;
+					let command = new Command("get expected result", () => {
+						return expectedResult;
+					});
+
+					user.acceptCommand([command]).then((result) => {
+						assert.equal(result, expectedResult);
+						resolve();
+					});
+
+					user.queries.write("get expected result");
 				});
+			});
+		});
 
-				user.acceptCommand([command]).then((result) => {
-					assert.equal(result, expectedResult);
-					resolve();
+		describe("when the query is wrong", () => {
+			it("should emit a 'query fail' event", () => {
+				return new Promise((resolve, reject) => {
+					let user = new User();
+
+					user.on("query fail", resolve);
+
+					user.acceptCommand([]);
+					user.queries.write("unkown query");
 				});
-
-				user.queries.write("get expected result");
 			});
 		});
 	});

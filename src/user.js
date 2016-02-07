@@ -52,6 +52,8 @@ export default class User extends Model {
 
 		if (command) {
 			return command.perform(query, this);
+		} else {
+			this.emit("query fail");
 		}
 	}
 
