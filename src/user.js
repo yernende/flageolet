@@ -48,7 +48,7 @@ export default class User extends Model {
 
 	async acceptCommand(commands) {
 		let query = await this.acceptQuery();
-		let command = commands.find((command) => command.matches(query));
+		let command = commands.find((command) => command.matches(query, this.character));
 
 		if (command) {
 			return command.perform(query, this.character);
