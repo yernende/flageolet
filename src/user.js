@@ -51,7 +51,7 @@ export default class User extends Model {
 		let command = commands.find((command) => command.matches(query));
 
 		if (command) {
-			return command.perform(query, this);
+			return command.perform(query, this.character);
 		} else {
 			this.emit("query fail");
 		}
