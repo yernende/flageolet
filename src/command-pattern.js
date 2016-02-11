@@ -59,42 +59,6 @@ export default class CommandPattern extends RegExp {
 		};
 	}
 
-	test(string, actor) {
-		let executionResult = super.exec(string);
-
-		if (executionResult === null) {
-			return false;
-		} else {
-			return executionResult.slice(1).every((parameter, index) => {
-				parameter = stripSurroundingQuotes(parameter);
-				let type = this.ast.parameters[index];
-
-				switch (type) {
-					case "item":
-						return (
-							Array.from(actor.location.members)
-								.some((member) => member instanceof Item && member.name.startsWith(parameter))
-						);
-
-					case "item@inventory":
-						return (
-							Array.from(actor.inventory.members)
-								.some((member) => member instanceof Item && member.name.startsWith(parameter))
-						);
-
-					case "character":
-						return (
-							Array.from(actor.location.members)
-								.some((member) => member instanceof Character && member.name.startsWith(parameter))
-						);
-
-					default:
-						return true;
-				}
-			})
-		}
-	}
-
 	exec(string, actor) {
 		let executionResult = super.exec(string);
 

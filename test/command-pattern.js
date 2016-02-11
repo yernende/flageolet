@@ -25,21 +25,23 @@ describe("CommandPattern", () => {
 			});
 		});
 
-		describe("<string>", () => {
-			let pattern = new CommandPattern("get <string>");
+		for (let type of ["string", "item", "item@inventory", "character"]) {
+			describe(`<${type}>`, () => {
+				let pattern = new CommandPattern(`touch <${type}>`);
 
-			it("should match to any single word", () => {
-				assert.ok(pattern.test("get sword"));
-			});
+				it("should match to any single word", () => {
+					assert.ok(pattern.test("touch name"));
+				});
 
-			it("should match to any several single-quoted words", () => {
-				assert.ok(pattern.test("get 'rusty sword'"));
-			});
+				it("should match to any several single-quoted words", () => {
+					assert.ok(pattern.test("touch 'long name'"));
+				});
 
-			it("should match to any several double-quoted words", () => {
-				assert.ok(pattern.test("get \"rusty sword\""));
+				it("should match to any several double-quoted words", () => {
+					assert.ok(pattern.test("touch \"long name\""));
+				});
 			});
-		});
+		}
 
 		describe("<string:[regular expression]>", () => {
 			let pattern = new CommandPattern("<string:north>");
@@ -56,44 +58,6 @@ describe("CommandPattern", () => {
 			it("should match to any number", () => {
 				assert.ok(pattern.test("count 1000"));
 				assert.notOk(pattern.test("count pie"))
-			});
-		});
-
-		describe("<item>", () => {
-			let pattern = new CommandPattern("get <item>");
-
-			let room = new Room();
-			let actor = new Character("player", room);
-			let item = new Item("tulipe", room);
-
-			it("should match to name of an item in the actor's location", () => {
-				assert.ok(pattern.test("get tulipe", actor));
-				assert.notOk(pattern.test("get rose", actor));
-			});
-		});
-
-		describe("<item@inventory>", () => {
-			let pattern = new CommandPattern("drop <item@inventory>");
-
-			let actor = new Character();
-			let item = new Item("tulipe", actor.inventory);
-
-			it("should match to name of an item in the actor's inventory", () => {
-				assert.ok(pattern.test("drop tulipe", actor));
-				assert.notOk(pattern.test("drop rose", actor));
-			});
-		});
-
-		describe("<character>", () => {
-			let pattern = new CommandPattern("look <character>");
-
-			let room = new Room();
-			let actor = new Character("player", room);
-			let target = new Character("questor", room);
-
-			it("should match to name of a character in the actor's location", () => {
-				assert.ok(pattern.test("look questor", actor));
-				assert.notOk(pattern.test("look healer", actor));
 			});
 		});
 
