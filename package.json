@@ -29,7 +29,8 @@
   "scripts": {
     "gulp": "gulp --require babel-register",
     "transpile": "npm run gulp -- transpile",
-    "test": "mocha --harmony --require babel-register"
+    "test": "mocha --harmony --require babel-register",
+    "prepublish": "npm run transpile"
   },
   "dependencies": {
     "byline": "^4.2.1"
