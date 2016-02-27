@@ -32,31 +32,33 @@ export default function describeAsMovable(entityName, getEntityInstance) {
 	});
 
 	describe("#move", () => {
-		for (let destinationType of destinationTypes) {
-			it(`should change the ${entityName}'s location to a passed ${destinationType.name} object`, () => {
-				let entity = getEntityInstance();
-				let destination = destinationType.getInstance();
+		describe("when a passed destination is not null", () => {
+			for (let destinationType of destinationTypes) {
+				it(`should change the ${entityName}'s location to a passed ${destinationType.name} object`, () => {
+					let entity = getEntityInstance();
+					let destination = destinationType.getInstance();
 
-				entity.move(destination);
-				assert.equal(entity.location, destination);
-			});
+					entity.move(destination);
+					assert.equal(entity.location, destination);
+				});
 
-			it(`should add the ${entityName} to the ${destinationType.name}'s members`, () => {
-				let entity = getEntityInstance();
-				let destination = destinationType.getInstance();
+				it(`should add the ${entityName} to the ${destinationType.name}'s members`, () => {
+					let entity = getEntityInstance();
+					let destination = destinationType.getInstance();
 
-				entity.move(destination);
-				assert.ok(destination.members.has(entity));
-			});
+					entity.move(destination);
+					assert.ok(destination.members.has(entity));
+				});
 
-			it(`should add the ${entityName} to the ${destinationType.name}'s subscribers`, () => {
-			    let entity = getEntityInstance();
-			    let destination = destinationType.getInstance();
+				it(`should add the ${entityName} to the ${destinationType.name}'s subscribers`, () => {
+				    let entity = getEntityInstance();
+				    let destination = destinationType.getInstance();
 
-			    entity.move(destination);
-			    assert.ok(destination.subscribers.has(entity));
-			});
-		}
+				    entity.move(destination);
+				    assert.ok(destination.subscribers.has(entity));
+				});
+			}
+		});
 
 		it(`should delete the ${entityName} from its previous location members`, () => {
 			let entity = getEntityInstance();
