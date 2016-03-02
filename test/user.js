@@ -74,6 +74,21 @@ describe("User", () => {
 			});
 		});
 
+		describe("if user is disconnected durring the acception", () => {
+			it("should throw a 'user disconnected' error", () => {
+				return new Promise((resolve, reject) => {
+					let user = new User();
+
+					user.acceptQuery().catch((error) => {
+						assert.equal(error.message, "user disconnected");
+						resolve();
+					});
+
+					user.queries.emit("end");
+				});
+			});
+		});
+
 		it("should emit a 'query await' event on call", () => {
 			return new Promise((resolve, reject) => {
 				let user = new User();

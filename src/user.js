@@ -19,15 +19,27 @@ export default class User extends Model {
 	}
 
 	acceptQuery() {
-		return new Promise((resolve) => {
-			this.emit("query await");
+		return new Promise((resolve, reject) => {
+			let onData;
+			let onEnd;
 
-			this.queries.once("data", (data) => {
+			onData = (data) => {
 				let query = data.toString();
 
 				this.emit("query accept", query);
 				resolve(query);
-			});
+
+				this.queries.removeListener("end", onEnd);
+			};
+
+			onEnd = () => {
+				reject(new Error("user disconnected"));
+			};
+
+			this.emit("query await");
+
+			this.queries.once("data", onData);
+			this.queries.once("end", onEnd);
 		});
 	}
 
