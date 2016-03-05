@@ -1,4 +1,5 @@
 import stream from "stream";
+import EventEmitter from "events";
 import {inspect} from "util";
 
 import {LineStream} from "byline";
@@ -9,12 +10,30 @@ export default class User extends Model {
 	constructor(socket) {
 		super();
 
-		this.queries = new stream.PassThrough();
-		this.response = new stream.PassThrough();
+		this.buffer = {
+			input: [],
+			output: []
+		}
 
 		if (socket) {
-			socket.pipe(new LineStream()).pipe(this.queries);
-			this.response.pipe(socket);
+			this.socket = socket;
+
+			this.socket.pipe(new LineStream()).on("data", (data) => {
+				this.buffer.input.push(data);
+			});
+		}
+	}
+
+	releaseBuffer() {
+		let input = this.buffer.input;
+		let output = this.buffer.output;
+
+		if (input.length > 0) {
+			this.emit("query", input.shift());
+		}
+
+		while (output.length > 0) {
+			this.socket.write(output.shift());
 		}
 	}
 
@@ -29,7 +48,7 @@ export default class User extends Model {
 				this.emit("query accept", query);
 				resolve(query);
 
-				this.queries.removeListener("end", onEnd);
+				this.socket.removeListener("close", onEnd);
 			};
 
 			onEnd = () => {
@@ -38,9 +57,13 @@ export default class User extends Model {
 
 			this.emit("query await");
 
-			this.queries.once("data", onData);
-			this.queries.once("end", onEnd);
+			this.once("query", onData);
+			this.socket.once("close", onEnd);
 		});
+	}
+
+	send(data) {
+		this.buffer.output.push(data);
 	}
 
 	renderMessage(message) {

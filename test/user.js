@@ -8,47 +8,12 @@ import util from "util";
 import describeAModel from "./shared/describe-a-model";
 
 describe("User", () => {
-	describe("constructor", () => {
-		describe("when a socket object is passed", () => {
-			it("should make user's `queries` stream to recieve data from the socket divided into lines", () => {
-				return new Promise((resolve, reject) => {
-					let socket = new stream.PassThrough();
-					let user = new User(socket);
-
-					user.queries.once("data", (query) => {
-						assert.equal(query, "smile");
-						resolve();
-					});
-
-					socket.write("smi");
-					socket.write("l");
-					socket.write("e");
-					socket.write("\n");
-				});
-			});
-
-			it("should pipe the user's response to the socket object", () => {
-				return new Promise((resolve, reject) => {
-					let socket = new stream.PassThrough();
-					let user = new User(socket);
-					let queryToSend = "smile";
-
-					socket.once("data", (data) => {
-						assert.equal(data, queryToSend);
-						resolve();
-					});
-
-					user.response.write(queryToSend);
-				});
-			});
-		});
-	});
-
 	describe("#acceptQuery", () => {
 		describe("result", () => {
-			it("should be a next `user#queries` query pushed after the call", () => {
+			it("should be a next query received after the call", () => {
 				return new Promise((resolve, reject) => {
-					let user = new User();
+					let socket = new stream.PassThrough();
+					let user = new User(socket);
 					let queryToSend = "smile";
 
 					user.acceptQuery().then((query) => {
@@ -56,20 +21,8 @@ describe("User", () => {
 						resolve();
 					}).catch(reject);
 
-					user.queries.write(queryToSend);
-				});
-			});
-
-			it("should be a string", () => {
-				return new Promise((resolve, reject) => {
-					let user = new User();
-
-					user.acceptQuery().then((query) => {
-						assert.typeOf(query, "string");
-						resolve();
-					}).catch(reject);
-
-					user.queries.write("smile");
+					socket.write(queryToSend + "\n");
+					user.releaseBuffer();
 				});
 			});
 		});
@@ -77,14 +30,15 @@ describe("User", () => {
 		describe("if user is disconnected durring the acception", () => {
 			it("should throw a 'user disconnected' error", () => {
 				return new Promise((resolve, reject) => {
-					let user = new User();
+					let socket = new stream.PassThrough();
+					let user = new User(socket);
 
 					user.acceptQuery().catch((error) => {
 						assert.equal(error.message, "user disconnected");
 						resolve();
 					});
 
-					user.queries.emit("end");
+					socket.emit("close");
 				});
 			});
 		});
@@ -103,7 +57,8 @@ describe("User", () => {
 
 		it("should emit a 'query accept' event on data receive", () => {
 			return new Promise((resolve, reject) => {
-				let user = new User();
+				let socket = new stream.PassThrough();
+				let user = new User(socket);
 				let queryToSend = "smile";
 
 				user.once("query accept", (query) => {
@@ -112,7 +67,9 @@ describe("User", () => {
 				});
 
 				user.acceptQuery();
-				user.queries.write("smile");
+
+				socket.write(queryToSend + "\n");
+				user.releaseBuffer();
 			});
 		});
 	});
@@ -135,7 +92,8 @@ describe("User", () => {
 	describe("#authorize", () => {
 		it("should assign to the user a one account of passed to the method that matches sent credentials", () => {
 			return new Promise((resolve, reject) => {
-				let user = new User();
+				let socket = new stream.PassThrough();
+				let user = new User(socket);
 				let account = {
 					login: "user",
 					password: "12345"
@@ -147,11 +105,14 @@ describe("User", () => {
 					resolve();
 				}).catch(reject);
 
-				user.queries.write(account.login);
+				socket.write(account.login + "\n");
+				socket.write(account.password + "\n");
+
+				user.releaseBuffer();
 
 				setImmediate(() => {
-					user.queries.write(account.password);
-				});
+					user.releaseBuffer();
+				})
 			});
 		});
 	});
@@ -159,28 +120,33 @@ describe("User", () => {
 	describe("#acceptCommand", () => {
 		it("should accept a query and perform a one command of passed to the method that matches it", () => {
 			return new Promise((resolve, reject) => {
-				let user = new User();
+				let socket = new stream.PassThrough();
+				let user = new User(socket);
 				let command = new Command("resolve", () => {
 					resolve();
 				});
 
 				user.acceptCommand([command]);
-				user.queries.write("resolve");
+				socket.write("resolve" + "\n");
+				user.releaseBuffer();
 			});
 		});
 
 		it("should not reject when the accepted query doesn't match any command", () => {
 			return new Promise((resolve, reject) => {
-				let user = new User();
+				let socket = new stream.PassThrough();
+				let user = new User(socket);
 
 				user.acceptCommand([]).then(resolve).catch(reject);
-				user.queries.write("unkown query");
+				socket.write("unkown query\n");
+				user.releaseBuffer();
 			});
 		});
 
 		it("should perform commands in context of a user's character", () => {
 			return new Promise((resolve, reject) => {
-				let user = new User();
+				let socket = new stream.PassThrough();;
+				let user = new User(socket);
 				let character = new Character();
 				user.character = character;
 
@@ -190,14 +156,16 @@ describe("User", () => {
 				});
 
 				user.acceptCommand([command]);
-				user.queries.write("resolve");
+				socket.write("resolve\n");
+				user.releaseBuffer();
 			});
 		});
 
 		describe("when the query is right", () => {
 			it("should return result of command execution", () => {
 				return new Promise((resolve, reject) => {
-					let	user = new User();
+					let socket = new stream.PassThrough();
+					let	user = new User(socket);
 					let expectedResult = {};
 
 					let command = new Command("get expected result", () => {
@@ -209,7 +177,8 @@ describe("User", () => {
 						resolve();
 					});
 
-					user.queries.write("get expected result");
+					socket.write("get expected result\n");
+					user.releaseBuffer();
 				});
 			});
 		});
@@ -217,12 +186,14 @@ describe("User", () => {
 		describe("when the query is wrong", () => {
 			it("should emit a 'query fail' event", () => {
 				return new Promise((resolve, reject) => {
-					let user = new User();
+					let socket = new stream.PassThrough();
+					let user = new User(socket);
 
 					user.on("query fail", resolve);
 
 					user.acceptCommand([]);
-					user.queries.write("unkown query");
+					socket.write("unkown query\n");
+					user.releaseBuffer();
 				});
 			});
 		});
