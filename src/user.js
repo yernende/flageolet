@@ -32,8 +32,14 @@ export default class User extends Model {
 			this.emit("query", input.shift());
 		}
 
-		while (output.length > 0) {
-			this.socket.write(output.shift());
+		if (output.length > 0) {
+			while (output.length > 0) {
+				this.socket.write(output.shift());
+			}
+
+			if (this.status) {
+				this.socket.write(this.status + "\n");
+			}
 		}
 	}
 
