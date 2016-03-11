@@ -68,7 +68,7 @@ export default class User extends Model {
 	}
 
 	send(data) {
-		this.buffer.output.push(data);
+		this.buffer.output.push(data + "\n");
 	}
 
 	async authorize(accounts) {
