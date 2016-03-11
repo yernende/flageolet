@@ -3,7 +3,6 @@ import User from "../lib/user";
 import Character from "../lib/character";
 import Command from "../lib/command";
 import stream from "stream";
-import util from "util";
 
 import describeAModel from "./shared/describe-a-model";
 
@@ -71,21 +70,6 @@ describe("User", () => {
 				socket.write(queryToSend + "\n");
 				user.releaseBuffer();
 			});
-		});
-	});
-
-	describe("#renderMessage", () => {
-		it("should render a passed object in the way similar to `util.inspect with enabled colors`", () => {
-			let user = new User();
-			let message = {
-				name: "notification",
-				data: "hello"
-			};
-
-			assert.equal(
-				user.renderMessage(message),
-				util.inspect(message, {colors: true})
-			);
 		});
 	});
 

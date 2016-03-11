@@ -1,6 +1,5 @@
 import stream from "stream";
 import EventEmitter from "events";
-import {inspect} from "util";
 
 import {LineStream} from "byline";
 
@@ -70,12 +69,6 @@ export default class User extends Model {
 
 	send(data) {
 		this.buffer.output.push(data);
-	}
-
-	renderMessage(message) {
-		return inspect(message, {
-			colors: true
-		});
 	}
 
 	async authorize(accounts) {
