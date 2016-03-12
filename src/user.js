@@ -95,4 +95,12 @@ export default class User extends Model {
 		this.login = account.login;
 		this.password = account.password;
 	}
+
+	purge() {
+		if (this.character) {
+			this.character.subscribers.clear();
+			this.character.move(null);
+			this.character = null;
+		}
+	}
 }

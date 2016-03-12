@@ -18,9 +18,10 @@ export default class Movable extends Model {
 		}
 
 		if (destination !== null) {
-			this.location = destination;
 			destination.members.add(this);
 			destination.subscribers.add(this);
 		}
+
+		this.location = destination;
 	}
 }

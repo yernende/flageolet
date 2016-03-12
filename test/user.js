@@ -1,6 +1,7 @@
 import {assert} from "chai";
 import User from "../lib/user";
 import Character from "../lib/character";
+import Room from "../lib/room";
 import Command from "../lib/command";
 import stream from "stream";
 
@@ -180,6 +181,43 @@ describe("User", () => {
 					user.releaseBuffer();
 				});
 			});
+		});
+	});
+
+	describe("#purge", () => {
+		it("should clear set of a user's character subscribers", () => {
+			let user = new User();
+			let character = new Character();
+
+			user.character = character;
+			character.subscribers.add({});
+
+			user.purge();
+
+			assert.equal(character.subscribers.size, 0);
+		});
+
+		it("should remove a user's character from its location", () => {
+			let user = new User();
+			let location = new Room();
+			let character = new Character();
+
+			user.character = character;
+			character.move(location);
+
+			user.purge();
+
+			assert.isNull(character.location);
+			assert.notOk(location.members.has(character));
+		});
+
+		it("should set a 'character' property of a 'user' to null", () => {
+			let user = new User();
+			user.character = new Character();
+
+			user.purge();
+
+			assert.isNull(user.character);
 		});
 	});
 
