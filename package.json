@@ -2,7 +2,7 @@
   "name": "flageolet",
   "version": "0.0.3",
   "description": "MUD engine",
-  "main": "./src/flageolet.js",
+  "main": "./lib/flageolet.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yernende/flageolet.git"
