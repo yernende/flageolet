@@ -1,7 +1,14 @@
 const net = require("net");
+const fs = require("fs");
 const User = require("./lib/user");
+const Command = require("./lib/command");
 
 const users = [];
+const commands = [];
+
+for (let file of fs.readdirSync("./commands")) {
+  commands.push(...require(`./commands/${file}`).map((command) => new Command(command)));
+}
 
 const server = net.createServer((connection) => {
   let user = new User(connection);
