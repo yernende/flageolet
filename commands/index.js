@@ -1,9 +1,4 @@
 module.exports = [{
-  pattern: "log <string>",
-  action(string) {
-    console.log(string);
-  }
-}, {
   pattern: "north",
   action() {
     this.character.move("north");
