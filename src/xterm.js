@@ -5,7 +5,11 @@ module.exports = class Xterm {
     this.user = user;
   }
 
-  writeln(string) {
+  write(string = "") {
+    this.user.output.push(string);
+  }
+
+  writeln(string = "") {
     this.user.output.push(string + "\n");
   }
 

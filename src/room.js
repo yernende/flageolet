@@ -4,6 +4,10 @@ module.exports = class Room {
     this.exits = {north: null, east: null, south: null, west: null, up: null, down: null};
   }
 
+  getDirections() {
+    return ["north", "east", "south", "west", "up", "down"].filter((direction) => this.exits[direction] != null);
+  }
+
   static invertDirection(direction) {
     switch (direction) {
       case "north": return "south";
