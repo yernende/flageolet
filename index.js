@@ -24,6 +24,7 @@ const server = net.createServer((connection) => {
   })
 
   game.users.push(user);
+  user.input.push("look");
 }).listen(4000);
 
 setInterval(function () {
