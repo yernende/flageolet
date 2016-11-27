@@ -5,6 +5,11 @@ module.exports = class Character {
     this.name = "A hero";
     this.location = game.world.rooms[0];
     this.user = user;
+
+    this.inventory = {
+      capacity: Infinity,
+      items: []
+    };
   }
 
   move(direction) {

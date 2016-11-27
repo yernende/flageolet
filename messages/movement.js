@@ -38,24 +38,23 @@ module.exports = [{
       });
 
       this.xterm.writeln(".");
-      this.xterm.writeln();
     } else {
       this.xterm.tab();
       this.xterm.writeln("No exits.")
-      this.xterm.writeln();
     }
 
     // Items
     if (room.items.length > 0) {
+      this.xterm.writeln();
+
       for (let item of room.items) {
         this.xterm.tab();
         this.xterm.write("• ");
         this.xterm.style({foreground: item.color, bold: true});
         this.xterm.write(item.name);
         this.xterm.reset();
+        this.xterm.writeln();
       }
-
-      this.xterm.writeln();
     }
   }
 }, {
