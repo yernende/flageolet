@@ -21,23 +21,42 @@ module.exports = [{
     this.xterm.writeln();
 
     // Exits
-    this.xterm.tab();
-    this.xterm.write("Exits: ");
-
     let directions = room.getDirections();
 
-    directions.forEach((exit, index) => {
-      this.xterm.style({foreground: 45});
-      this.xterm.write(exit);
-      this.xterm.reset();
+    if (directions.length > 0) {
+      this.xterm.tab();
+      this.xterm.write("Exits: ");
 
-      if (index != directions.length - 1) {
-        this.xterm.write(", ");
+      directions.forEach((exit, index) => {
+        this.xterm.style({foreground: 45});
+        this.xterm.write(exit);
+        this.xterm.reset();
+
+        if (index != directions.length - 1) {
+          this.xterm.write(", ");
+        }
+      });
+
+      this.xterm.writeln(".");
+      this.xterm.writeln();
+    } else {
+      this.xterm.tab();
+      this.xterm.writeln("No exits.")
+      this.xterm.writeln();
+    }
+
+    // Items
+    if (room.items.length > 0) {
+      for (let item of room.items) {
+        this.xterm.tab();
+        this.xterm.write("• ");
+        this.xterm.style({foreground: item.color, bold: true});
+        this.xterm.write(item.name);
+        this.xterm.reset();
       }
-    });
 
-    this.xterm.writeln(".");
-    this.xterm.writeln();
+      this.xterm.writeln();
+    }
   }
 }, {
   name: "Unkown Direction",

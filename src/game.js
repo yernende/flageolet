@@ -1,6 +1,7 @@
 const Room = require("./room");
+const Item = require("./item");
 
-const world = [
+const rooms = [
   new Room("The altar"),
   new Room("The trail"),
   new Room("The west garden"),
@@ -9,15 +10,25 @@ const world = [
   new Room("The wall")
 ];
 
-Room.link(world, "The altar", "north", "The trail");
-Room.link(world, "The trail", "west", "The west garden");
-Room.link(world, "The trail", "east", "The east garden");
-Room.link(world, "The trail", "north", "The gate");
-Room.link(world, "The trail", "down", "The wall");
+Room.link(rooms, "The altar", "north", "The trail");
+Room.link(rooms, "The trail", "west", "The west garden");
+Room.link(rooms, "The trail", "east", "The east garden");
+Room.link(rooms, "The trail", "north", "The gate");
+Room.link(rooms, "The trail", "down", "The wall");
+
+const items = [
+  new Item("rusty sword", 130),
+  new Item("cherry", 125)
+];
+
+Item.place(items, rooms, "rusty sword", "The west garden");
+Item.place(items, rooms, "cherry", "The east garden");
 
 module.exports = {
   commands: [],
   messages: [],
   users: [],
-  world: world
+  world: {
+    rooms: rooms
+  }
 };

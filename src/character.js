@@ -3,7 +3,7 @@ const game = require("./game");
 module.exports = class Character {
   constructor(user) {
     this.name = "A hero";
-    this.location = game.world[0];
+    this.location = game.world.rooms[0];
     this.user = user;
   }
 
