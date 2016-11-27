@@ -1,15 +1,15 @@
 const net = require("net");
 const fs = require("fs");
-const game = require("./lib/game");
-const User = require("./lib/user");
-const Command = require("./lib/command");
+const game = require("./src/game");
+const User = require("./src/user");
+const Command = require("./src/command");
 
 for (let file of fs.readdirSync("./commands")) {
   game.commands.push(...require(`./commands/${file}`).map((command) => new Command(command)));
 }
 
-for (let file of fs.readdirSync("./format")) {
-  game.messages.push(...require(`./format/${file}`));
+for (let file of fs.readdirSync("./messages")) {
+  game.messages.push(...require(`./messages/${file}`));
 }
 
 const server = net.createServer((connection) => {

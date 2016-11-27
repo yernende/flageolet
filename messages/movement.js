@@ -13,9 +13,4 @@ module.exports = [{
   perform() {
     this.output.push("Unkown direction.\n");
   }
-}, {
-  name: "Unkown Command",
-  perform() {
-    this.output.push("Unkown command.\n");
-  }
-}]
+}];
