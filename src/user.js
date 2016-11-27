@@ -1,11 +1,13 @@
 const game = require("./game");
 const Character = require("./character");
+const Xterm = require("./xterm");
 
 module.exports = class User {
   constructor(connection) {
     this.input = [];
     this.output = [];
     this.character = new Character(this);
+    this.xterm = new Xterm(this);
     this.connection = connection;
   }
 

@@ -1,16 +1,19 @@
 module.exports = [{
   name: "New Room",
   perform() {
-    this.output.push("═".repeat(80) + "\n");
+    this.xterm.writeln("═".repeat(80));
   }
 }, {
   name: "Room Description",
   perform(room) {
-    this.output.push("  " + room.name + "\n");
+    this.xterm.tab();
+    this.xterm.style({foreground: 15, bold: true});
+    this.xterm.writeln(room.name);
+    this.xterm.reset();
   }
 }, {
   name: "Unkown Direction",
   perform() {
-    this.output.push("Unkown direction.\n");
+    this.xterm.writeln("Unkown direction.");
   }
 }];
