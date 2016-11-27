@@ -8,6 +8,10 @@ for (let file of fs.readdirSync("./commands")) {
   game.commands.push(...require(`./commands/${file}`).map((command) => new Command(command)));
 }
 
+for (let file of fs.readdirSync("./format")) {
+  game.messages.push(...require(`./format/${file}`));
+}
+
 const server = net.createServer((connection) => {
   let user = new User(connection);
 

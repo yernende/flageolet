@@ -31,6 +31,6 @@ module.exports = [{
 }, {
   pattern: "look",
   action() {
-    this.output.push(this.character.location.name + "\n");
+    this.message("Room Description", this.character.location);
   }
 }];
