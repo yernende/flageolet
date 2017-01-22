@@ -62,4 +62,10 @@ module.exports = [{
   perform() {
     this.xterm.writeln("Unkown direction.");
   }
+}, {
+  name: "Character Arrived",
+  perform(character) {
+    this.xterm.writeName(character.name);
+    this.xterm.writeln(" has arrived.");
+  }
 }];

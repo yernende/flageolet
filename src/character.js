@@ -22,6 +22,11 @@ module.exports = class Character {
 
     this.user.message("New Room", destination);
     this.user.message("Room Description", destination);
+
+    this.location.broadcast({
+      filter: (target) => target != this,
+      message: ["Character Arrived", this]
+    });
   }
 
   moveDirection(direction) {

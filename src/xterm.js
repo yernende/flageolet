@@ -13,6 +13,12 @@ module.exports = class Xterm {
     this.user.output.push(string + "\n");
   }
 
+  writeName(name) {
+    if (name.length > 0) {
+      this.user.output.push(name[0].toUpperCase() + name.slice(1));
+    }
+  }
+
   tab() {
     this.user.output.push("  ");
   }

@@ -6,6 +6,14 @@ module.exports = class Room {
     this.characters = [];
   }
 
+  broadcast({filter, message}) {
+    for (let character of this.characters) {
+      if (typeof filter == "function" && filter(character)) {
+        character.user.message(...message);
+      }
+    }
+  }
+
   getDirections() {
     return ["north", "east", "south", "west", "up", "down"].filter((direction) => this.exits[direction] != null);
   }
