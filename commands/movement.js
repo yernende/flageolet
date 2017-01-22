@@ -1,32 +1,32 @@
 module.exports = [{
   pattern: "north",
   action() {
-    this.character.move("north");
+    this.character.moveDirection("north");
   }
 }, {
   pattern: "east",
   action() {
-    this.character.move("east");
+    this.character.moveDirection("east");
   }
 }, {
   pattern: "south",
   action() {
-    this.character.move("south");
+    this.character.moveDirection("south");
   }
 }, {
   pattern: "west",
   action() {
-    this.character.move("west");
+    this.character.moveDirection("west");
   }
 }, {
   pattern: "up",
   action() {
-    this.character.move("up");
+    this.character.moveDirection("up");
   }
 }, {
   pattern: "down",
   action() {
-    this.character.move("down");
+    this.character.moveDirection("down");
   }
 }, {
   pattern: "look",

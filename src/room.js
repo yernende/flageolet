@@ -3,6 +3,7 @@ module.exports = class Room {
     this.name = name;
     this.exits = {north: null, east: null, south: null, west: null, up: null, down: null};
     this.items = [];
+    this.characters = [];
   }
 
   getDirections() {
