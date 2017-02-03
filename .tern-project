@@ -1,0 +1,10 @@
+{
+  "ecmaVersion": 7,
+  "libs": [],
+  "plugins": {
+    "node": {},
+    "node_resolve": {},
+    "modules": {},
+    "commonjs": {}
+  }
+}
