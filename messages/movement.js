@@ -43,15 +43,20 @@ module.exports = [{
       this.xterm.writeln("No exits.")
     }
 
-    // Items
-    if (room.items.length > 0) {
+    // Members of the room
+    let members = [
+      ...room.items,
+      ...room.characters.filter((character) => character != this.character)
+    ];
+
+    if (members.length > 0) {
       this.xterm.writeln();
 
-      for (let item of room.items) {
+      for (let member of members) {
         this.xterm.tab();
         this.xterm.write("• ");
-        this.xterm.style({foreground: item.color, bold: true});
-        this.xterm.write(item.name);
+        this.xterm.style({foreground: member.color, bold: true});
+        this.xterm.write(member.name);
         this.xterm.reset();
         this.xterm.writeln();
       }

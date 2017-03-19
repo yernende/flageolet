@@ -16,13 +16,18 @@ class Room {
   broadcast({filter, message}) {
     for (let character of this.characters) {
       if (typeof filter == "function" && filter(character)) {
-        character.user.message(...message);
+        character.owner.message(...message);
       }
     }
   }
 
   getDirections() {
     return ["north", "east", "south", "west", "up", "down"].filter((direction) => this.exits[direction] != null);
+  }
+
+  link(direction, destination) {
+    this.exits[direction] = destination;
+    destination.exits[Room.invertDirection(direction)] = this;
   }
 
   static invertDirection(direction) {

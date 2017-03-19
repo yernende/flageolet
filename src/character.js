@@ -1,10 +1,17 @@
 const game = require("./game");
 const Room = require("./room");
 
+class AI {
+  message() {
+
+  }
+}
+
 class Character {
-  constructor(user) {
-    this.name = "a hero";
-    this.user = user;
+  constructor(name, color, owner = new AI()) {
+    this.name = name;
+    this.color = color;
+    this.owner = owner;
     this.id = Character.idCounter++;
 
     this.inventory = {
@@ -25,8 +32,8 @@ class Character {
     destination.characters.push(this);
     this.location = destination;
 
-    this.user.message("New Room", destination);
-    this.user.message("Room Description", destination);
+    this.owner.message("New Room", destination);
+    this.owner.message("Room Description", destination);
 
     this.location.broadcast({
       filter: (target) => target != this,
@@ -40,7 +47,7 @@ class Character {
     if (destination) {
       this.move(destination);
     } else {
-      this.user.message("Unkown Direction");
+      this.owner.message("Unkown Direction");
     }
   }
 }
