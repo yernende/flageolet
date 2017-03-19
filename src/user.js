@@ -31,8 +31,11 @@ module.exports = class User {
   }
 
   handleOutput() {
-    this.connection.write(this.output.join(""));
-    this.output = [];
+    if (this.output.length > 0) {
+      this.message("Prompt");
+      this.connection.write(this.output.join(""));
+      this.output = [];
+    }
   }
 
   message(name, ...args) {

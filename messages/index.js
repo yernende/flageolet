@@ -1,6 +1,11 @@
 module.exports = [{
   name: "Unkown Command",
   perform() {
-    this.output.push("Unkown command.\n");
+    this.xterm.writeln("Unkown command.");
+  }
+}, {
+  name: "Prompt",
+  perform() {
+    this.xterm.write("> ");
   }
 }];
