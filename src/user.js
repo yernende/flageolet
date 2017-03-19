@@ -6,9 +6,10 @@ module.exports = class User {
   constructor(connection) {
     this.input = [];
     this.output = [];
-    this.character = new Character("A hero", 15, this);
     this.xterm = new Xterm(this);
     this.connection = connection;
+
+    new Character("A hero", 15, this);
   }
 
   handleInput() {

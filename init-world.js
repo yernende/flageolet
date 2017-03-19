@@ -2,6 +2,8 @@ const Room = require("./src/room");
 const Character = require("./src/character");
 const Item = require("./src/item");
 
+const AcolyteAI = require("./ai/acolyte");
+
 let altar = new Room("The altar");
 let trail = new Room("The trail");
 let westGarden = new Room("The west garden");
@@ -9,7 +11,7 @@ let eastGarden = new Room("The east garden")
 let gate = new Room("The gate");
 let wall = new Room("The wall");
 
-let acolyte = new Character("acolyte", 98);
+let acolyte = new Character("acolyte", 98, new AcolyteAI());
 let bird = new Character("bird", 94);
 let guard = new Character("guard", 31);
 

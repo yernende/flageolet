@@ -44,4 +44,20 @@ module.exports = [{
     this.xterm.reset();
     this.xterm.writeln(".");
   }
+}, {
+  name: "Private Message",
+  perform(sender, message) {
+    if (sender) {
+      this.xterm.style({foreground: sender.color});
+      this.xterm.writeName(sender.name);
+      this.xterm.reset();
+    } else {
+      this.xterm.write("Someone");
+    }
+
+    this.xterm.write(` tells you: `);
+    this.xterm.style({foreground: 40});
+    this.xterm.writeln(`"${message}"`);
+    this.xterm.reset();
+  }
 }];

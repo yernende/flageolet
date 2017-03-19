@@ -1,17 +1,13 @@
 const game = require("./game");
 const Room = require("./room");
-
-class AI {
-  message() {
-
-  }
-}
+const AI = require("./ai");
 
 class Character {
   constructor(name, color, owner = new AI()) {
     this.name = name;
     this.color = color;
     this.owner = owner;
+    this.owner.character = this;
     this.id = Character.idCounter++;
 
     this.inventory = {
