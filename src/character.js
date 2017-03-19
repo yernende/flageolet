@@ -1,15 +1,20 @@
 const game = require("./game");
 const Room = require("./room");
 
-module.exports = class Character {
+class Character {
   constructor(user) {
-    this.name = "A hero";
+    this.name = "a hero";
     this.user = user;
+    this.id = Character.idCounter++;
 
     this.inventory = {
       capacity: Infinity,
       items: []
     };
+  }
+
+  register() {
+    game.world.characters.set(this.id, this);
   }
 
   move(destination) {
@@ -39,3 +44,6 @@ module.exports = class Character {
     }
   }
 }
+
+Character.idCounter = 0;
+module.exports = Character;

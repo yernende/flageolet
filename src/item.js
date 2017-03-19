@@ -1,8 +1,15 @@
-module.exports = class Item {
+const game = require("./game");
+
+class Item {
   constructor(name, color) {
     this.name = name;
     this.color = color;
     this.keywords = name.split(" ");
+    this.id = Item.idCounter++;
+  }
+
+  register() {
+    game.world.items.set(this.id, this);
   }
 
   move(destination) {
@@ -21,3 +28,6 @@ module.exports = class Item {
     item.move(room);
   }
 }
+
+Item.idCounter = 0;
+module.exports = Item;

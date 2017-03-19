@@ -1,3 +1,5 @@
+const game = require("../src/game");
+
 module.exports = [{
   pattern: "north",
   action() {
@@ -32,5 +34,19 @@ module.exports = [{
   pattern: "look",
   action() {
     this.message("Room Description", this.character.location);
+  }
+}, {
+  pattern: "rooms",
+  action() {
+    this.message("Room List", game.world.rooms)
+  }
+}, {
+  pattern: "goto <number>",
+  action(id) {
+    if (game.world.rooms.has(id)) {
+      this.character.move(game.world.rooms.get(id));
+    } else {
+      this.message("Unknown Room Id");
+    }
   }
 }];

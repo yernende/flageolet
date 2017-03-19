@@ -12,6 +12,8 @@ for (let file of fs.readdirSync("./messages")) {
   game.messages.push(...require(`./messages/${file}`));
 }
 
+require("./init-world");
+
 const server = net.createServer((connection) => {
   let user = new User(connection);
 
@@ -24,7 +26,7 @@ const server = net.createServer((connection) => {
   })
 
   game.users.push(user);
-  user.character.move(game.world.rooms[0]);
+  user.character.move(game.world.rooms.get(0));
 }).listen(4000);
 
 setInterval(function () {

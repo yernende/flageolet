@@ -68,4 +68,23 @@ module.exports = [{
     this.xterm.writeName(character.name);
     this.xterm.writeln(" has arrived.");
   }
+}, {
+  name: "Room List",
+  perform(rooms) {
+    this.xterm.writeln("There are rooms in the world:");
+    this.xterm.writeln();
+
+    for (let [id, room] of rooms) {
+      this.xterm.write(`[${room.id}] `);
+      this.xterm.style({foreground: 15, bold: true});
+      this.xterm.write(`${room.name}`)
+      this.xterm.reset();
+      this.xterm.writeln();
+    }
+  }
+}, {
+  name: "Unknown Room Id",
+  perform() {
+    this.xterm.writeln("There is no such room in the world.");
+  }
 }];

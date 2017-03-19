@@ -1,9 +1,16 @@
-module.exports = class Room {
+const game = require("./game");
+
+class Room {
   constructor(name) {
     this.name = name;
     this.exits = {north: null, east: null, south: null, west: null, up: null, down: null};
     this.items = [];
     this.characters = [];
+    this.id = Room.idCounter++;
+  }
+
+  register() {
+    game.world.rooms.set(this.id, this);
   }
 
   broadcast({filter, message}) {
@@ -37,3 +44,6 @@ module.exports = class Room {
     secondRoom.exits[Room.invertDirection(direction)] = firstRoom;
   }
 }
+
+Room.idCounter = 0;
+module.exports = Room;
