@@ -3,7 +3,7 @@ const Room = require("./room");
 const AI = require("./ai");
 
 class Character {
-  constructor(name, color, owner = new AI()) {
+  constructor({name, color, owner = new AI()}) {
     this.name = name;
     this.color = color;
     this.owner = owner;

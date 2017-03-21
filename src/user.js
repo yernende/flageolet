@@ -9,7 +9,11 @@ module.exports = class User {
     this.xterm = new Xterm(this);
     this.connection = connection;
 
-    new Character("A hero", 15, this);
+    new Character({
+      name: "A hero",
+      color: 15,
+      owner: this
+    });
   }
 
   handleInput() {

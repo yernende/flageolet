@@ -1,8 +1,10 @@
 const game = require("./game");
 
 class Room {
-  constructor(name) {
+  constructor({name, surface}) {
     this.name = name;
+    this.surface = surface;
+    
     this.exits = {north: null, east: null, south: null, west: null, up: null, down: null};
     this.items = [];
     this.characters = [];

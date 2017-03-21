@@ -1,10 +1,9 @@
 const game = require("./game");
 
 class Item {
-  constructor(name, color) {
+  constructor({name, color, keywords = name.split(" ")}) {
     this.name = name;
     this.color = color;
-    this.keywords = name.split(" ");
     this.id = Item.idCounter++;
   }
 
@@ -19,13 +18,6 @@ class Item {
 
     destination.items.push(this);
     this.location = destination;
-  }
-
-  static place(itemsScope, roomsScope, itemName, roomName) {
-    let item = itemsScope.find((item) => item.name == itemName);
-    let room = roomsScope.find((room) => room.name == roomName);
-
-    item.move(room);
   }
 }
 
