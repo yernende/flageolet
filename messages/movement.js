@@ -61,6 +61,8 @@ module.exports = [{
         this.xterm.writeln();
       }
     }
+
+    this.xterm.writeln();
   }
 }, {
   name: "Unkown Direction",

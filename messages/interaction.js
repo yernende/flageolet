@@ -60,4 +60,24 @@ module.exports = [{
     this.xterm.writeln(`"${message}"`);
     this.xterm.reset();
   }
+}, {
+  name: "AI Message",
+  perform(sender, message) {
+    this.xterm.startBoxHeader();
+
+    if (sender) {
+      this.xterm.style({foreground: sender.color});
+      this.xterm.writeName(sender.name);
+      this.xterm.reset();
+    } else {
+      this.xterm.write("Someone");
+    }
+
+    this.xterm.endln();
+    this.xterm.startBoxContent();
+    this.xterm.style({foreground: 40});
+    this.xterm.writeText(message);
+    this.xterm.reset();
+    this.xterm.endBox();
+  }
 }];
