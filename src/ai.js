@@ -1,12 +1,11 @@
-const EventEmitter = require("events");
-
-module.exports = class AI extends EventEmitter {
+module.exports = class AI {
   constructor() {
-    super();
     this.memory = {};
   }
 
   message(name, ...args) {
-    this.emit(name, ...args);
+    if (this[name]) {
+      this[name](...args);
+    }
   }
 }
