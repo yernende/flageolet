@@ -1,10 +1,23 @@
 const game = require("./game");
 
 class Item {
-  constructor({name, color, keywords = name.split(" ")}) {
+  constructor({name, color, keywords}) {
     this.name = name;
     this.color = color;
     this.id = Item.idCounter++;
+
+    if (!keywords) {
+      if (typeof name == "string") {
+        keywords = name.split(" ");
+      } else if (typeof name == "object") {
+        keywords = [];
+
+        for (let nameString of Object.values(name)) {
+          keywords.push(...nameString.split(" "));
+        }
+      }
+    }
+
     this.keywords = keywords;
   }
 

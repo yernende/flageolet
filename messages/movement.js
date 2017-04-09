@@ -102,7 +102,7 @@ module.exports = [{
     for (let [id, room] of rooms) {
       this.xterm.write(`[${room.id}] `);
       this.xterm.style({foreground: 15, bold: true});
-      this.xterm.write(`${room.name}`)
+      this.xterm.write(room.name)
       this.xterm.reset();
       this.xterm.writeln();
     }

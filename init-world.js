@@ -5,58 +5,58 @@ const Item = require("./src/item");
 const AcolyteAI = require("./ai/acolyte");
 
 let altar = new Room({
-  name: "The altar",
+  name: {en: "The altar", ru: "Алтарь"},
   surface: "marble"
 });
 
 let trail = new Room({
-  name: "The trail",
+  name: {en: "The trail", ru: "Тропинка"},
   surface: "ground"
 });
 
 let westGarden = new Room({
-  name: "The west garden",
+  name: {en: "The west garden", ru: "Западный сад"},
   surface: "grass"
 });
 
 let eastGarden = new Room({
-  name: "The east garden",
+  name: {en: "The east garden", ru: "Восточный сад"},
   surface: "grass"
 });
 
 let gate = new Room({
-  name: "The gate",
+  name: {en: "The gate", ru: "Врата"},
   surface: "ground"
 });
 
 let wall = new Room({
-  name: "The wall",
+  name: {en: "The wall", ru: "Колодец"},
   surface: "water"
 });
 
 let acolyte = new Character({
-  name: "acolyte",
+  name: {en: "acolyte", ru: "аколит"},
   color: 98,
   owner: new AcolyteAI()
 });
 
 let bird = new Character({
-  name: "bird",
+  name: {en: "bird", ru: "птичка"},
   color: 94
 });
 
 let guard = new Character({
-  name: "guard",
+  name: {en: "guard", ru: "стражник"},
   color: 31
 });
 
 let sword = new Item({
-  name: "rusty sword",
+  name: {en: "rusty sword", ru: "ржавый меч"},
   color: 130
 });
 
 let cherry = new Item({
-  name: "cherry",
+  name: {en: "cherry", ru: "вишня"},
   color: 125
 });
 
