@@ -12,6 +12,8 @@ module.exports = class Xterm {
   }
 
   write(string = "") {
+    if (typeof string == "object") string = string[this.user.language];
+
     if (this.newLine) {
       if (this.writeIntoBoxHeader) {
         this.user.output.push(RESET_STYLE + "┃");
@@ -43,11 +45,15 @@ module.exports = class Xterm {
   }
 
   writeln(string = "") {
+    if (typeof string == "object") string = string[this.user.language];
+
     this.write(string);
     this.endln();
   }
 
-  writeName(name) {
+  writeName(name = "") {
+    if (typeof name == "object") name = name[this.user.language];
+
     if (name.length > 0) {
       this.write(name[0].toUpperCase() + name.slice(1));
     }
@@ -83,8 +89,10 @@ module.exports = class Xterm {
     this.styleSetter = RESET_STYLE;
   }
 
-  writeText(message) {
-    message.split("\n").forEach((line, i, lines) => {
+  writeText(text = "") {
+    if (typeof text == "object") text = text[this.user.language];
+
+    text.split("\n").forEach((line, i, lines) => {
       line = line.trim();
       if (line.length == 0 && (i == 0 || i == lines.length - 1)) return;
       this.writeln(line);

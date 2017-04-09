@@ -1,18 +1,27 @@
 module.exports = [{
   name: "Unkown Item",
   perform() {
-    this.xterm.writeln("There is no such item.");
+    this.xterm.writeln({
+      en: "There is no such item.",
+      ru: "Здесь нет таких вещей."
+    });
   }
 }, {
   name: "Inventory Filled",
   perform() {
-    this.xterm.writeln("You can't carry that many items.");
+    this.xterm.writeln({
+      en: "You can't carry that many items.",
+      ru: "Ты не можешь нести столько вещей."
+    });
   }
 }, {
   name: "Inventory",
   perform(inventory) {
     if (inventory.items.length > 0) {
-      this.xterm.writeln(`You are carrying:`);
+      this.xterm.writeln({
+        en: "You are carrrying:",
+        ru: "Ты несёшь:"
+      });
 
       for (let item of inventory.items) {
         this.xterm.tab();
@@ -23,13 +32,20 @@ module.exports = [{
         this.xterm.writeln();
       }
     } else {
-      this.xterm.writeln("You aren't carrying anything.");
+      this.xterm.writeln({
+        en: "You aren't carrying anything.",
+        ru: "Инвентарь пуст."
+      });
     }
   }
 }, {
   name: "Item Taken",
   perform(item) {
-    this.xterm.write("You take ");
+    this.xterm.write({
+      en: "You take ",
+      ru: "Ты подбираешь "
+    });
+
     this.xterm.style({foreground: item.color, bold: true});
     this.xterm.write(item.name);
     this.xterm.reset();
@@ -38,7 +54,11 @@ module.exports = [{
 }, {
   name: "Item Dropped",
   perform(item) {
-    this.xterm.write("You drop ");
+    this.xterm.write({
+      en: "You drop ",
+      ru: "Ты бросаешь "
+    });
+
     this.xterm.style({foreground: item.color, bold: true});
     this.xterm.write(item.name);
     this.xterm.reset();
@@ -52,10 +72,17 @@ module.exports = [{
       this.xterm.writeName(sender.name);
       this.xterm.reset();
     } else {
-      this.xterm.write("Someone");
+      this.xterm.write({
+        en: "Someone",
+        ru: "Кто-то"
+      });
     }
 
-    this.xterm.write(` tells you: `);
+    this.xterm.write({
+      en: " tells you: ",
+      ru: " говорит тебе: "
+    });
+
     this.xterm.style({foreground: 40});
     this.xterm.writeln(`"${message}"`);
     this.xterm.reset();
@@ -70,7 +97,10 @@ module.exports = [{
       this.xterm.writeName(sender.name);
       this.xterm.reset();
     } else {
-      this.xterm.write("Someone");
+      this.xterm.write({
+        en: "Someone",
+        ru: "Кто-то"
+      });
     }
 
     this.xterm.endln();

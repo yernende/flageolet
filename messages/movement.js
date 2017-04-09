@@ -25,7 +25,11 @@ module.exports = [{
 
     if (directions.length > 0) {
       this.xterm.tab();
-      this.xterm.write("Exits: ");
+
+      this.xterm.write({
+        en: "Exits: ",
+        ru: "Выходы: "
+      });
 
       directions.forEach((exit, index) => {
         this.xterm.style({foreground: 45});
@@ -40,7 +44,11 @@ module.exports = [{
       this.xterm.writeln(".");
     } else {
       this.xterm.tab();
-      this.xterm.writeln("No exits.")
+
+      this.xterm.write({
+        en: "No exits.",
+        ru: "Нет выходов."
+      });
     }
 
     // Members of the room
@@ -67,18 +75,28 @@ module.exports = [{
 }, {
   name: "Unkown Direction",
   perform() {
-    this.xterm.writeln("Unkown direction.");
+    this.xterm.writeln({
+      en: "Unknown direction.",
+      ru: "Неизвестное направление."
+    });
   }
 }, {
   name: "Character Arrived",
   perform(character) {
     this.xterm.writeName(character.name);
-    this.xterm.writeln(" has arrived.");
+    this.xterm.writeName({
+      en: " has arrived.",
+      ru: " появился."
+    });
   }
 }, {
   name: "Room List",
   perform(rooms) {
-    this.xterm.writeln("There are rooms in the world:");
+    this.xterm.writeln({
+      en: "There are rooms in the world:",
+      ru: "В мире есть следующие комнаты:"
+    });
+
     this.xterm.writeln();
 
     for (let [id, room] of rooms) {
@@ -92,6 +110,9 @@ module.exports = [{
 }, {
   name: "Unknown Room Id",
   perform() {
-    this.xterm.writeln("There is no such room in the world.");
+    this.xterm.writeln({
+      en: "There is no such room in the world.",
+      ru: "Такой комнаты не существует"
+    });
   }
 }];

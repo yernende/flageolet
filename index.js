@@ -16,6 +16,7 @@ require("./init-world");
 
 const server = net.createServer((connection) => {
   let user = new User(connection);
+  user.language = "en";
 
   connection.on("data", (data) => {
     user.input.push(data.toString());

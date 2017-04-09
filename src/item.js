@@ -5,6 +5,7 @@ class Item {
     this.name = name;
     this.color = color;
     this.id = Item.idCounter++;
+    this.keywords = keywords;
   }
 
   register() {
