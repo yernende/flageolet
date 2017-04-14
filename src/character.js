@@ -30,18 +30,23 @@ class Character {
 
     this.owner.message("New Room", destination);
     this.owner.message("Room Description", destination);
-
-    this.location.broadcast({
-      filter: (target) => target != this,
-      message: ["Character Arrived", this]
-    });
   }
 
   moveDirection(direction) {
     let destination = this.location.exits[direction];
 
     if (destination) {
+      this.location.broadcast({
+        filter: (target) => target != this,
+        message: ["Character Left", this, direction]
+      });
+
       this.move(destination);
+
+      this.location.broadcast({
+        filter: (target) => target != this,
+        message: ["Character Arrived", this]
+      });
     } else {
       this.owner.message("Unkown Direction");
     }

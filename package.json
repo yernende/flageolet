@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "description": "MUD of the new generation",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "chance": "^1.0.6"
+  },
   "devDependencies": {},
   "author": "yernende",
   "license": "MIT"

@@ -84,10 +84,18 @@ module.exports = [{
   name: "Character Arrived",
   perform(character) {
     this.xterm.writeName(character.name);
-    this.xterm.writeName({
+    this.xterm.write({
       en: " has arrived.",
       ru: " появился."
     });
+  }
+}, {
+  name: "Character Left",
+  perform(character, direction) {
+    this.xterm.writeName(character.name);
+    this.xterm.write({en: " leaves ", ru: " удаляется на "});
+    this.xterm.write(direction);
+    this.xterm.writeln(".");
   }
 }, {
   name: "Room List",

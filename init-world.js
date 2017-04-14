@@ -3,6 +3,7 @@ const Character = require("./src/character");
 const Item = require("./src/item");
 
 const AcolyteAI = require("./ai/acolyte");
+const BirdAI = require("./ai/bird");
 
 let altar = new Room({
   name: {en: "The altar", ru: "Алтарь"},
@@ -42,7 +43,8 @@ let acolyte = new Character({
 
 let bird = new Character({
   name: {en: "bird", ru: "птичка"},
-  color: 94
+  color: 94,
+  owner: new BirdAI()
 });
 
 let guard = new Character({
