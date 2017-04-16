@@ -2,16 +2,21 @@ class CommandArgument extends RegExp {
   constructor(pattern) {
     let patterns = [];
     let parameters = [];
+    let locations = [];
 
     let nodes = pattern.match(/<.+?>|\(\w+\)|\w+|\s+/g);
 
     if (nodes) {
       for (let node of nodes) {
         if (/<.+?>/.test(node)) {
-          let [, type, filter] = /<(.+?)(?::(.+?))?>/.exec(node);
+          let [, type, filter, location] = /<(.+?)(?::(.+?))?(?:@(.+?))?>/.exec(node);
 
           let stringPattern = String.raw `(\S+|'.+?'|".+?")`;
           let numberPattern = String.raw `(\d+?)`;
+
+          if (location) {
+            locations.push(location);
+          }
 
           switch (type) {
             case "string":
@@ -22,6 +27,11 @@ class CommandArgument extends RegExp {
             case "number":
               parameters.push("number");
               patterns.push(numberPattern);
+              break;
+
+            case "item":
+              parameters.push("item");
+              patterns.push(stringPattern);
               break;
           }
         } else if (/\(\w+\)/.test(node)) {
@@ -38,17 +48,21 @@ class CommandArgument extends RegExp {
     super(`^${patterns.join("")}$`);
 
     this.parameters = parameters;
+    this.locations = locations;
   }
 
-  exec(argument) {
+  exec(argument, user) {
     let executionResult = super.exec(argument);
 
     if (executionResult === null) {
       return null;
     } else {
-      return executionResult.splice(1).map((parameter, index) => {
+      let isExecutionErrored = false;
+
+      let mappedExecutionResult = executionResult.splice(1).map((parameter, index) => {
         parameter = stripSurroundingQuotes(parameter);
         let type = this.parameters[index];
+        let location = this.locations[index];
 
         switch (type) {
           case "string":
@@ -56,8 +70,32 @@ class CommandArgument extends RegExp {
 
           case "number":
             return Number(parameter);
+
+          case "item":
+            let scope = [];
+
+            if (location.includes("location")) {
+              scope.push(...user.character.location.items);
+            }
+
+            if (location.includes("inventory")) {
+              scope.push(...user.character.inventory.items);
+            }
+
+            let item = scope.find(
+              (item) => item.keywords.some((keyword) => keyword.startsWith(parameter))
+            );
+
+            if (item) {
+              return item;
+            } else {
+              user.message("Unkown Item");
+              isExecutionErrored = true;
+            }
         }
       });
+
+      return [isExecutionErrored, mappedExecutionResult]
     }
   }
 }
