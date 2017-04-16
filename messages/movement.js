@@ -84,7 +84,7 @@ module.exports = [{
   name: "Character Arrived",
   perform(character) {
     this.xterm.writeName(character.name);
-    this.xterm.write({
+    this.xterm.writeln({
       en: " has arrived.",
       ru: " появился."
     });
@@ -129,6 +129,16 @@ module.exports = [{
     this.xterm.writeln({
       en: "There is no such room in the world.",
       ru: "Такой комнаты не существует"
+    });
+  }
+}, {
+  name: "Character Entered Game",
+  perform(character) {
+    this.xterm.writeName(character.name);
+
+    this.xterm.writeln({
+      en: " has entered the game.",
+      ru: " вошёл в игру."
     });
   }
 }];

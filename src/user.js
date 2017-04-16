@@ -10,7 +10,7 @@ module.exports = class User {
     this.connection = connection;
 
     new Character({
-      name: "A hero",
+      name: {en: "a hero", ru: "герой"},
       color: 15,
       owner: this
     });

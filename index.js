@@ -28,6 +28,11 @@ const server = net.createServer((connection) => {
 
   game.users.push(user);
   user.character.move(game.world.rooms.get(0));
+
+  user.character.location.broadcast({
+    filter: (target) => target != user.character,
+    message: ["Character Entered Game", user.character]
+  });
 }).listen(4000);
 
 setInterval(function () {

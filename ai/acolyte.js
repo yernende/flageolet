@@ -1,15 +1,7 @@
 const AI = require("../src/ai");
 
 module.exports = class AcolyteAI extends AI {
-  constructor() {
-    super();
-
-    this.memory.charactersMet = new Set();
-  }
-
-  ["Character Arrived"](character) {
-    if (this.memory.charactersMet.has(character)) return;
-
+  ["Character Entered Game"](character) {
     character.owner.message("AI Message", this.character, {
       en: `
         Greetings, stranger!
@@ -26,7 +18,5 @@ module.exports = class AcolyteAI extends AI {
         Отправляйся в путь, и пусть тебе сопутствует удача!
       `
     });
-
-    this.memory.charactersMet.add(character);
   }
 }
