@@ -93,9 +93,17 @@ module.exports = [{
   name: "Character Left",
   perform(character, direction) {
     this.xterm.writeName(character.name);
-    this.xterm.write({en: " leaves ", ru: " удаляется на "});
-    this.xterm.write(direction);
-    this.xterm.writeln(".");
+
+    this.xterm.writeln((() => {
+      switch (direction) {
+        case "north": return {"en": " leaves north.", "ru": " удаляется на север."};
+        case "south": return {"en": " leaves south.", "ru": " удаляется на юг."};
+        case "west": return {"en": " leaves west.", "ru": " удаляется на запад."};
+        case "east": return {"en": " leaves east.", "ru": " удаляется на восток."};
+        case "up": return {"en": " leaves up.", "ru": " удаляется вверх."};
+        case "down": return {"en": " leaves down.", "ru": " удаляется вниз."};
+      }
+    })());
   }
 }, {
   name: "Room List",
