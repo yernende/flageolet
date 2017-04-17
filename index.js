@@ -6,6 +6,7 @@ const Command = require("./src/command");
 
 for (let file of fs.readdirSync("./commands")) {
   game.commands.push(...require(`./commands/${file}`).map((command) => new Command(command)));
+  game.commands = game.commands.sort((a, b) => a.priority - b.priority);
 }
 
 for (let file of fs.readdirSync("./messages")) {

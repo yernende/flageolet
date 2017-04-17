@@ -134,11 +134,12 @@ class CommandArgument extends RegExp {
 }
 
 class Command {
-  constructor({pattern, action}) {
+  constructor({pattern, action, priority = 10}) {
     let [, base, argument] = /(\S+)(?:\s+(.+))?/.exec(pattern);
 
     this.base = base;
     this.action = action;
+    this.priority = priority;
 
     if (argument) {
       this.argument = new CommandArgument(argument);
