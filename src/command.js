@@ -64,6 +64,7 @@ class CommandArgument extends RegExp {
     let executionResult = super.exec(argument);
 
     if (executionResult === null) {
+      user.message("Wrong Syntax");
       return null;
     } else {
       let isExecutionErrored = false;
@@ -123,7 +124,11 @@ class CommandArgument extends RegExp {
 
       });
 
-      return [isExecutionErrored, mappedExecutionResult]
+      if (isExecutionErrored) {
+        return null;
+      } else {
+        return mappedExecutionResult;
+      }
     }
   }
 }

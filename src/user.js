@@ -24,9 +24,9 @@ module.exports = class User {
 
       if (command) {
         if (command.argument) {
-          let [isExecutionErrored, props] = command.argument.exec(argument, this);
+          let props = command.argument.exec(argument, this);
 
-          if (!isExecutionErrored) {
+          if (props != null) {
             command.action.apply(this, props);
           }
         } else {
