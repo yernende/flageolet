@@ -4,7 +4,7 @@ class Room {
   constructor({name, surface}) {
     this.name = name;
     this.surface = surface;
-    
+
     this.exits = {north: null, east: null, south: null, west: null, up: null, down: null};
     this.items = [];
     this.characters = [];
@@ -15,11 +15,19 @@ class Room {
     game.world.rooms.set(this.id, this);
   }
 
-  broadcast({filter, message}) {
+  broadcast(...args) {
+    let filter, message;
+
+    if (typeof args[0] == "object") {
+      filter = args[0].filter;
+      message = args[0].message;
+    } else {
+      message = args;
+    }
+
     for (let character of this.characters) {
-      if (typeof filter == "function" && filter(character)) {
-        character.owner.message(...message);
-      }
+      if (typeof filter == "function" && !filter(character)) continue;
+      character.owner.message(...message);
     }
   }
 

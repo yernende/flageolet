@@ -40,11 +40,19 @@ module.exports = [{
   }
 }, {
   name: "Item Taken",
-  perform(item) {
-    this.xterm.write({
-      en: "You take ",
-      ru: "Ты подбираешь "
-    });
+  perform(actor, item) {
+    if (actor == this.character) {
+      this.xterm.write({
+        en: "You take ",
+        ru: "Ты подбираешь "
+      });
+    } else {
+      this.xterm.writeName(actor.name);
+      this.xterm.write({
+        en: " takes ",
+        ru: " подбирает "
+      });
+    }
 
     this.xterm.style({foreground: item.color, bold: true});
     this.xterm.write(item.name);
@@ -53,11 +61,19 @@ module.exports = [{
   }
 }, {
   name: "Item Dropped",
-  perform(item) {
-    this.xterm.write({
-      en: "You drop ",
-      ru: "Ты бросаешь "
-    });
+  perform(actor, item) {
+    if (actor == this.character) {
+      this.xterm.write({
+        en: "You drop ",
+        ru: "Ты бросаешь "
+      });
+    } else {
+      this.xterm.writeName(actor.name);
+      this.xterm.write({
+        en: " drops ",
+        ru: " бросает "
+      });
+    }
 
     this.xterm.style({foreground: item.color, bold: true});
     this.xterm.write(item.name);

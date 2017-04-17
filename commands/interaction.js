@@ -3,7 +3,7 @@ module.exports = [{
   action(item) {
     if (this.character.inventory.items.length < this.character.inventory.capacity) {
       item.move(this.character.inventory);
-      this.message("Item Taken", item);
+      this.character.location.broadcast("Item Taken", this.character, item);
     } else {
       this.message("Inventory Filled");
     }
@@ -12,7 +12,7 @@ module.exports = [{
   pattern: "drop <item@inventory>",
   action(item) {
     item.move(this.character.location);
-    this.message("Item Dropped", item);
+    this.character.location.broadcast("Item Dropped", this.character, item);
   }
 }, {
   pattern: "inventory",
