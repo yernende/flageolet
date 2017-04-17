@@ -13,6 +13,7 @@ module.exports = class Xterm {
 
   write(string = "") {
     if (typeof string == "object") string = string[this.user.language];
+    if (string == undefined) return;
 
     if (this.newLine) {
       if (this.writeIntoBoxHeader) {
@@ -46,6 +47,7 @@ module.exports = class Xterm {
 
   writeln(string = "") {
     if (typeof string == "object") string = string[this.user.language];
+    if (string == undefined) return;
 
     this.write(string);
     this.endln();
@@ -53,6 +55,7 @@ module.exports = class Xterm {
 
   writeName(name = "") {
     if (typeof name == "object") name = name[this.user.language];
+    if (name == undefined) return;
 
     if (name.length > 0) {
       this.write(name[0].toUpperCase() + name.slice(1));
@@ -91,6 +94,7 @@ module.exports = class Xterm {
 
   writeText(text = "") {
     if (typeof text == "object") text = text[this.user.language];
+    if (text == undefined) return;
 
     text.split("\n").forEach((line, i, lines) => {
       line = line.trim();

@@ -6,6 +6,8 @@ class Item {
     this.color = color;
     this.id = Item.idCounter++;
 
+
+    // TODO: repeated code
     if (!keywords) {
       if (typeof name == "string") {
         keywords = name.split(" ");

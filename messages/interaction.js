@@ -81,6 +81,60 @@ module.exports = [{
     this.xterm.writeln(".");
   }
 }, {
+  name: "Item Given",
+  perform(actor, target, item) {
+    if (actor == this.character) {
+      this.xterm.write({
+        en: "You give ",
+        ru: "Ты отдаёшь "
+      });
+    } else {
+      this.xterm.writeName(actor.name);
+      this.xterm.write({
+        en: " gives ",
+        ru: " даёт "
+      });
+    }
+
+    this.xterm.style({foreground: item.color, bold: true});
+    this.xterm.write(item.name);
+    this.xterm.reset();
+
+    this.xterm.write({
+      en: " to ",
+      ru: " "
+    });
+
+    this.xterm.style({foreground: target.color, bold: true});
+    this.xterm.write(target.name);
+    this.xterm.reset();
+    this.xterm.writeln(".");
+  }
+}, {
+  name: "Receiver's Hands Full",
+  perform(receiver) {
+    if (this.language == "en") {
+      this.xterm.style({foreground: target.color, bold: true});
+      this.xterm.write(target.name);
+      this.xterm.reset();
+      this.xterm.writeln("'s hands are full.");
+    } else if (this.language == "ru") {
+      this.xterm.write("Руки ");
+      this.xterm.style({foreground: target.color, bold: true});
+      this.xterm.write(target.name);
+      this.xterm.reset();
+      this.xterm.write(" пусты.");
+    }
+  }
+}, {
+  name: "Unkown Character",
+  perform(sender, message) {
+    this.xterm.writeln({
+      en: "There is no such one.",
+      ru: "Здесь таких нет."
+    });
+  }
+}, {
   name: "Private Message",
   perform(sender, message) {
     if (sender) {

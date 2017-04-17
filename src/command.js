@@ -33,6 +33,15 @@ class CommandArgument extends RegExp {
               parameters.push("item");
               patterns.push(stringPattern);
               break;
+
+            case "character":
+              parameters.push("character");
+              patterns.push(stringPattern);
+              break;
+
+            default:
+              throw new Error(`Unkown parameter type: ${type}.`);
+              break;
           }
         } else if (/\(\w+\)/.test(node)) {
           let [, word] = /\((\w+)\)/.exec(node);
@@ -63,6 +72,8 @@ class CommandArgument extends RegExp {
         parameter = stripSurroundingQuotes(parameter);
         let type = this.parameters[index];
         let location = this.locations[index];
+        let scope = [];
+        let item, character;
 
         switch (type) {
           case "string":
@@ -72,8 +83,6 @@ class CommandArgument extends RegExp {
             return Number(parameter);
 
           case "item":
-            let scope = [];
-
             if (location.includes("location")) {
               scope.push(...user.character.location.items);
             }
@@ -82,7 +91,7 @@ class CommandArgument extends RegExp {
               scope.push(...user.character.inventory.items);
             }
 
-            let item = scope.find(
+            item = scope.find(
               (item) => item.keywords.some((keyword) => keyword.startsWith(parameter))
             );
 
@@ -91,8 +100,27 @@ class CommandArgument extends RegExp {
             } else {
               user.message("Unkown Item");
               isExecutionErrored = true;
+              return;
+            }
+
+          case "character":
+            if (location == undefined || location.includes("location")) {
+              scope.push(...user.character.location.characters);
+            }
+
+            character = scope.find(
+              (character) => character.keywords.some((keyword) => keyword.startsWith(parameter))
+            );
+
+            if (character) {
+              return character;
+            } else {
+              user.message("Unkown Character");
+              isExecutionErrored = true;
+              return;
             }
         }
+
       });
 
       return [isExecutionErrored, mappedExecutionResult]
