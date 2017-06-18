@@ -187,4 +187,25 @@ module.exports = [{
     this.xterm.reset();
     this.xterm.endBox();
   }
+}, {
+  name: "Users List",
+  perform(users) {
+    this.xterm.writeln({
+      en: "There are players in the game:",
+      ru: "В игре находятся следующие игроки:"
+    });
+
+    for (let user of users) {
+      if (!user.character) continue;
+
+      this.xterm.tab();
+      this.xterm.write("• ");
+      this.xterm.style({foreground: user.character.color, bold: true});
+      this.xterm.write(user.character.name);
+      this.xterm.reset();
+      this.xterm.write(" (");
+      this.xterm.write(user.character.location.name);
+      this.xterm.writeln(")");
+    }
+  }
 }];

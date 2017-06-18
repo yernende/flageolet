@@ -1,3 +1,5 @@
+const game = require("../src/game");
+
 module.exports = [{
   pattern: "take <item@location>",
   priority: 3,
@@ -32,5 +34,10 @@ module.exports = [{
   priority: 3,
   action() {
     this.message("Inventory", this.character.inventory);
+  }
+}, {
+  pattern: "who",
+  action() {
+    this.message("Users List", game.users);
   }
 }];

@@ -27,7 +27,14 @@ module.exports = [{
 }, {
   name: "Commands List",
   perform(commands) {
+    this.xterm.writeln({
+      en: "There are commands available:",
+      ru: "Список доступных команд:"
+    });
+    
     for (let command of commands) {
+      this.xterm.tab();
+      this.xterm.write("• ");
       this.xterm.writeln(command.pattern);
     }
   }
