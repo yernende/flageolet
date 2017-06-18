@@ -3,7 +3,7 @@ const AI = require("../src/ai");
 module.exports = class GuardAI extends AI {
   constructor() {
     super();
-    this.memory.charactersVisited = new Set();
+    this.memory.charactersVisited = new WeakSet();
     this.memory.questIsDone = false;
   }
 
@@ -49,7 +49,7 @@ module.exports = class GuardAI extends AI {
 
   ["Item Given"](actor, target, item) {
     if (this.memory.questIsDone) return;
-    
+
     if (target == this.character) {
       if (item.name.en.includes("sword")) {
         actor.owner.message("AI Message", this.character, {

@@ -25,7 +25,17 @@ const server = net.createServer((connection) => {
 
   connection.on("close", () => {
     game.users.splice(game.users.indexOf(user), 1);
-  })
+  });
+
+  connection.on("error", (error) => {
+    console.error(error);
+  });
+
+  connection.on("close", () => {
+    game.users.splice(game.users.indexOf(user), 1);
+    game.world.characters.delete(user.character);
+    user.character.location.characters.splice(user.character.location.characters.indexOf(user.character), 1);
+  });
 
   game.users.push(user);
   user.character.move(game.world.rooms.get(0));
