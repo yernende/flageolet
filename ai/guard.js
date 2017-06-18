@@ -69,6 +69,7 @@ module.exports = class GuardAI extends AI {
 
         let key = this.character.inventory.items.find((item) => item.name.en.includes("key"));
         this.execute("give", key, actor);
+        this.memory.questIsDone = true;
       }
     }
   }
