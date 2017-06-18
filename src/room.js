@@ -38,6 +38,13 @@ class Room {
   link(direction, destination) {
     this.exits[direction] = destination;
     destination.exits[Room.invertDirection(direction)] = this;
+
+    return destination;
+  }
+
+  oneway(direction, destination) {
+    this.exits[direction] = destination;
+    return destination;
   }
 
   static invertDirection(direction) {

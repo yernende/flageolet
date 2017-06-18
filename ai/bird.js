@@ -8,6 +8,6 @@ module.exports = class BirdAI extends AI {
     let directionsAvailable = this.character.location.getDirections();
     let directionChosen = chance.pickone(directionsAvailable);
 
-    this.character.moveDirection(directionChosen);
+    this.execute(directionChosen);
   }
 }

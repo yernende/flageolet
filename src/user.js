@@ -19,7 +19,7 @@ module.exports = class User {
   handleInput() {
     if (this.input.length > 0) {
       let query = this.input.shift();
-      let [, base, argument] = /(\S+)?(?:\s+(.+))?/.exec(query);
+      let [, base, argument] = /(\S+)?(?:\s+(.+))?/.exec(query.trim());
       let command = game.commands.find((command) => command.base.startsWith(base));
 
       if (command) {
@@ -30,7 +30,7 @@ module.exports = class User {
             command.action.apply(this, props);
           }
         } else {
-          command.action.apply(this);
+          command.action.call(this, command.base);
         }
       } else {
         this.message("Unkown Command");

@@ -141,4 +141,12 @@ module.exports = [{
       ru: " вошёл в игру."
     });
   }
+}, {
+  name: "Can't Swim",
+  perform() {
+    this.xterm.writeln({
+      en: "You can not swim.",
+      ru: "Ты не умеешь плавать."
+    });
+  }
 }];
