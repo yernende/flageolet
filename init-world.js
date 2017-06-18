@@ -181,6 +181,10 @@ let items = {
   cherry: new Item({
     name: {en: "cherry", ru: "вишня"},
     color: 125
+  }),
+  key: new Item({
+    name: {en: "big steel key", ru: "большой стальной ключ"},
+    color: 11
   })
 }
 
@@ -197,7 +201,7 @@ rooms.trail.link("down", rooms.wall);
 
 // Forest
 rooms.gate
-  .link("north", rooms.woodlandEdge1)
+  .link("north", rooms.woodlandEdge1, new Room.Door({name: {en: "gates", ru: "врата"}, closed: true, locked: true, keyId: items.key.id}))
   .link("north", rooms.forestTrail1)
   .link("west", rooms.forestTrail2)
   .link("north", rooms.forestTrail3)
@@ -243,3 +247,4 @@ characters.bird.move(rooms.eastGarden);
 
 items.sword.move(rooms.westGarden);
 items.cherry.move(rooms.eastGarden);
+items.key.move(rooms.gate);

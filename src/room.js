@@ -1,11 +1,28 @@
 const game = require("./game");
 
+class Exit {
+  constructor({direction, destination, door}) {
+    this.direction = direction;
+    this.destination = destination;
+    this.door = door;
+  }
+}
+
+class Door {
+  constructor({name = {en: "a door", ru: "дверь"}, closed = true, locked = false, keyId = null}) {
+    this.name = name;
+    this.closed = closed;
+    this.locked = locked;
+    this.keyId = keyId;
+  }
+}
+
 class Room {
   constructor({name, surface}) {
     this.name = name;
     this.surface = surface;
 
-    this.exits = {north: null, east: null, south: null, west: null, up: null, down: null};
+    this.exits = [];
     this.items = [];
     this.characters = [];
     this.id = Room.idCounter++;
@@ -32,18 +49,21 @@ class Room {
   }
 
   getDirections() {
-    return ["north", "east", "south", "west", "up", "down"].filter((direction) => this.exits[direction] != null);
+    return this.exits.map((exit) => exit.direction);
   }
 
-  link(direction, destination) {
-    this.exits[direction] = destination;
-    destination.exits[Room.invertDirection(direction)] = this;
+  link(direction, destination, door, options = {}) {
+    this.oneway(direction, destination, door, options);
+    destination.oneway(Room.invertDirection(direction), this, door, options);
 
     return destination;
   }
 
-  oneway(direction, destination) {
-    this.exits[direction] = destination;
+  oneway(direction, destination, door, options = {}) {
+    this.exits.push(new Exit(Object.assign({
+      direction, destination, door
+    }, options)));
+
     return destination;
   }
 
@@ -68,4 +88,6 @@ class Room {
 }
 
 Room.idCounter = 0;
+Room.Exit = Exit;
+Room.Door = Door;
 module.exports = Room;

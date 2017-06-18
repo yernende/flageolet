@@ -39,6 +39,11 @@ class CommandArgument extends RegExp {
               patterns.push(stringPattern);
               break;
 
+            case "exit":
+              parameters.push("exit");
+              patterns.push(stringPattern);
+              break;
+
             default:
               throw new Error(`Unkown parameter type: ${type}.`);
               break;
@@ -74,7 +79,7 @@ class CommandArgument extends RegExp {
         let type = this.parameters[index];
         let location = this.locations[index];
         let scope = [];
-        let item, character;
+        let item, character, exit;
 
         switch (type) {
           case "string":
@@ -120,8 +125,18 @@ class CommandArgument extends RegExp {
               isExecutionErrored = true;
               return;
             }
-        }
 
+          case "exit":
+            exit = user.character.location.exits.find((exit) => exit.direction.startsWith(parameter));
+
+            if (exit) {
+              return exit;
+            } else {
+              user.message("Unkown Exit");
+              isExecutionErrored = true;
+              return;
+            }
+        }
       });
 
       if (isExecutionErrored) {

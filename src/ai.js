@@ -11,13 +11,13 @@ module.exports = class AI {
     }
   }
 
-  execute(commandName, ...args) {
+  execute(commandName, ...props) {
     // TODO: repeated code
     let command = game.commands.find((command) => command.base == commandName);
 
     if (command) {
       if (command.argument) {
-        command.action.apply(this, args);
+        command.action.apply(this, props);
       } else {
         command.action.call(this, command.base);
       }

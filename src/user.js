@@ -16,6 +16,21 @@ module.exports = class User {
     });
   }
 
+  execute(commandName, ...props) {
+    // TODO: repeated code
+    let command = game.commands.find((command) => command.base == commandName);
+
+    if (command) {
+      if (command.argument) {
+        return command.action.apply(this, props);
+      } else {
+        return command.action.call(this, command.base);
+      }
+    } else {
+      throw new Error(`Character called unkown command ${commandName}`);
+    }
+  }
+
   handleInput() {
     if (this.input.length > 0) {
       let query = this.input.shift();
