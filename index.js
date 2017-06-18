@@ -1,15 +1,16 @@
 const net = require("net");
 const fs = require("fs");
+const path = require("path");
 const game = require("./src/game");
 const User = require("./src/user");
 const Command = require("./src/command");
 
-for (let file of fs.readdirSync("./commands")) {
+for (let file of fs.readdirSync(path.join(__dirname, "./commands"))) {
   game.commands.push(...require(`./commands/${file}`).map((command) => new Command(command)));
   game.commands = game.commands.sort((a, b) => a.priority - b.priority);
 }
 
-for (let file of fs.readdirSync("./messages")) {
+for (let file of fs.readdirSync(path.join(__dirname, "./messages"))) {
   game.messages.push(...require(`./messages/${file}`));
 }
 
@@ -38,7 +39,7 @@ const server = net.createServer((connection) => {
     filter: (target) => target != user.character,
     message: ["Character Entered Game", user.character]
   });
-}).listen(4000);
+}).listen(7000);
 
 setInterval(function () {
   for (let user of game.users) {
