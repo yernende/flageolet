@@ -296,4 +296,12 @@ module.exports = [{
       this.xterm.writeln(".");
     }
   }
+}, {
+  name: "Unkown Exit",
+  perform() {
+    this.xterm.writeln({
+      en: "There is no such exit.",
+      ru: "Здесь нет такого выхода."
+    });
+  }
 }];

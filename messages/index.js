@@ -24,4 +24,19 @@ module.exports = [{
       ru: "Неправильно указаны аргументы команды."
     });
   }
+}, {
+  name: "Commands List",
+  perform(commands) {
+    for (let command of commands) {
+      this.xterm.writeln(command.pattern);
+    }
+  }
+}, {
+  name: "Command Needs Argument",
+  perform() {
+    this.xterm.writeln({
+      en: "You need to specify argument for the command.",
+      ru: "Необходимо указать аргумент для команды."
+    });
+  }
 }];

@@ -41,10 +41,14 @@ module.exports = class User {
 
       if (command) {
         if (command.argument) {
-          let props = command.argument.exec(argument, this);
+          if (argument) {
+            let props = command.argument.exec(argument, this);
 
-          if (props != null) {
-            command.action.apply(this, props);
+            if (props != null) {
+              command.action.apply(this, props);
+            }
+          } else {
+            this.message("Command Needs Argument");
           }
         } else {
           command.action.call(this, command.base);

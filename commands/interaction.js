@@ -1,5 +1,6 @@
 module.exports = [{
   pattern: "take <item@location>",
+  priority: 3,
   action(item) {
     if (this.character.inventory.items.length < this.character.inventory.capacity) {
       item.move(this.character.inventory);
@@ -10,13 +11,14 @@ module.exports = [{
   }
 }, {
   pattern: "drop <item@inventory>",
+  priority: 3,
   action(item) {
     item.move(this.character.location);
     this.character.location.broadcast("Item Dropped", this.character, item);
   }
 }, {
   pattern: "give <item@inventory> <character@location>",
-  priority: 0,
+  priority: 3,
   action(item, target) {
     if (target.inventory.items.length < target.inventory.capacity) {
       item.move(target.inventory);
@@ -27,6 +29,7 @@ module.exports = [{
   }
 }, {
   pattern: "inventory",
+  priority: 3,
   action() {
     this.message("Inventory", this.character.inventory);
   }

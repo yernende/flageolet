@@ -155,6 +155,7 @@ class Command {
     this.base = base;
     this.action = action;
     this.priority = priority;
+    this.pattern = pattern;
 
     if (argument) {
       this.argument = new CommandArgument(argument);

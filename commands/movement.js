@@ -26,23 +26,23 @@ module.exports = [{
   action: moveCharacterToDirection
 }, {
   pattern: "go <exit>",
-  priority: 1,
+  priority: 4,
   action: moveCharacterToExit
 }, {
   pattern: "look",
-  priority: 0,
+  priority: 1,
   action() {
     this.message("Room Description", this.character.location);
   }
 }, {
   pattern: "rooms",
-  priority: 0,
+  priority: 1,
   action() {
     this.message("Room List", game.world.rooms)
   }
 }, {
   pattern: "goto <number>",
-  priority: 1,
+  priority: 4,
   action(id) {
     if (game.world.rooms.has(id)) {
       this.character.move(game.world.rooms.get(id));
@@ -52,13 +52,13 @@ module.exports = [{
   }
 }, {
   pattern: "recall",
-  priority: 0,
+  priority: 1,
   action() {
     this.character.move(game.world.rooms.get(0));
   }
 }, {
   pattern: "open <exit>",
-  priority: 1,
+  priority: 2,
   action(exit) {
     if (!exit.door) {
       this.message("No Door");
@@ -80,7 +80,7 @@ module.exports = [{
   }
 }, {
   pattern: "close <exit>",
-  priority: 1,
+  priority: 2,
   action(exit) {
     if (!exit.door) {
       this.message("No Door");
@@ -98,7 +98,7 @@ module.exports = [{
   }
 }, {
   pattern: "unlock <exit>",
-  priority: 1,
+  priority: 2,
   action(exit) {
     if (!exit.door) {
       this.message("No Door");
@@ -121,7 +121,7 @@ module.exports = [{
   }
 }, {
   pattern: "lock <exit>",
-  priority: 1,
+  priority: 2,
   action(exit) {
     if (!exit.door) {
       this.message("No Door");

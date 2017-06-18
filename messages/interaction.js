@@ -112,7 +112,7 @@ module.exports = [{
       });
     } else {
       this.xterm.style({foreground: target.color, bold: true});
-      this.xterm.writeln(actor.name);
+      this.xterm.write(target.name);
       this.xterm.reset();
       this.xterm.writeln(".");
     }
