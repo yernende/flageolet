@@ -9,11 +9,13 @@ module.exports = class User {
     this.xterm = new Xterm(this);
     this.connection = connection;
 
-    new Character({
+    let character = new Character({
       name: {en: "a hero", ru: "герой"},
       color: 15,
       owner: this
     });
+
+    character.isPC = true;
   }
 
   execute(commandName, ...props) {

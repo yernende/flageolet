@@ -4,6 +4,7 @@ const Item = require("./src/item");
 
 const AcolyteAI = require("./ai/acolyte");
 const BirdAI = require("./ai/bird");
+const GuardAI = require("./ai/guard");
 
 let rooms = {
   altar: new Room({
@@ -169,7 +170,8 @@ let characters = {
   }),
   guard: new Character({
     name: {en: "guard", ru: "стражник"},
-    color: 31
+    color: 31,
+    owner: new GuardAI()
   })
 }
 
@@ -184,7 +186,7 @@ let items = {
   }),
   key: new Item({
     name: {en: "big steel key", ru: "большой стальной ключ"},
-    color: 11
+    color: 147
   })
 }
 
@@ -247,4 +249,4 @@ characters.bird.move(rooms.eastGarden);
 
 items.sword.move(rooms.westGarden);
 items.cherry.move(rooms.eastGarden);
-items.key.move(rooms.gate);
+items.key.move(characters.guard.inventory);

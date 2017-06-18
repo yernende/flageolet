@@ -16,6 +16,7 @@ module.exports = [{
   }
 }, {
   pattern: "give <item@inventory> <character@location>",
+  priority: 0,
   action(item, target) {
     if (target.inventory.items.length < target.inventory.capacity) {
       item.move(target.inventory);

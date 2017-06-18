@@ -26,7 +26,7 @@ module.exports = [{
   action: moveCharacterToDirection
 }, {
   pattern: "go <exit>",
-  priority: 0,
+  priority: 1,
   action: moveCharacterToExit
 }, {
   pattern: "look",
@@ -42,7 +42,7 @@ module.exports = [{
   }
 }, {
   pattern: "goto <number>",
-  priority: 0,
+  priority: 1,
   action(id) {
     if (game.world.rooms.has(id)) {
       this.character.move(game.world.rooms.get(id));

@@ -42,7 +42,9 @@ class Room {
       message = args;
     }
 
-    for (let character of this.characters) {
+    let characters = this.characters.sort((character) => character.isPC ? -1 : 1)
+
+    for (let character of characters) {
       if (typeof filter == "function" && !filter(character)) continue;
       character.owner.message(...message);
     }

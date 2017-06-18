@@ -105,10 +105,17 @@ module.exports = [{
       ru: " "
     });
 
-    this.xterm.style({foreground: target.color, bold: true});
-    this.xterm.write(target.name);
-    this.xterm.reset();
-    this.xterm.writeln(".");
+    if (target == this.character) {
+      this.xterm.writeln({
+        en: "you.",
+        ru: "тебе."
+      });
+    } else {
+      this.xterm.style({foreground: target.color, bold: true});
+      this.xterm.writeln(actor.name);
+      this.xterm.reset();
+      this.xterm.writeln(".");
+    }
   }
 }, {
   name: "Receiver's Hands Full",
