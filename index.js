@@ -23,18 +23,12 @@ const server = net.createServer((connection) => {
     user.input.push(data.toString());
   });
 
-  connection.on("close", () => {
-    game.users.splice(game.users.indexOf(user), 1);
-  });
-
   connection.on("error", (error) => {
     console.error(error);
   });
 
-  connection.on("close", () => {
-    game.users.splice(game.users.indexOf(user), 1);
-    game.world.characters.delete(user.character);
-    user.character.location.characters.splice(user.character.location.characters.indexOf(user.character), 1);
+  connection.on("end", () => {
+    user.execute("quit");
   });
 
   game.users.push(user);

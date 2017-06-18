@@ -34,6 +34,11 @@ class Character {
     game.world.characters.set(this.id, this);
   }
 
+  destroy() {
+    game.world.characters.delete(this.id);
+    this.location.characters.splice(this.location.characters.indexOf(this), 1);
+  }
+
   move(destination) {
     if (this.location) {
       this.location.characters.splice(this.location.characters.indexOf(this), 1);

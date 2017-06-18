@@ -11,4 +11,12 @@ module.exports = [{
   action() {
     this.message("Commands List", game.commands);
   }
+}, {
+  pattern: "quit",
+  requireFullType: true,
+  action() {
+    this.character.location.broadcast("Character Left Game", this.character);
+    this.character.destroy();
+    this.destroy();
+  }
 }];

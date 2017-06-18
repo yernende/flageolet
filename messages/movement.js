@@ -158,6 +158,16 @@ module.exports = [{
     });
   }
 }, {
+  name: "Character Left Game",
+  perform(character) {
+    this.xterm.writeName(character.name);
+
+    this.xterm.writeln({
+      en: " leaves the game.",
+      ru: " покидает игру."
+    });
+  }
+}, {
   name: "Can't Swim",
   perform() {
     this.xterm.writeln({

@@ -18,6 +18,11 @@ module.exports = class User {
     character.isPC = true;
   }
 
+  destroy() {
+    game.users.splice(game.users.indexOf(this), 1);
+    this.connection.destroy();
+  }
+
   execute(commandName, ...props) {
     // TODO: repeated code
     let command = game.commands.find((command) => command.base == commandName);
@@ -37,7 +42,14 @@ module.exports = class User {
     if (this.input.length > 0) {
       let query = this.input.shift();
       let [, base, argument] = /(\S+)?(?:\s+(.+))?/.exec(query.trim());
-      let command = game.commands.find((command) => command.base.startsWith(base));
+
+      let command = game.commands.find((command) => {
+        if (command.requireFullType) {
+          return command.base == base;
+        } else {
+          return command.base.startsWith(base);
+        }
+      });
 
       if (command) {
         if (command.argument) {
@@ -60,6 +72,8 @@ module.exports = class User {
   }
 
   handleOutput() {
+    if (this.connection.destroyed) return;
+
     if (this.output.length > 0) {
       this.message("Prompt");
       this.connection.write(this.output.join(""));
