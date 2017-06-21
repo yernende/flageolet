@@ -1,9 +1,10 @@
 const game = require("./game");
 
 class Item {
-  constructor({name, color, keywords}) {
+  constructor({name, color, type, keywords}) {
     this.name = name;
     this.color = color;
+    this.type = type
     this.id = Item.idCounter++;
 
 

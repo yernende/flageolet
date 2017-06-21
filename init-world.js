@@ -187,6 +187,10 @@ let items = {
   key: new Item({
     name: {en: "big steel key", ru: "большой стальной ключ"},
     color: 147
+  }),
+  boat: new Item({
+    name: {en: "resine boat", ru: "резиновая лодка"},
+    type: "boat"
   })
 }
 
@@ -237,10 +241,10 @@ rooms.riverSource
   .link("south", rooms.bridge)
   .link("south", rooms.river8)
   .link("south", rooms.river9)
-  .link("south", rooms.waterfall);
+  .oneway("south", rooms.waterfall);
 
-rooms.steepBank1.link("east", rooms.river6).link("east", rooms.bank1);
-rooms.steepBank2.link("east", rooms.river7).link("east", rooms.bank2);
+rooms.steepBank1.link("east", rooms.river6).link("east", rooms.bank2);
+rooms.steepBank2.link("east", rooms.river7).link("east", rooms.bank1);
 
 // Characters
 characters.acolyte.move(rooms.altar);
@@ -250,3 +254,4 @@ characters.bird.move(rooms.eastGarden);
 items.sword.move(rooms.westGarden);
 items.cherry.move(rooms.eastGarden);
 items.key.move(characters.guard.inventory);
+items.boat.move(rooms.woodlandEdge2);
