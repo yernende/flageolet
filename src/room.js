@@ -87,6 +87,35 @@ class Room {
     firstRoom.exits[direction] = secondRoom;
     secondRoom.exits[Room.invertDirection(direction)] = firstRoom;
   }
+
+  getRoomToDirection(direction) {
+    let exit = this.exits.find((exit) => exit.direction == direction);
+    return exit ? exit.destination : null;
+  }
+
+  get north() {
+    return this.getRoomToDirection("north");
+  }
+
+  get south() {
+    return this.getRoomToDirection("south");
+  }
+
+  get west() {
+    return this.getRoomToDirection("west");
+  }
+
+  get east() {
+    return this.getRoomToDirection("east");
+  }
+
+  get up() {
+    return this.getRoomToDirection("up");
+  }
+
+  get down() {
+    return this.getRoomToDirection("down");
+  }
 }
 
 Room.idCounter = 0;

@@ -1,6 +1,7 @@
 const CSI = "\u001B[";
 const RESET_STYLE = CSI + "m";
 const TAB = "  ";
+const DEFAULT_BOX_WIDTH = 80;
 
 module.exports = class Xterm {
   constructor(user) {
@@ -9,6 +10,10 @@ module.exports = class Xterm {
     this.writeIntoBoxHeader = false;
     this.newLine = true;
     this.styleSetter = CSI + "m";
+    this.boxWidth = null;
+    this.paddingWidth = null;
+    this.left = null;
+    this.top = null;
   }
 
   write(string = "") {
@@ -17,11 +22,13 @@ module.exports = class Xterm {
 
     if (this.newLine) {
       if (this.writeIntoBoxHeader) {
+        this.left && this.user.output.push(CSI + (this.left + 1) + "G");
         this.user.output.push(RESET_STYLE + "┃");
-        this.user.output.push(TAB);
+        this.user.output.push(" ".repeat(this.paddingWidth));
       } else if (this.writeIntoBoxContent) {
+        this.left && this.user.output.push(CSI + (this.left + 1) + "G");
         this.user.output.push(RESET_STYLE + "│");
-        this.user.output.push(TAB);
+        this.user.output.push(" ".repeat(this.paddingWidth));
       }
 
       this.newLine = false;
@@ -32,17 +39,18 @@ module.exports = class Xterm {
 
   endln() {
     if (this.writeIntoBoxHeader) {
-      this.user.output.push(CSI + "80G"); // Move cursor to 80 column
+      this.user.output.push(CSI + ((this.left || 0) + this.boxWidth) + "G");
       this.user.output.push(RESET_STYLE);
       this.user.output.push("┃");
     } else if (this.writeIntoBoxContent) {
-      this.user.output.push(CSI + "80G"); // Move cursor to 80 column
+      this.user.output.push(CSI + ((this.left || 0) + this.boxWidth) + "G"); // Move cursor
       this.user.output.push(RESET_STYLE);
       this.user.output.push("│");
     }
 
     this.user.output.push("\n");
     this.newLine = true;
+    this.user.messageLinesCount++;
   }
 
   writeln(string = "") {
@@ -103,24 +111,43 @@ module.exports = class Xterm {
     });
   }
 
-  startBoxHeader() {
-    this.user.output.push("┏" + "━".repeat(78) + "┓\n");
+  startBoxHeader({width = DEFAULT_BOX_WIDTH, padding = 2, left, top} = {}) {
+    this.boxWidth = width;
+    this.paddingWidth = padding;
     this.writeIntoBoxHeader = true;
+    this.left = left;
+    this.top = top;
+
+    this.top && this.user.output.push(CSI + (this.user.messageLinesCount - this.top + 1) + "F");
+    this.left && this.user.output.push(CSI + (this.left + 1) + "G");
+    this.user.output.push("┏" + "━".repeat(78) + "┓\n");
   }
 
-  startBoxContent() {
+  startBoxContent({width = DEFAULT_BOX_WIDTH, padding = 2, left, top} = {}) {
+    this.boxWidth = width;
+    this.paddingWidth = padding;
+    this.writeIntoBoxContent = true;
+    this.left = left;
+    this.top = top;
+
+    this.top && this.user.output.push(CSI + (this.user.messageLinesCount - this.top + 1) + "F");
+    this.left && this.user.output.push(CSI + (this.left + 1) + "G");
+
     if (this.writeIntoBoxHeader) {
-      this.user.output.push("┡" + "━".repeat(78) + "┩\n");
+      this.user.output.push("┡" + "━".repeat(this.boxWidth - 2) + "┩\n");
       this.writeIntoBoxHeader = false;
     } else {
-      this.user.output.push("┌" + "─".repeat(78) + "┐\n")
+      this.user.output.push("┌" + "─".repeat(this.boxWidth - 2) + "┐\n")
     }
-
-    this.writeIntoBoxContent = true;
   }
 
   endBox() {
-    this.user.output.push("└" + "─".repeat(78) + "┘\n");
+    this.left && this.user.output.push(CSI + (this.left + 1) + "G");
+    this.user.output.push("└" + "─".repeat(this.boxWidth - 2) + "┘\n");
     this.writeIntoBoxContent = false;
+    this.boxWidth = null;
+    this.paddingWidth = null;
+    this.left = null;
+    this.top = null;
   }
 }

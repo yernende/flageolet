@@ -6,6 +6,7 @@ module.exports = class User {
   constructor(connection) {
     this.input = [];
     this.output = [];
+    this.messageLinesCount = 0;
     this.xterm = new Xterm(this);
     this.connection = connection;
 
@@ -86,6 +87,7 @@ module.exports = class User {
 
     if (message) {
       message.perform.apply(this, args);
+      this.messageLinesCount = 0;
     } else {
       throw new Error(`Unkown message ${name}`);
     }
