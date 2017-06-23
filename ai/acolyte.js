@@ -1,14 +1,21 @@
 const AI = require("../src/ai");
 
 module.exports = class AcolyteAI extends AI {
+  ["Talk"](character) {
+    this.tell(character, {
+      en: `Good luck!`,
+      ru: `Удачи!`
+    });
+  }
+
   ["Character Entered Game"](character) {
-    character.owner.message("AI Message", this.character, {
+    this.tell(character, {
       en: `
         Greetings, stranger!
 
         You have now discovered for yourself a MUD of the new generation, most
         commonly known as Flageolet. Walk through the world and enjoy the game.
-        Let the Phoenix be with you!
+        Good luck!
       `,
       ru: `
         Приветствую тебя, странник!
