@@ -80,11 +80,8 @@ module.exports = [{
 
     this.xterm.writeln();
 
-    this.xterm.left = 59;
-    this.xterm.top = 1;
-
     this.xterm.startBoxContent({left: 59, top: 1, width: 21, padding: 1});
-    drawMap.call(this);
+    drawMap.call(this, room);
     this.xterm.endBox();
   }
 }, {
@@ -93,14 +90,6 @@ module.exports = [{
     this.xterm.writeln({
       en: "Unknown direction.",
       ru: "Неизвестное направление."
-    });
-  }
-}, {
-  name: "Door Is Closed",
-  perform() {
-    this.xterm.writeln({
-      en: "The passage is closed.",
-      ru: "Проход закрыт."
     });
   }
 }, {
@@ -183,137 +172,6 @@ module.exports = [{
     });
   }
 }, {
-  name: "No Door",
-  perform() {
-    this.xterm.writeln({
-      en: "There is no door.",
-      ru: "Там нет двери."
-    });
-  }
-}, {
-  name: "Door Already Opened",
-  perform() {
-    this.xterm.writeln({
-      en: "That door is already opened.",
-      ru: "Эта дверь уже открыта."
-    });
-  }
-}, {
-  name: "Door Opened",
-  perform(actor, door) {
-    if (actor == this.character) {
-      this.xterm.write({
-        en: "You open ",
-        ru: "Ты открываешь "
-      });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
-    } else {
-      this.xterm.writeName(actor.name);
-      this.xterm.write({
-        en: " opens ",
-        ru: " открывает "
-      });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
-    }
-  }
-}, {
-  name: "Door Already Closed",
-  perform() {
-    this.xterm.writeln({
-      en: "That door is already closed.",
-      ru: "Эта дверь уже закрыта."
-    });
-  }
-}, {
-  name: "Door Closed",
-  perform(actor, door) {
-    if (actor == this.character) {
-      this.xterm.write({
-        en: "You close ",
-        ru: "Ты закрываешь "
-      });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
-    } else {
-      this.xterm.writeName(actor.name);
-      this.xterm.write({
-        en: " closes ",
-        ru: " закрывает "
-      });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
-    }
-  }
-}, {
-  name: "No Key",
-  perform(door) {
-    this.xterm.write({
-      en: "No key to open ",
-      ru: "У тебя нет ключа, чтобы открыть "
-    });
-
-    this.xterm.write(door.name);
-    this.xterm.writeln(".");
-  }
-}, {
-  name: "Door Already Unlocked",
-  perform() {
-    this.xterm.writeln({
-      en: "That door is already unlocked.",
-      ru: "Эта дверь уже отперта."
-    });
-  }
-}, {
-  name: "Door Unlocked",
-  perform(actor, door) {
-    if (actor == this.character) {
-      this.xterm.write({
-        en: "You unlock ",
-        ru: "Ты отпираешь "
-      });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
-    } else {
-      this.xterm.writeName(actor.name);
-      this.xterm.write({
-        en: " unlocks ",
-        ru: " отпирает "
-      });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
-    }
-  }
-}, {
-  name: "Door Already Locked",
-  perform() {
-    this.xterm.writeln({
-      en: "That door is already locked.",
-      ru: "Эта дверь уже заперта."
-    });
-  }
-}, {
-  name: "Door Locked",
-  perform(actor, door) {
-    if (actor == this.character) {
-      this.xterm.write({
-        en: "You lock ",
-        ru: "Ты запираешь "
-      });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
-    } else {
-      this.xterm.writeName(actor.name);
-      this.xterm.write({
-        en: " locks ",
-        ru: " запирает "
-      });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
-    }
-  }
-}, {
   name: "Unkown Exit",
   perform() {
     this.xterm.writeln({
@@ -323,41 +181,8 @@ module.exports = [{
   }
 }];
 
-function drawMap() {
-  let getRoomColor = (room) => {
-    if (room == this.character.location) return 220;
-
-    switch (room.surface) {
-      case "water": return 12;
-      case "ground": return 94;
-      case "grass": return 28;
-      case "wood": return 52;
-      case "marble": return 195;
-    }
-  };
-
-  let walk = (path, initialPoint = this.character.location) => {
-    if (!path) return initialPoint;
-
-    let walkThroughDirections = (directions) => {
-      let location = initialPoint;
-
-      for (let direction of directions) {
-        let exit = location.exits.find((exit) => exit.direction == direction);
-
-        if (exit && (exit.door ? !exit.door.closed : true)) {
-          location = exit.destination;
-        } else {
-          return null;
-        }
-      }
-
-      return location;
-    };
-
-    let directions = path.split(" ");
-    return walkThroughDirections(directions) || walkThroughDirections(directions.reverse());
-  }
+function drawMap(centerRoom) {
+  let walk = walkPathFrom.bind(null, centerRoom);
 
   let rooms = [
     [null, null, walk("north north"), null, null],
@@ -381,13 +206,14 @@ function drawMap() {
       if (room) {
         let cell = {};
 
-        if (room == this.character.location) {
+        if (room == centerRoom) {
           cell.symbol = "@";
+          cell.color = 220;
         } else {
           cell.symbol = "■";
+          cell.color = getRoomColor(room);
         }
 
-        cell.color = getRoomColor(room);
         map[y * 2][x * 2] = cell;
       } else {
         continue;
@@ -461,14 +287,37 @@ function drawMap() {
 
     this.xterm.writeln();
   }
+}
 
-  //         ■
-  //         |
-  //     ■ - ■ - ■
-  //     |   ▴   |
-  // ■ - ■ ◂ @ ▸ ■ - ■
-  //     |   ▾   |
-  //     ■ - ■ - ■
-  //         |
-  //         ■
+function getRoomColor(room) {
+  switch (room.surface) {
+    case "water": return 12;
+    case "ground": return 94;
+    case "grass": return 28;
+    case "wood": return 52;
+    case "marble": return 195;
+  }
+}
+
+function walkPathFrom(initialPoint, path) {
+  if (!path) return initialPoint;
+
+  let walkThroughDirections = (directions) => {
+    let location = initialPoint;
+
+    for (let direction of directions) {
+      let exit = location.exits.find((exit) => exit.direction == direction);
+
+      if (exit && (exit.door ? !exit.door.closed : true)) {
+        location = exit.destination;
+      } else {
+        return null;
+      }
+    }
+
+    return location;
+  };
+
+  let directions = path.split(" ");
+  return walkThroughDirections(directions) || walkThroughDirections(directions.reverse());
 }
