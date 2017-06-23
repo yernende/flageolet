@@ -42,7 +42,9 @@ module.exports = class User {
 
   handleInput() {
     if (this.input.length > 0) {
-      let query = this.input.shift().trim();
+      let query = this.input.shift();
+      if (query == "\r\n") return;
+      query = query.trim();
       let [, base, argument] = /(\S+)?(?:\s+(.+))?/.exec(query);
 
       if (this.dialog) {
