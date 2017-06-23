@@ -78,7 +78,7 @@ module.exports = class GuardAI extends AI {
 
   ["Character Arrived"](character) {
     if (this.memory.questReceivers.has(character)) {
-      character.owner.message("AI Message", this.character, {
+      this.tell(character, {
         en: `Found my sword?`,
         ru: `Ну как, нашёл мой меч?`
       });
@@ -90,7 +90,7 @@ module.exports = class GuardAI extends AI {
 
     if (target == this.character) {
       if (item.name.en.includes("sword")) {
-        actor.owner.message("AI Message", this.character, {
+        this.tell(actor, {
           en: `
             *guard itches his head*
 
