@@ -30,6 +30,10 @@ class Character {
     };
   }
 
+  get isNPC() {
+    return !this.isPC;
+  }
+
   register() {
     game.world.characters.set(this.id, this);
   }

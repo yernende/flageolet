@@ -166,7 +166,7 @@ module.exports = [{
   }
 }, {
   name: "AI Message",
-  perform(sender, message) {
+  perform(sender, message, answers) {
     this.xterm.startBoxHeader();
 
     if (sender) {
@@ -184,8 +184,31 @@ module.exports = [{
     this.xterm.startBoxContent();
     this.xterm.style({foreground: 40});
     this.xterm.writeText(message);
+
+    if (answers) {
+      this.xterm.writeln();
+
+      for (let i = 0; i < answers.length; i++) {
+        let answer = answers[i];
+
+        this.xterm.style({foreground: 45});
+        this.xterm.write(`[${i + 1}] `);
+        this.xterm.style({foreground: 15, bold: true});
+        this.xterm.writeln(answer);
+      };
+
+      this.xterm.reset();
+    }
     this.xterm.reset();
     this.xterm.endBox();
+  }
+}, {
+  name: "No Such Answer",
+  perform() {
+    this.xterm.writeln({
+      en: "Type an answer number from the list below, please.",
+      ru: "Ты должен ввести номер ответа из списка."
+    });
   }
 }, {
   name: "Users List",

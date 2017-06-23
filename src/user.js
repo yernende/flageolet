@@ -9,6 +9,7 @@ module.exports = class User {
     this.messageLinesCount = 0;
     this.xterm = new Xterm(this);
     this.connection = connection;
+    this.dialog = null;
 
     let character = new Character({
       name: {en: "a hero", ru: "герой"},
@@ -43,6 +44,22 @@ module.exports = class User {
     if (this.input.length > 0) {
       let query = this.input.shift();
       let [, base, argument] = /(\S+)?(?:\s+(.+))?/.exec(query.trim());
+
+      if (this.dialog) {
+        let answerIndex = parseInt(query) - 1;
+
+        let answer = this.dialog.answers[answerIndex];
+
+        if (answer) {
+          this.dialog = null;
+          this.message("AI Message", this.character, answer);
+          if (answer.handler) answer.handler(this.character);
+        } else {
+          this.message("No Such Answer");
+        }
+
+        return;
+      }
 
       let command = game.commands.find((command) => {
         if (command.requireFullType) {

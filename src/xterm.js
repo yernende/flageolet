@@ -112,9 +112,10 @@ module.exports = class Xterm {
   }
 
   startBoxHeader({width = DEFAULT_BOX_WIDTH, padding = 2, left, top} = {}) {
+    this.newLine = true
+    this.writeIntoBoxHeader = true;
     this.boxWidth = width;
     this.paddingWidth = padding;
-    this.writeIntoBoxHeader = true;
     this.left = left;
     this.top = top;
 
@@ -124,9 +125,10 @@ module.exports = class Xterm {
   }
 
   startBoxContent({width = DEFAULT_BOX_WIDTH, padding = 2, left, top} = {}) {
+    this.newLine = true;
+    this.writeIntoBoxContent = true;
     this.boxWidth = width;
     this.paddingWidth = padding;
-    this.writeIntoBoxContent = true;
     this.left = left;
     this.top = top;
 
