@@ -1,7 +1,7 @@
 const game = require("../src/game");
 
 module.exports = [{
-  pattern: "get <item@location>",
+  pattern: "get/take <item@location>",
   priority: 3,
   action(item) {
     if (this.character.inventory.items.length < this.character.inventory.capacity) {

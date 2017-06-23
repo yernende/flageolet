@@ -67,13 +67,7 @@ module.exports = class User {
         return;
       }
 
-      let command = game.commands.find((command) => {
-        if (command.requireFullType) {
-          return command.base == base;
-        } else {
-          return command.base.startsWith(base);
-        }
-      });
+      let command = game.commands.find((command) => command.synonyms.some((synonym) => synonym.startsWith(base)));
 
       if (command) {
         if (command.argument) {

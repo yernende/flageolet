@@ -151,8 +151,10 @@ class CommandArgument extends RegExp {
 class Command {
   constructor({pattern, action, priority = 10}) {
     let [, base, argument] = /(\S+)(?:\s+(.+))?/.exec(pattern);
+    let synonyms = base.split("/");
 
-    this.base = base;
+    this.base = synonyms[0];
+    this.synonyms = synonyms;
     this.action = action;
     this.priority = priority;
     this.pattern = pattern;
