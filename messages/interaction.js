@@ -211,6 +211,14 @@ module.exports = [{
     });
   }
 }, {
+  name: "Doesn't Want To Talk",
+  perform() {
+    this.xterm.writeln({
+      en: "He doesn't want to talk with you.",
+      ru: "Он не хочет разговаривать с тобой."
+    });
+  }
+}, {
   name: "Users List",
   perform(users) {
     this.xterm.writeln({

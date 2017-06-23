@@ -5,6 +5,11 @@ module.exports = class AI {
     this.memory = {};
   }
 
+  // Default talk handler
+  ["Talk"](character) {
+    character.owner.message("Doesn't Want To Talk", this.character);
+  }
+
   tell(character, message) {
     character.owner.message("AI Message", this.character, message);
   }
