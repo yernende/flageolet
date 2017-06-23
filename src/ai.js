@@ -13,7 +13,7 @@ module.exports = class AI {
     answers = answers.filter((answer) => typeof answer.test == "function" ? answer.test(character) : true);
     character.owner.message("AI Message", this.character, message, answers);
 
-    character.owner.dialog = {message, answers};
+    character.owner.dialog = {message, answers, sender: this.character}; // TODO: entity is closed here
   }
 
   message(name, ...args) {

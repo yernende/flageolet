@@ -42,12 +42,16 @@ module.exports = class User {
 
   handleInput() {
     if (this.input.length > 0) {
-      let query = this.input.shift();
-      let [, base, argument] = /(\S+)?(?:\s+(.+))?/.exec(query.trim());
+      let query = this.input.shift().trim();
+      let [, base, argument] = /(\S+)?(?:\s+(.+))?/.exec(query);
 
       if (this.dialog) {
-        let answerIndex = parseInt(query) - 1;
+        if (query.length == 0) {
+          this.message("AI Message", this.dialog.sender, this.dialog.message, this.dialog.answers);
+          return;
+        }
 
+        let answerIndex = parseInt(query) - 1;
         let answer = this.dialog.answers[answerIndex];
 
         if (answer) {
