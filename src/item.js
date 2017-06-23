@@ -7,7 +7,6 @@ class Item {
     this.type = type
     this.id = Item.idCounter++;
 
-
     // TODO: repeated code
     if (!keywords) {
       if (typeof name == "string") {

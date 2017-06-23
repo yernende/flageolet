@@ -1,4 +1,5 @@
 const game = require("./game");
+const Command = require("./command");
 
 module.exports = class AI {
   constructor() {
@@ -27,18 +28,7 @@ module.exports = class AI {
     }
   }
 
-  execute(commandName, ...props) {
-    // TODO: repeated code
-    let command = game.commands.find((command) => command.base == commandName);
-
-    if (command) {
-      if (command.argument) {
-        command.action.apply(this, props);
-      } else {
-        command.action.call(this, command.base);
-      }
-    } else {
-      throw new Error(`AI called unkown command ${commandName}`);
-    }
+  execute(commandName, ...properties) {
+    return Command.execute(this, commandName, properties);
   }
 }

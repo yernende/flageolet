@@ -1,3 +1,5 @@
+let game = require("./game");
+
 class CommandArgument extends RegExp {
   constructor(pattern) {
     let patterns = [];
@@ -161,6 +163,20 @@ class Command {
 
     if (argument) {
       this.argument = new CommandArgument(argument);
+    }
+  }
+
+  static execute(context, commandName, properties) {
+    let command = game.commands.find((command) => command.base == commandName);
+
+    if (command) {
+      if (command.argument) {
+        return command.action.apply(context, properties);
+      } else {
+        return command.action.call(context, command.base);
+      }
+    } else {
+      throw new Error(`An attempt to execute nonexistant command ${commandName}`)
     }
   }
 }
