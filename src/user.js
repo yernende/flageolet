@@ -39,7 +39,7 @@ module.exports = class User {
 
       if (this.dialog) {
         if (query.length == 0) {
-          this.message("AI Message", this.dialog.sender, this.dialog.message, this.dialog.answers);
+          this.dialog.interlocutor.tell(this.character, this.dialog.message, this.dialog.answers);
           return;
         }
 

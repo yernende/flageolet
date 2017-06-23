@@ -11,15 +11,14 @@ module.exports = class AI {
     character.owner.message("Doesn't Want To Talk", this.character);
   }
 
-  tell(character, message) {
-    character.owner.message("AI Message", this.character, message);
+  tell(character, message, answers) {
+    character.owner.message("AI Message", this.character, message, answers);
   }
 
   dialog(character, message, answers) {
     answers = answers.filter((answer) => typeof answer.test == "function" ? answer.test(character) : true);
-    character.owner.message("AI Message", this.character, message, answers);
-
-    character.owner.dialog = {message, answers, sender: this.character}; // TODO: entity is closed here
+    this.tell(character, message, answers);
+    character.owner.dialog = {message, answers, interlocutor: this}; // TODO: entity is closed here
   }
 
   message(name, ...args) {
