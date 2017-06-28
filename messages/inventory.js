@@ -39,16 +39,10 @@ module.exports = [{
   name: "Item Taken",
   perform(actor, item) {
     if (actor == this.character) {
-      this.xterm.write({
-        en: "You take ",
-        ru: "Ты подбираешь "
-      });
+      this.xterm.write({ en: "You take ", ru: "Ты подбираешь " });
     } else {
       this.xterm.writeCharacter(actor);
-      this.xterm.write({
-        en: " takes ",
-        ru: " подбирает "
-      });
+      this.xterm.write({ en: " takes ", ru: " подбирает " });
     }
 
     this.xterm.writeItem(item);
@@ -58,16 +52,10 @@ module.exports = [{
   name: "Item Dropped",
   perform(actor, item) {
     if (actor == this.character) {
-      this.xterm.write({
-        en: "You drop ",
-        ru: "Ты бросаешь "
-      });
+      this.xterm.write({ en: "You drop ", ru: "Ты бросаешь " });
     } else {
       this.xterm.writeCharacter(actor);
-      this.xterm.write({
-        en: " drops ",
-        ru: " бросает "
-      });
+      this.xterm.write({ en: " drops ", ru: " бросает " });
     }
 
     this.xterm.writeItem(item);
