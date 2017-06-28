@@ -59,6 +59,14 @@ module.exports = [{
     });
   }
 }, {
+  name: "Nobody To Talk",
+  perform() {
+    this.xterm.writeln({
+      en: "There is nobody to talk with.",
+      ru: "Здесь не с кем пообщаться."
+    });
+  }
+}, {
   name: "Users List",
   perform(users) {
     this.xterm.writeln({
