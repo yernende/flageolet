@@ -4,51 +4,48 @@ class CommandArgument extends RegExp {
   constructor(pattern) {
     let patterns = [];
     let parameters = [];
-    let locations = [];
 
     let nodes = pattern.match(/<.+?>|\(\w+\)|\w+|\s+/g);
 
     if (nodes) {
       for (let node of nodes) {
         if (/<.+?>/.test(node)) {
-          let [, type, filter, location] = /<(.+?)(?::(.+?))?(?:@(.+?))?>/.exec(node);
+          let [, type, isOptional, filter, location] = /<(.+?)(\?)?(?::(.+?))?(?:@(.+?))?>/.exec(node);
+          isOptional = Boolean(isOptional);
 
           let stringPattern = String.raw `(\S+|'.+?'|".+?")`;
           let numberPattern = String.raw `(\d+?)`;
 
-          if (location) {
-            locations.push(location);
-          }
+          parameters.push({ type, location, isOptional });
 
           switch (type) {
             case "string":
-              parameters.push("string");
               patterns.push(filter || stringPattern);
               break;
 
             case "number":
-              parameters.push("number");
               patterns.push(numberPattern);
               break;
 
             case "item":
-              parameters.push("item");
               patterns.push(stringPattern);
               break;
 
             case "character":
-              parameters.push("character");
               patterns.push(stringPattern);
               break;
 
             case "exit":
-              parameters.push("exit");
               patterns.push(stringPattern);
               break;
 
             default:
               throw new Error(`Unkown parameter type: ${type}.`);
               break;
+          }
+
+          if (isOptional) {
+            patterns[patterns.length - 1] += "?";
           }
         } else if (/\(\w+\)/.test(node)) {
           let [, word] = /\((\w+)\)/.exec(node);
@@ -64,11 +61,10 @@ class CommandArgument extends RegExp {
     super(`^${patterns.join("")}$`);
 
     this.parameters = parameters;
-    this.locations = locations;
   }
 
   exec(argument, user) {
-    let executionResult = super.exec(argument);
+    let executionResult = super.exec(argument || "");
 
     if (executionResult === null) {
       user.message("Wrong Syntax");
@@ -77,11 +73,15 @@ class CommandArgument extends RegExp {
       let isExecutionErrored = false;
 
       let mappedExecutionResult = executionResult.splice(1).map((parameter, index) => {
-        parameter = stripSurroundingQuotes(parameter);
-        let type = this.parameters[index];
-        let location = this.locations[index];
+        let { type, location } = this.parameters[index];
         let scope = [];
         let item, character, exit;
+
+        if (parameter == undefined) {
+          return null;
+        }
+
+        parameter = stripSurroundingQuotes(parameter);
 
         switch (type) {
           case "string":
