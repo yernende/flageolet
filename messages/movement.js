@@ -69,11 +69,8 @@ module.exports = [{
       this.xterm.writeln();
 
       for (let member of members) {
-        this.xterm.tab();
-        this.xterm.write("• ");
-        this.xterm.style({foreground: member.color, bold: true});
-        this.xterm.write(member.name);
-        this.xterm.reset();
+        this.xterm.writeListMark();
+        this.xterm.writeModel(member);
         this.xterm.writeln();
       }
     }

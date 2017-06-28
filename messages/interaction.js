@@ -9,22 +9,8 @@ module.exports = [{
 }, {
   name: "Private Message",
   perform(sender, message) {
-    if (sender) {
-      this.xterm.style({foreground: sender.color});
-      this.xterm.writeName(sender.name);
-      this.xterm.reset();
-    } else {
-      this.xterm.write({
-        en: "Someone",
-        ru: "Кто-то"
-      });
-    }
-
-    this.xterm.write({
-      en: " tells you: ",
-      ru: " говорит тебе: "
-    });
-
+    this.xterm.writeCharacter(sender);
+    this.xterm.write({ en: " tells you: ", ru: " говорит тебе: " });
     this.xterm.style({foreground: 40});
     this.xterm.writeln(`"${message}"`);
     this.xterm.reset();
@@ -33,18 +19,7 @@ module.exports = [{
   name: "AI Message",
   perform(sender, message, answers) {
     this.xterm.startBoxHeader();
-
-    if (sender) {
-      this.xterm.style({foreground: sender.color});
-      this.xterm.writeName(sender.name);
-      this.xterm.reset();
-    } else {
-      this.xterm.write({
-        en: "Someone",
-        ru: "Кто-то"
-      });
-    }
-
+    this.xterm.writeCharacter(sender);
     this.xterm.endln();
     this.xterm.startBoxContent();
     this.xterm.style({foreground: 40});

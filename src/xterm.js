@@ -1,3 +1,6 @@
+const Character = require("./character");
+const Item = require("./item");
+
 const CSI = "\u001B[";
 const RESET_STYLE = CSI + "m";
 const NEWLINE = "\n\r";
@@ -69,6 +72,45 @@ module.exports = class Xterm {
     if (name.length > 0) {
       this.write(name[0].toUpperCase() + name.slice(1));
     }
+  }
+
+  writeModel(model) {
+    if (model instanceof Character) {
+      this.writeCharacter(model);
+    } else if (model instanceof Item) {
+      this.writeItem(model);
+    }
+  }
+
+  writeCharacter(character) {
+    if (character) {
+      this.style({foreground: character.color, bold: true});
+      this.write(character.name);
+      this.reset();
+    } else {
+      this.write({
+        en: "Someone",
+        ru: "Кто-то"
+      });
+    }
+  }
+
+  writeItem(item) {
+    if (item) {
+      this.style({foreground: item.color, bold: true});
+      this.write(item.name);
+      this.reset();
+    } else {
+      this.write({
+        en: "Something",
+        ru: "Что-то"
+      });
+    }
+  }
+
+  writeListMark() {
+    this.tab();
+    this.write("• ");
   }
 
   tab() {

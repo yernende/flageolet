@@ -24,11 +24,8 @@ module.exports = [{
       });
 
       for (let item of inventory.items) {
-        this.xterm.tab();
-        this.xterm.write("• ");
-        this.xterm.style({foreground: item.color, bold: true});
-        this.xterm.write(item.name);
-        this.xterm.reset();
+        this.xterm.writeListMark();
+        this.xterm.writeItem(item);
         this.xterm.writeln();
       }
     } else {
@@ -47,16 +44,14 @@ module.exports = [{
         ru: "Ты подбираешь "
       });
     } else {
-      this.xterm.writeName(actor.name);
+      this.xterm.writeCharacter(actor);
       this.xterm.write({
         en: " takes ",
         ru: " подбирает "
       });
     }
 
-    this.xterm.style({foreground: item.color, bold: true});
-    this.xterm.write(item.name);
-    this.xterm.reset();
+    this.xterm.writeItem(item);
     this.xterm.writeln(".");
   }
 }, {
@@ -68,52 +63,33 @@ module.exports = [{
         ru: "Ты бросаешь "
       });
     } else {
-      this.xterm.writeName(actor.name);
+      this.xterm.writeCharacter(actor);
       this.xterm.write({
         en: " drops ",
         ru: " бросает "
       });
     }
 
-    this.xterm.style({foreground: item.color, bold: true});
-    this.xterm.write(item.name);
-    this.xterm.reset();
+    this.xterm.writeItem(item);
     this.xterm.writeln(".");
   }
 }, {
   name: "Item Given",
   perform(actor, target, item) {
     if (actor == this.character) {
-      this.xterm.write({
-        en: "You give ",
-        ru: "Ты отдаёшь "
-      });
+      this.xterm.write({ en: "You give ", ru: "Ты отдаёшь " });
     } else {
-      this.xterm.writeName(actor.name);
-      this.xterm.write({
-        en: " gives ",
-        ru: " даёт "
-      });
+      this.xterm.writeCharacter(actor);
+      this.xterm.write({ en: " gives ", ru: " даёт " });
     }
 
-    this.xterm.style({foreground: item.color, bold: true});
-    this.xterm.write(item.name);
-    this.xterm.reset();
-
-    this.xterm.write({
-      en: " to ",
-      ru: " "
-    });
+    this.xterm.writeItem(item);
+    this.xterm.write({ en: " to ", ru: " " });
 
     if (target == this.character) {
-      this.xterm.writeln({
-        en: "you.",
-        ru: "тебе."
-      });
+      this.xterm.writeln({ en: "you.", ru: "тебе." });
     } else {
-      this.xterm.style({foreground: target.color, bold: true});
-      this.xterm.write(target.name);
-      this.xterm.reset();
+      this.xterm.writeCharacter(target);
       this.xterm.writeln(".");
     }
   }
@@ -121,16 +97,12 @@ module.exports = [{
   name: "Receiver's Hands Full",
   perform(receiver) {
     if (this.language == "en") {
-      this.xterm.style({foreground: target.color, bold: true});
-      this.xterm.write(target.name);
-      this.xterm.reset();
+      this.xterm.writeCharacter(receiver);
       this.xterm.writeln("'s hands are full.");
     } else if (this.language == "ru") {
       this.xterm.write("Руки ");
-      this.xterm.style({foreground: target.color, bold: true});
-      this.xterm.write(target.name);
-      this.xterm.reset();
-      this.xterm.write(" пусты.");
+      this.xterm.writeCharacter(receiver);
+      this.xterm.write(" полны.");
     }
   }
 }, {
@@ -153,18 +125,12 @@ module.exports = [{
   name: "Door Opened",
   perform(actor, door) {
     if (actor == this.character) {
-      this.xterm.write({
-        en: "You open ",
-        ru: "Ты открываешь "
-      });
+      this.xterm.write({ en: "You open ", ru: "Ты открываешь " });
       this.xterm.write(door.name);
       this.xterm.writeln(".");
     } else {
-      this.xterm.writeName(actor.name);
-      this.xterm.write({
-        en: " opens ",
-        ru: " открывает "
-      });
+      this.xterm.writeCharacter(actor);
+      this.xterm.write({ en: " opens ", ru: " открывает " });
       this.xterm.write(door.name);
       this.xterm.writeln(".");
     }
@@ -181,18 +147,12 @@ module.exports = [{
   name: "Door Closed",
   perform(actor, door) {
     if (actor == this.character) {
-      this.xterm.write({
-        en: "You close ",
-        ru: "Ты закрываешь "
-      });
+      this.xterm.write({ en: "You close ", ru: "Ты закрываешь " });
       this.xterm.write(door.name);
       this.xterm.writeln(".");
     } else {
-      this.xterm.writeName(actor.name);
-      this.xterm.write({
-        en: " closes ",
-        ru: " закрывает "
-      });
+      this.xterm.writeCharacter(actor);
+      this.xterm.write({ en: " closes ", ru: " закрывает " });
       this.xterm.write(door.name);
       this.xterm.writeln(".");
     }
@@ -220,18 +180,12 @@ module.exports = [{
   name: "Door Unlocked",
   perform(actor, door) {
     if (actor == this.character) {
-      this.xterm.write({
-        en: "You unlock ",
-        ru: "Ты отпираешь "
-      });
+      this.xterm.write({ en: "You unlock ", ru: "Ты отпираешь " });
       this.xterm.write(door.name);
       this.xterm.writeln(".");
     } else {
-      this.xterm.writeName(actor.name);
-      this.xterm.write({
-        en: " unlocks ",
-        ru: " отпирает "
-      });
+      this.xterm.writeCharacter(actor);
+      this.xterm.write({ en: " unlocks ", ru: " отпирает " });
       this.xterm.write(door.name);
       this.xterm.writeln(".");
     }
@@ -248,18 +202,12 @@ module.exports = [{
   name: "Door Locked",
   perform(actor, door) {
     if (actor == this.character) {
-      this.xterm.write({
-        en: "You lock ",
-        ru: "Ты запираешь "
-      });
+      this.xterm.write({ en: "You lock ", ru: "Ты запираешь " });
       this.xterm.write(door.name);
       this.xterm.writeln(".");
     } else {
-      this.xterm.writeName(actor.name);
-      this.xterm.write({
-        en: " locks ",
-        ru: " запирает "
-      });
+      this.xterm.writeCharacter(actor);
+      this.xterm.write({ en: " locks ", ru: " запирает " });
       this.xterm.write(door.name);
       this.xterm.writeln(".");
     }
