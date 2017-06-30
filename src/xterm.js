@@ -30,6 +30,10 @@ module.exports = class Xterm {
     }
   }
 
+  capitalize(string) {
+    return string[0].toUpperCase() + string.substr(1);
+  }
+
   writeRaw(string) {
     if (this.newLine) {
       if (this.writeIntoBoxHeader) {
@@ -95,14 +99,6 @@ module.exports = class Xterm {
     this.endln();
   }
 
-  writeName(name) {
-    name = this.translate(name);
-
-    if (name && name.length > 0) {
-      this.writeRaw(name[0].toUpperCase() + name.slice(1));
-    }
-  }
-
   writeModel(model) {
     if (model instanceof Character) {
       this.writeCharacter(model);
@@ -115,7 +111,10 @@ module.exports = class Xterm {
 
   writeDoor(door) {
     if (door) {
-      this.writeRaw(this.translate(door.name));
+      let name = this.translate(door.name);
+      if (this.newLine) name = this.capitalize(name);
+
+      this.writeRaw(name);
     } else {
       this.writeRaw({
         en: "Something",
@@ -126,8 +125,11 @@ module.exports = class Xterm {
 
   writeCharacter(character) {
     if (character) {
+      let name = this.translate(character.name);
+      if (this.newLine) name = this.capitalize(name);
+
       this.style({foreground: character.color, bold: true});
-      this.writeRaw(this.translate(character.name));
+      this.writeRaw(name);
       this.reset();
     } else {
       this.writeRaw({
@@ -139,8 +141,11 @@ module.exports = class Xterm {
 
   writeItem(item) {
     if (item) {
+      let name = this.translate(item.name);
+      if (this.newLine) name = this.capitalize(name);
+
       this.style({foreground: item.color, bold: true});
-      this.writeRaw(this.translate(item.name));
+      this.writeRaw(name);
       this.reset();
     } else {
       this.writeRaw({

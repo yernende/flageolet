@@ -92,16 +92,15 @@ module.exports = [{
 }, {
   name: "Character Arrived",
   perform({character}) {
-    this.xterm.writeName(character.name);
     this.xterm.writeln({
-      en: " has arrived.",
-      ru: " появился."
+      en: "$character has arrived.",
+      ru: "$character появился."
     });
   }
 }, {
   name: "Character Left",
   perform({character, direction}) {
-    this.xterm.writeName(character.name);
+    this.xterm.writeCharacter(character);
 
     this.xterm.writeln((() => {
       switch (direction) {
@@ -143,21 +142,17 @@ module.exports = [{
 }, {
   name: "Character Entered Game",
   perform({character}) {
-    this.xterm.writeName(character.name);
-
     this.xterm.writeln({
-      en: " has entered the game.",
-      ru: " вошёл в игру."
+      en: "$character has entered the game.",
+      ru: "$character вошёл в игру."
     });
   }
 }, {
   name: "Character Left Game",
   perform({character}) {
-    this.xterm.writeName(character.name);
-
     this.xterm.writeln({
-      en: " leaves the game.",
-      ru: " покидает игру."
+      en: "$character leaves the game.",
+      ru: "$character покидает игру."
     });
   }
 }, {
