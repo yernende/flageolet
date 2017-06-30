@@ -33,20 +33,21 @@ class Room {
   }
 
   broadcast(...args) {
-    let filter, message;
+    let filter, message, data;
 
     if (typeof args[0] == "object") {
       filter = args[0].filter;
       message = args[0].message;
+      data = args[0].data;
     } else {
-      message = args;
+      message = args[0], data = args[1];
     }
 
     let characters = this.characters.sort((character) => character.isPC ? -1 : 1)
 
     for (let character of characters) {
       if (typeof filter == "function" && !filter(character)) continue;
-      character.owner.message(...message);
+      character.owner.message(message, data);
     }
   }
 

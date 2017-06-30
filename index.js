@@ -37,7 +37,8 @@ const server = net.createServer((connection) => {
 
   user.character.location.broadcast({
     filter: (target) => target != user.character,
-    message: ["Character Entered Game", user.character]
+    message: "Character Entered Game",
+    data: {character: user.character},
   });
 }).listen(7000);
 

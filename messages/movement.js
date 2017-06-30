@@ -5,7 +5,7 @@ module.exports = [{
   }
 }, {
   name: "Room Description",
-  perform(room) {
+  perform({room}) {
     // Room name
     this.xterm.tab();
     this.xterm.style({foreground: 15, bold: true});
@@ -91,7 +91,7 @@ module.exports = [{
   }
 }, {
   name: "Character Arrived",
-  perform(character) {
+  perform({character}) {
     this.xterm.writeName(character.name);
     this.xterm.writeln({
       en: " has arrived.",
@@ -100,7 +100,7 @@ module.exports = [{
   }
 }, {
   name: "Character Left",
-  perform(character, direction) {
+  perform({character, direction}) {
     this.xterm.writeName(character.name);
 
     this.xterm.writeln((() => {
@@ -116,7 +116,7 @@ module.exports = [{
   }
 }, {
   name: "Room List",
-  perform(rooms) {
+  perform({rooms}) {
     this.xterm.writeln({
       en: "There are rooms in the world:",
       ru: "В мире есть следующие комнаты:"
@@ -142,7 +142,7 @@ module.exports = [{
   }
 }, {
   name: "Character Entered Game",
-  perform(character) {
+  perform({character}) {
     this.xterm.writeName(character.name);
 
     this.xterm.writeln({
@@ -152,7 +152,7 @@ module.exports = [{
   }
 }, {
   name: "Character Left Game",
-  perform(character) {
+  perform({character}) {
     this.xterm.writeName(character.name);
 
     this.xterm.writeln({

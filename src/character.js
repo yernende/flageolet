@@ -51,8 +51,8 @@ class Character {
     destination.characters.push(this);
     this.location = destination;
 
-    this.owner.message("New Room", destination);
-    this.owner.message("Room Description", destination);
+    this.owner.message("New Room", {room: destination});
+    this.owner.message("Room Description", {room: destination});
   }
 }
 

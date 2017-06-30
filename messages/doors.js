@@ -24,16 +24,17 @@ module.exports = [{
   }
 }, {
   name: "Door Opened",
-  perform(actor, door) {
+  perform({actor, door}) {
     if (actor == this.character) {
-      this.xterm.write({ en: "You open ", ru: "Ты открываешь " });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
+      this.xterm.writeln({
+        en: "You open the $door.",
+        ru: "Ты открываешь $door."
+      });
     } else {
-      this.xterm.writeCharacter(actor);
-      this.xterm.write({ en: " opens ", ru: " открывает " });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
+      this.xterm.writeln({
+        en: "$actor opens the $door.",
+        ru: "$actor открывает $door."
+      });
     }
   }
 }, {
@@ -46,28 +47,26 @@ module.exports = [{
   }
 }, {
   name: "Door Closed",
-  perform(actor, door) {
+  perform({actor, door}) {
     if (actor == this.character) {
-      this.xterm.write({ en: "You close ", ru: "Ты закрываешь " });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
+      this.xterm.writeln({
+        en: "You close the $door.",
+        ru: "Ты закрываешь $door."
+      });
     } else {
-      this.xterm.writeCharacter(actor);
-      this.xterm.write({ en: " closes ", ru: " закрывает " });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
+      this.xterm.writeln({
+        en: "$actor closes $door.",
+        ru: "$actor закрывает $door."
+      });
     }
   }
 }, {
   name: "No Key",
-  perform(door) {
-    this.xterm.write({
-      en: "No key to open ",
-      ru: "У тебя нет ключа, чтобы открыть "
+  perform({door}) {
+    this.xterm.writeln({
+      en: "No key to open the $door.",
+      ru: "У тебя нет ключа, чтобы открыть $door."
     });
-
-    this.xterm.write(door.name);
-    this.xterm.writeln(".");
   }
 }, {
   name: "Door Already Unlocked",
@@ -79,16 +78,17 @@ module.exports = [{
   }
 }, {
   name: "Door Unlocked",
-  perform(actor, door) {
+  perform({actor, door}) {
     if (actor == this.character) {
-      this.xterm.write({ en: "You unlock ", ru: "Ты отпираешь " });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
+      this.xterm.writeln({
+        en: "You unlock the $door.",
+        ru: "Ты отпираешь $door."
+      });
     } else {
-      this.xterm.writeCharacter(actor);
-      this.xterm.write({ en: " unlocks ", ru: " отпирает " });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
+      this.xterm.writeln({
+        en: "$actor unlocks a $door.",
+        ru: "$actor отпирает $door."
+      });
     }
   }
 }, {
@@ -101,16 +101,17 @@ module.exports = [{
   }
 }, {
   name: "Door Locked",
-  perform(actor, door) {
+  perform({actor, door}) {
     if (actor == this.character) {
-      this.xterm.write({ en: "You lock ", ru: "Ты запираешь " });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
+      this.xterm.writeln({
+        en: "You lock the $door.",
+        ru: "Ты запираешь $door."
+      });
     } else {
-      this.xterm.writeCharacter(actor);
-      this.xterm.write({ en: " locks ", ru: " запирает " });
-      this.xterm.write(door.name);
-      this.xterm.writeln(".");
+      this.xterm.writeln({
+        en: "$actor locks a $door.",
+        ru: "$actor запирает $door."
+      });
     }
   }
 }];

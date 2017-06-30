@@ -17,7 +17,7 @@ module.exports = [{
     }
 
     exit.door.closed = false;
-    this.character.location.broadcast("Door Opened", this.character, exit.door);
+    this.character.location.broadcast("Door Opened", { actor: this.character, door: exit.door });
     return true;
   }
 }, {
@@ -35,7 +35,7 @@ module.exports = [{
     }
 
     exit.door.closed = true;
-    this.character.location.broadcast("Door Closed", this.character, exit.door);
+    this.character.location.broadcast("Door Closed", { actor: this.character, door: exit.door });
     return true;
   }
 }, {
@@ -53,11 +53,11 @@ module.exports = [{
     }
 
     if (this.character.inventory.items.some((item) => item.id == exit.door.keyId)) {
-      this.character.location.broadcast("Door Unlocked", this.character, exit.door);
+      this.character.location.broadcast("Door Unlocked", { actor: this.character, door: exit.door });
       exit.door.locked = false;
       return true;
     } else {
-      this.message("No Key", exit.door);
+      this.message("No Key", { door: exit.door });
       return false;
     }
   }
@@ -80,11 +80,11 @@ module.exports = [{
     }
 
     if (this.character.inventory.items.some((item) => item.id == exit.door.keyId)) {
-      this.character.location.broadcast("Door Locked", this.character, exit.door);
+      this.character.location.broadcast("Door Locked", { actor: this.character, door: exit.door });
       exit.door.locked = true;
       return true;
     } else {
-      this.message("No Key", exit.door);
+      this.message("No Key", { door: exit.door });
       return false;
     }
   }

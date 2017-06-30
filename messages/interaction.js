@@ -1,6 +1,6 @@
 module.exports = [{
   name: "Unkown Character",
-  perform(sender, message) {
+  perform() {
     this.xterm.writeln({
       en: "There is no such one.",
       ru: "Здесь таких нет."
@@ -8,7 +8,7 @@ module.exports = [{
   }
 }, {
   name: "Private Message",
-  perform(sender, message) {
+  perform({sender, message}) {
     this.xterm.writeCharacter(sender);
     this.xterm.write({ en: " tells you: ", ru: " говорит тебе: " });
     this.xterm.style({foreground: 40});
@@ -17,7 +17,7 @@ module.exports = [{
   }
 }, {
   name: "AI Message",
-  perform(sender, message, answers) {
+  perform({sender, message, answers}) {
     this.xterm.startBoxHeader();
     this.xterm.writeCharacter(sender);
     this.xterm.endln();
@@ -52,7 +52,7 @@ module.exports = [{
   }
 }, {
   name: "Doesn't Want To Talk",
-  perform() {
+  perform({character}) {
     this.xterm.writeln({
       en: "He doesn't want to talk with you.",
       ru: "Он не хочет разговаривать с тобой."
@@ -68,7 +68,7 @@ module.exports = [{
   }
 }, {
   name: "Users List",
-  perform(users) {
+  perform({users}) {
     this.xterm.writeln({
       en: "There are players in the game:",
       ru: "В игре находятся следующие игроки:"

@@ -7,7 +7,7 @@ module.exports = class GuardAI extends AI {
     this.memory.questCompletors = new WeakSet();
   }
 
-  ["Talk"](character) {
+  ["Talk"]({character}) {
     if (this.memory.questCompletors.has(character)) {
       this.tell(character, {
         en: `I gave you the key. You may pass.`,
@@ -76,7 +76,7 @@ module.exports = class GuardAI extends AI {
     }
   }
 
-  ["Character Arrived"](character) {
+  ["Character Arrived"]({character}) {
     if (this.memory.questReceivers.has(character)) {
       this.tell(character, {
         en: `Found my sword?`,
@@ -85,7 +85,7 @@ module.exports = class GuardAI extends AI {
     }
   }
 
-  ["Item Given"](actor, target, item) {
+  ["Item Given"]({actor, target, item}) {
     if (this.memory.questIsDone) return;
 
     if (target == this.character) {

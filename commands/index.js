@@ -9,13 +9,13 @@ module.exports = [{
 }, {
   pattern: "commands",
   action() {
-    this.message("Commands List", game.commands);
+    this.message("Commands List", {commands: game.commands});
   }
 }, {
   pattern: "quit",
   requireFullType: true,
   action() {
-    this.character.location.broadcast("Character Left Game", this.character);
+    this.character.location.broadcast("Character Left Game", {character: this.character});
     this.character.destroy();
     this.destroy();
   }

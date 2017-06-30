@@ -1,5 +1,6 @@
 const Character = require("./character");
 const Item = require("./item");
+const Room = require("./room");
 
 const CSI = "\u001B[";
 const RESET_STYLE = CSI + "m";
@@ -18,12 +19,18 @@ module.exports = class Xterm {
     this.paddingWidth = null;
     this.left = null;
     this.top = null;
+    this.variables = new Map();
   }
 
-  write(string = "") {
-    if (typeof string == "object") string = string[this.user.language];
-    if (string == undefined) return;
+  translate(data) {
+    if (typeof data == "object") {
+      return data[this.user.language];
+    } else {
+      return data;
+    }
+  }
 
+  writeRaw(string) {
     if (this.newLine) {
       if (this.writeIntoBoxHeader) {
         this.left && this.user.output.push(CSI + (this.left + 1) + "G");
@@ -39,6 +46,32 @@ module.exports = class Xterm {
     }
 
     this.user.output.push(this.styleSetter + string);
+  }
+
+  write(data, variables) {
+    data = this.translate(data);
+
+    if (!data || data.length == 0) {
+      this.writeRaw("");
+      return;
+    };
+
+    if (data.length == 1 || !data.includes("$")) {
+      this.writeRaw(data);
+      return;
+    }
+
+    for (let part of data.match(/\$(\w+)|[^$]+/g)) {
+      if (part[0] == "$") {
+        let variable;
+        if (variables) variable = variables[part.substr(1)];
+        if (!variable) variable = this.variables.get(part.substr(1))
+
+        this.writeModel(variable);
+      } else {
+        this.writeRaw(part);
+      }
+    }
   }
 
   endln() {
@@ -57,20 +90,16 @@ module.exports = class Xterm {
     this.user.messageLinesCount++;
   }
 
-  writeln(string = "") {
-    if (typeof string == "object") string = string[this.user.language];
-    if (string == undefined) return;
-
-    this.write(string);
+  writeln(data, variables) {
+    this.write(data, variables);
     this.endln();
   }
 
-  writeName(name = "") {
-    if (typeof name == "object") name = name[this.user.language];
-    if (name == undefined) return;
+  writeName(name) {
+    name = this.translate(name);
 
-    if (name.length > 0) {
-      this.write(name[0].toUpperCase() + name.slice(1));
+    if (name && name.length > 0) {
+      this.writeRaw(name[0].toUpperCase() + name.slice(1));
     }
   }
 
@@ -79,16 +108,29 @@ module.exports = class Xterm {
       this.writeCharacter(model);
     } else if (model instanceof Item) {
       this.writeItem(model);
+    } else if (model instanceof Room.Door) {
+      this.writeDoor(model);
+    }
+  }
+
+  writeDoor(door) {
+    if (door) {
+      this.writeRaw(this.translate(door.name));
+    } else {
+      this.writeRaw({
+        en: "Something",
+        ru: "Что-то"
+      });
     }
   }
 
   writeCharacter(character) {
     if (character) {
       this.style({foreground: character.color, bold: true});
-      this.write(character.name);
+      this.writeRaw(this.translate(character.name));
       this.reset();
     } else {
-      this.write({
+      this.writeRaw({
         en: "Someone",
         ru: "Кто-то"
       });
@@ -98,10 +140,10 @@ module.exports = class Xterm {
   writeItem(item) {
     if (item) {
       this.style({foreground: item.color, bold: true});
-      this.write(item.name);
+      this.writeRaw(this.translate(item.name));
       this.reset();
     } else {
-      this.write({
+      this.writeRaw({
         en: "Something",
         ru: "Что-то"
       });
@@ -110,11 +152,11 @@ module.exports = class Xterm {
 
   writeListMark() {
     this.tab();
-    this.write("• ");
+    this.writeRaw("• ");
   }
 
   tab() {
-    this.write(TAB);
+    this.writeRaw(TAB);
   }
 
   style({foreground, background, bold = false, underline = false}) {
@@ -143,15 +185,17 @@ module.exports = class Xterm {
     this.styleSetter = RESET_STYLE;
   }
 
-  writeText(text = "") {
-    if (typeof text == "object") text = text[this.user.language];
-    if (text == undefined) return;
+  writeText(text) {
+    text = this.translate(text);
 
-    text.split("\n").forEach((line, i, lines) => {
-      line = line.trim();
-      if (line.length == 0 && (i == 0 || i == lines.length - 1)) return;
-      this.writeln(line);
-    });
+    if (text) {
+      text.split("\n").forEach((line, i, lines) => {
+        line = line.trim();
+        if (line.length == 0 && (i == 0 || i == lines.length - 1)) return;
+        this.writeRaw(line);
+        this.endln();
+      });
+    }
   }
 
   startBoxHeader({width = DEFAULT_BOX_WIDTH, padding = 2, left, top} = {}) {
@@ -194,5 +238,11 @@ module.exports = class Xterm {
     this.paddingWidth = null;
     this.left = null;
     this.top = null;
+  }
+
+  register(variables) {
+    for (let [key, value] of Object.entries(variables)) {
+      this.variables.set(key, value);
+    }
   }
 }

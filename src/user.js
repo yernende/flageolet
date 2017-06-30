@@ -48,7 +48,7 @@ module.exports = class User {
 
         if (answer) {
           this.dialog = null;
-          this.message("AI Message", this.character, answer);
+          this.message("AI Message", {sender: this.character, message: answer});
           if (answer.handler) answer.handler(this.character);
         } else {
           this.message("No Such Answer");
@@ -89,7 +89,9 @@ module.exports = class User {
     let message = game.messages.find((message) => message.name == name);
 
     if (message) {
+      if (args[0]) this.xterm.register(args[0]);
       message.perform.apply(this, args);
+      if (args[0]) this.xterm.variables.clear();
       this.messageLinesCount = 0;
     } else {
       throw new Error(`Unkown message ${name}`);

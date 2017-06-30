@@ -3,7 +3,7 @@ const game = require("../src/game");
 module.exports = [{
   pattern: "who",
   action() {
-    this.message("Users List", game.users);
+    this.message("Users List", {users: game.users});
   }
 }, {
   pattern: "talk <character?>",
@@ -21,7 +21,7 @@ module.exports = [{
     }
 
     if (target.isNPC) {
-      target.owner.message("Talk", this.character);
+      target.owner.message("Talk", {character: this.character});
     }
   }
 }];

@@ -1,14 +1,14 @@
 const AI = require("../src/ai");
 
 module.exports = class AcolyteAI extends AI {
-  ["Talk"](character) {
+  ["Talk"]({character}) {
     this.tell(character, {
       en: `Good luck!`,
       ru: `Удачи!`
     });
   }
 
-  ["Character Entered Game"](character) {
+  ["Character Entered Game"]({character}) {
     this.tell(character, {
       en: `
         Greetings, stranger!

@@ -26,7 +26,7 @@ module.exports.push({
   pattern: "rooms",
   priority: 1,
   action() {
-    this.message("Room List", game.world.rooms)
+    this.message("Room List", {rooms: game.world.rooms})
   }
 }, {
   pattern: "go <exit>",
@@ -70,13 +70,15 @@ function moveCharacterToExit(exit) {
   // If all is OK
   this.character.location.broadcast({
     filter: (target) => target != this.character,
-    message: ["Character Left", this.character, exit.direction]
+    message: "Character Left",
+    data: {character: this.character, direction: exit.direction}
   });
 
   this.character.move(destination);
 
   this.character.location.broadcast({
     filter: (target) => target != this.character,
-    message: ["Character Arrived", this.character]
+    message: "Character Arrived",
+    data: {character: this.character}
   });
 }

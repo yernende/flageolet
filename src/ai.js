@@ -8,11 +8,11 @@ module.exports = class AI {
 
   // Default talk handler
   ["Talk"](character) {
-    character.owner.message("Doesn't Want To Talk", this.character);
+    character.owner.message("Doesn't Want To Talk", {character: this.character});
   }
 
   tell(character, message, answers) {
-    character.owner.message("AI Message", this.character, message, answers);
+    character.owner.message("AI Message", {sender: this.character, message, answers});
   }
 
   dialog(character, message, answers) {

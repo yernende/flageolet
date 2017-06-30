@@ -16,7 +16,7 @@ module.exports = [{
   }
 }, {
   name: "Inventory",
-  perform(inventory) {
+  perform({inventory}) {
     if (inventory.items.length > 0) {
       this.xterm.writeln({
         en: "You are carrrying:",
@@ -24,9 +24,7 @@ module.exports = [{
       });
 
       for (let item of inventory.items) {
-        this.xterm.writeListMark();
-        this.xterm.writeItem(item);
-        this.xterm.writeln();
+        this.xterm.writeln("• $item", {item});
       }
     } else {
       this.xterm.writeln({
@@ -37,60 +35,60 @@ module.exports = [{
   }
 }, {
   name: "Item Taken",
-  perform(actor, item) {
+  perform({actor, item}) {
     if (actor == this.character) {
-      this.xterm.write({ en: "You take ", ru: "Ты подбираешь " });
+      this.xterm.writeln({
+        en: "You take $item.",
+        ru: "Ты подбираешь $item."
+      });
     } else {
-      this.xterm.writeCharacter(actor);
-      this.xterm.write({ en: " takes ", ru: " подбирает " });
+      this.xterm.writeln({
+        en: "$actor takes $item.",
+        ru: "$actor подбирает $item."
+      });
     }
-
-    this.xterm.writeItem(item);
-    this.xterm.writeln(".");
   }
 }, {
   name: "Item Dropped",
-  perform(actor, item) {
+  perform({actor, item}) {
     if (actor == this.character) {
-      this.xterm.write({ en: "You drop ", ru: "Ты бросаешь " });
+      this.xterm.writeln({
+        en: "You drop $item.",
+        ru: "Ты бросаешь $item."
+      });
     } else {
-      this.xterm.writeCharacter(actor);
-      this.xterm.write({ en: " drops ", ru: " бросает " });
+      this.xterm.writeln({
+        en: "$character drops $item.",
+        ru: "$character бросает $item."
+      });
     }
-
-    this.xterm.writeItem(item);
-    this.xterm.writeln(".");
   }
 }, {
   name: "Item Given",
-  perform(actor, target, item) {
-    if (actor == this.character) {
-      this.xterm.write({ en: "You give ", ru: "Ты отдаёшь " });
+  perform({actor, target, item}) {
+    if (this.character == actor) {
+      this.xterm.writeln({
+        en: "You give $item to $target.",
+        ru: "Ты отдаёшь $item $target."
+      });
+    } else if (this.character == target) {
+      this.xterm.writeln({
+        en: "$actor gives $item to you.",
+        ru: "$actor даёт тебе $item."
+      });
     } else {
-      this.xterm.writeCharacter(actor);
-      this.xterm.write({ en: " gives ", ru: " даёт " });
-    }
-
-    this.xterm.writeItem(item);
-    this.xterm.write({ en: " to ", ru: " " });
-
-    if (target == this.character) {
-      this.xterm.writeln({ en: "you.", ru: "тебе." });
-    } else {
-      this.xterm.writeCharacter(target);
-      this.xterm.writeln(".");
+      this.xterm.writeln({
+        en: "$actor gives $item to $target.",
+        ru: "$actor отдаёт $item $target."
+      });
     }
   }
 }, {
   name: "Receiver's Hands Full",
-  perform(receiver) {
-    if (this.language == "en") {
-      this.xterm.writeCharacter(receiver);
-      this.xterm.writeln("'s hands are full.");
-    } else if (this.language == "ru") {
-      this.xterm.write("Руки ");
-      this.xterm.writeCharacter(receiver);
-      this.xterm.write(" полны.");
-    }
+  perform({receiver}) {
+    this.xterm.writeln({
+      en: "$receiver's hands are full.",
+      ru: "Руки $receiver полны."
+    });
   }
 }];
