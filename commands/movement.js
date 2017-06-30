@@ -20,7 +20,7 @@ module.exports.push({
   pattern: "look",
   priority: 1,
   action() {
-    this.message("Room Description", this.character.location);
+    this.message("Room Description", {room: this.character.location});
   }
 }, {
   pattern: "rooms",

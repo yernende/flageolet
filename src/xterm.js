@@ -106,6 +106,24 @@ module.exports = class Xterm {
       this.writeItem(model);
     } else if (model instanceof Room.Door) {
       this.writeDoor(model);
+    } else if (model instanceof Room) {
+      this.writeRoom(model);
+    }
+  }
+
+  writeRoom(room) {
+    if (room) {
+      let name = this.translate(room.name);
+      if (this.newLine) name = this.capitalize(name);
+
+      this.style({foreground: room.color, bold: true});
+      this.writeRaw(name);
+      this.reset();
+    } else {
+      this.writeRaw({
+        en: "Somewhere",
+        ru: "Где-то"
+      });
     }
   }
 

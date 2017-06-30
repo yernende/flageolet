@@ -76,15 +76,7 @@ module.exports = [{
 
     for (let user of users) {
       if (!user.character) continue;
-
-      this.xterm.tab();
-      this.xterm.write("• ");
-      this.xterm.style({foreground: user.character.color, bold: true});
-      this.xterm.write(user.character.name);
-      this.xterm.reset();
-      this.xterm.write(" (");
-      this.xterm.write(user.character.location.name);
-      this.xterm.writeln(")");
+      this.xterm.writeln("  • $character ($room)", {character: user.character, room: user.character.location});
     }
   }
 }];

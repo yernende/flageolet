@@ -24,7 +24,7 @@ module.exports = [{
       });
 
       for (let item of inventory.items) {
-        this.xterm.writeln("• $item", {item});
+        this.xterm.writeln("  • $item", {item});
       }
     } else {
       this.xterm.writeln({
