@@ -65,8 +65,18 @@ module.exports = class Xterm {
       return;
     }
 
-    for (let part of data.match(/\$(\w+)|[^$]+/g)) {
-      if (part[0] == "$") {
+    let insideMethod = false;
+
+    for (let part of data.match(/\$\w+\(|\)|, |\$(\w+)|[^$,]+/g)) {
+      if (part[0] == "$" && part[part.length - 1] == "(") { // method
+        insideMethod = true;
+        continue;
+      } else if (insideMethod && part == ")") {
+        insideMethod = false;
+        continue;
+      } else if (insideMethod && part == ", ") {
+        continue;
+      } else if (part[0] == "$") { // Variable
         let variable;
         if (variables) variable = variables[part.substr(1)];
         if (!variable) variable = this.variables.get(part.substr(1))

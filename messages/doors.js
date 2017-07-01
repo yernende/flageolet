@@ -28,12 +28,12 @@ module.exports = [{
     if (actor == this.character) {
       this.xterm.writeln({
         en: "You open the $door.",
-        ru: "Ты открываешь $door."
+        ru: "Ты открываешь $accusative($door)."
       });
     } else {
       this.xterm.writeln({
         en: "$actor opens the $door.",
-        ru: "$actor открывает $door."
+        ru: "$actor открывает $accusative($door)."
       });
     }
   }
@@ -51,12 +51,12 @@ module.exports = [{
     if (actor == this.character) {
       this.xterm.writeln({
         en: "You close the $door.",
-        ru: "Ты закрываешь $door."
+        ru: "Ты закрываешь $accusative($door)."
       });
     } else {
       this.xterm.writeln({
         en: "$actor closes $door.",
-        ru: "$actor закрывает $door."
+        ru: "$actor закрывает $accusative($door)."
       });
     }
   }
@@ -65,7 +65,7 @@ module.exports = [{
   perform({door}) {
     this.xterm.writeln({
       en: "No key to open the $door.",
-      ru: "У тебя нет ключа, чтобы открыть $door."
+      ru: "У тебя нет ключа, чтобы открыть $accusative($door)."
     });
   }
 }, {
@@ -82,12 +82,12 @@ module.exports = [{
     if (actor == this.character) {
       this.xterm.writeln({
         en: "You unlock the $door.",
-        ru: "Ты отпираешь $door."
+        ru: "Ты отпираешь $accusative($door)."
       });
     } else {
       this.xterm.writeln({
         en: "$actor unlocks a $door.",
-        ru: "$actor отпирает $door."
+        ru: "$actor отпирает $accusative($door)."
       });
     }
   }
@@ -105,12 +105,12 @@ module.exports = [{
     if (actor == this.character) {
       this.xterm.writeln({
         en: "You lock the $door.",
-        ru: "Ты запираешь $door."
+        ru: "Ты запираешь $accusative($door)."
       });
     } else {
       this.xterm.writeln({
         en: "$actor locks a $door.",
-        ru: "$actor запирает $door."
+        ru: "$actor запирает $accusative($door)."
       });
     }
   }

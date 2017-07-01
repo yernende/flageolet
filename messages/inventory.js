@@ -39,12 +39,12 @@ module.exports = [{
     if (actor == this.character) {
       this.xterm.writeln({
         en: "You take $item.",
-        ru: "Ты подбираешь $item."
+        ru: "Ты подбираешь $accusative($item)."
       });
     } else {
       this.xterm.writeln({
         en: "$actor takes $item.",
-        ru: "$actor подбирает $item."
+        ru: "$actor подбирает $accusative($item)."
       });
     }
   }
@@ -54,12 +54,12 @@ module.exports = [{
     if (actor == this.character) {
       this.xterm.writeln({
         en: "You drop $item.",
-        ru: "Ты бросаешь $item."
+        ru: "Ты бросаешь $accusative($item)."
       });
     } else {
       this.xterm.writeln({
         en: "$character drops $item.",
-        ru: "$character бросает $item."
+        ru: "$character бросает $accusative($item)."
       });
     }
   }
@@ -69,17 +69,17 @@ module.exports = [{
     if (this.character == actor) {
       this.xterm.writeln({
         en: "You give $item to $target.",
-        ru: "Ты отдаёшь $item $target."
+        ru: "Ты отдаёшь $item $dative($target)."
       });
     } else if (this.character == target) {
       this.xterm.writeln({
         en: "$actor gives $item to you.",
-        ru: "$actor даёт тебе $item."
+        ru: "$actor даёт тебе $accusative($item)."
       });
     } else {
       this.xterm.writeln({
         en: "$actor gives $item to $target.",
-        ru: "$actor отдаёт $item $target."
+        ru: "$actor отдаёт $accusative($item) $dative($target)."
       });
     }
   }
@@ -88,7 +88,7 @@ module.exports = [{
   perform({receiver}) {
     this.xterm.writeln({
       en: "$receiver's hands are full.",
-      ru: "Руки $receiver полны."
+      ru: "Руки $genitive($receiver) полны."
     });
   }
 }];
