@@ -23,7 +23,7 @@ module.exports = [{
     this.message("Inventory", { inventory: this.character.inventory });
   }
 }, {
-  pattern: "give <item@inventory> <character@location>",
+  pattern: "give <item@inventory> (to) <character@location>",
   priority: 4,
   action(item, target) {
     if (target.inventory.items.length >= target.inventory.capacity) {

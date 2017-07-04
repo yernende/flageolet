@@ -5,7 +5,7 @@ class CommandArgument extends RegExp {
     let patterns = [];
     let parameters = [];
 
-    let nodes = pattern.match(/<.+?>|\(\w+\)|\w+|\s+/g);
+    let nodes = pattern.match(/<.+?>| \(|\)|[^<>()\s]+|\s+/g);
 
     if (nodes) {
       for (let node of nodes) {
@@ -47,11 +47,17 @@ class CommandArgument extends RegExp {
           if (isOptional) {
             patterns[patterns.length - 1] += "?";
           }
-        } else if (/\(\w+\)/.test(node)) {
-          let [, word] = /\((\w+)\)/.exec(node);
-          patterns.push(String.raw `(?:${word})?`);
-        } else if (/\w+/.test(node)) {
-          patterns.push(node);
+        } else if (/ \(/.test(node)) {
+          patterns.push(String.raw `(?:\s+`);
+        } else if (/\)/.test(node)) {
+          patterns.push(String.raw `)?`);
+        } else if (/[^<>()\s]+/.test(node)) {
+          if (node.includes("/")) {
+            let synonyms = node.split("/").join("|");
+            patterns.push(String.raw `(?:${synonyms})`);
+          } else {
+            patterns.push(node);
+          }
         } else if (/\s+/.test(node)) {
           patterns.push(String.raw `\s+`);
         }

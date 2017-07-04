@@ -34,7 +34,7 @@ module.exports = class User {
     if (this.input.length > 0) {
       let query = this.input.shift();
       if (query == "\r\n") return;
-      query = query.trim();
+      query = query.trim().toLowerCase();
       let [, base, argument] = /(\S+)?(?:\s+(.+))?/.exec(query);
 
       if (this.dialog) {
