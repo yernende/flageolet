@@ -2,17 +2,15 @@ const net = require("net");
 const fs = require("fs");
 const path = require("path");
 const game = require("./src/game");
-const User = require("./src/user");
 const Command = require("./src/command");
+const User = require("./src/user");
+const Character = require("./src/user");
+const Room = require("./src/user");
+const Item = require("./src/item");
 
-for (let file of fs.readdirSync(path.join(__dirname, "./commands"))) {
-  game.commands.push(...require(`./commands/${file}`).map((command) => new Command(command)));
-  game.commands = game.commands.sort((a, b) => a.priority - b.priority);
-}
-
-for (let file of fs.readdirSync(path.join(__dirname, "./messages"))) {
-  game.messages.push(...require(`./messages/${file}`));
-}
+loadCommands(path.join(__dirname, "commands"))
+loadMessages(path.join(__dirname, "messages"));
+loadPlugins(path.join(__dirname, "plugins"));
 
 require("./init-world");
 
@@ -48,3 +46,29 @@ setInterval(function () {
     user.handleOutput();
   }
 }, 125);
+
+function loadPlugins(directory) {
+  for (let file of fs.readdirSync(path.join(directory))) {
+    loadCommands(path.join(directory, file, "commands"));
+    loadMessages(path.join(directory, file, "messages"));
+
+    let pluginLoaderPath = path.join(directory, file, "index.js");
+
+    if (fs.existsSync(pluginLoaderPath)) {
+      require(pluginLoaderPath)({User, Character, Room, Item});
+    }
+  }
+}
+
+function loadCommands(directory) {
+  for (let file of fs.readdirSync(directory)) {
+    game.commands.push(...require(path.join(directory, file)).map((command) => new Command(command)));
+    game.commands = game.commands.sort((a, b) => a.priority - b.priority);
+  }
+}
+
+function loadMessages(directory) {
+  for (let file of fs.readdirSync(directory)) {
+    game.messages.push(...require(path.join(directory, file)));
+  }
+}
