@@ -4,8 +4,8 @@ const path = require("path");
 const game = require("./src/game");
 const Command = require("./src/command");
 const User = require("./src/user");
-const Character = require("./src/user");
-const Room = require("./src/user");
+const Character = require("./src/character");
+const Room = require("./src/room");
 const Item = require("./src/item");
 
 loadCommands(path.join(__dirname, "commands"))
@@ -55,7 +55,7 @@ function loadPlugins(directory) {
     let pluginLoaderPath = path.join(directory, file, "index.js");
 
     if (fs.existsSync(pluginLoaderPath)) {
-      require(pluginLoaderPath)({User, Character, Room, Item});
+      require(pluginLoaderPath)({User, Character, Room, Item, game});
     }
   }
 }

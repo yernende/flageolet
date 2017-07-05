@@ -94,6 +94,27 @@ class Room {
     secondRoom.exits[Room.invertDirection(direction)] = firstRoom;
   }
 
+  static calculateCoordinates(baseRoom, direction) {
+    let baseRoomCellAtMap = game.world.map.find((cell) => cell.room == baseRoom);
+
+    if (baseRoomCellAtMap) {
+      let {x, y, z} = baseRoomCellAtMap;
+
+      switch (direction) {
+        case "north": y++; break;
+        case "south": y--; break;
+        case "east": x++; break;
+        case "west": x--; break;
+        case "up": z++; break;
+        case "down": z--; break;
+      }
+
+      return {x, y, z};
+    } else {
+      return null;
+    }
+  }
+
   getRoomToDirection(direction) {
     let exit = this.exits.find((exit) => exit.direction == direction);
     return exit ? exit.destination : null;
@@ -130,22 +151,8 @@ Room.Door = Door;
 module.exports = Room;
 
 function createCellAtMap(baseRoom, destination, direction) {
-  let baseRoomCellAtMap = game.world.map.find((cell) => cell.room == baseRoom);
-
-  if (baseRoomCellAtMap) {
-    let {x, y, z} = baseRoomCellAtMap;
-
-    switch (direction) {
-      case "north": y++; break;
-      case "south": y--; break;
-      case "east": x++; break;
-      case "west": x--; break;
-      case "up": z++; break;
-      case "down": z--; break;
-    }
-
-    game.world.map.push({x, y, z, room: destination});
-  }
+  let coordinates = Room.calculateCoordinates(baseRoom, direction);
+  if (coordinates) game.world.map.push(Object.assign(coordinates, {room: destination}));
 }
 
 function link(baseRoom, destination, direction, door, options) {
