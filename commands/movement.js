@@ -29,7 +29,7 @@ module.exports.push({
     this.message("Room List", {rooms: game.world.rooms})
   }
 }, {
-  pattern: "go <exit>",
+  pattern: "go/move <exit>",
   priority: 5,
   action: moveCharacterToExit
 }, {
@@ -45,13 +45,7 @@ module.exports.push({
 });
 
 function moveCharacterToDirection(direction) {
-  let exit = this.character.location.exits.find((exit) => exit.direction == direction);
-
-  if (!exit) {
-    return this.message("Unkown Direction");
-  }
-
-  moveCharacterToExit.call(this, exit)
+  this.interpret("move " + direction);
 }
 
 function moveCharacterToExit(exit) {

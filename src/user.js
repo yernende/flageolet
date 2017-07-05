@@ -26,6 +26,46 @@ module.exports = class User {
     this.connection.destroy();
   }
 
+  interpret(query) {
+    let [, base, argument] = /(\S+)?(?:\s+(.+))?/.exec(query);
+
+    if (this.dialog) {
+      if (query.length == 0) {
+        this.dialog.interlocutor.tell(this.character, this.dialog.message, this.dialog.answers);
+        return;
+      }
+
+      let answerIndex = parseInt(query) - 1;
+      let answer = this.dialog.answers[answerIndex];
+
+      if (answer) {
+        this.dialog = null;
+        this.message("AI Message", {sender: this.character, message: answer});
+        if (answer.handler) answer.handler(this.character);
+      } else {
+        this.message("No Such Answer");
+      }
+
+      return;
+    }
+
+    let command = game.commands.find((command) => command.synonyms.some((synonym) => synonym.startsWith(base)));
+
+    if (command) {
+      if (command.argument) {
+        let props = command.argument.exec(argument, this);
+
+        if (props != null) {
+          command.action.apply(this, props);
+        }
+      } else {
+        command.action.call(this, command.base);
+      }
+    } else {
+      this.message("Unkown Command");
+    }
+  }
+
   execute(commandName, ...properties) {
     return Command.execute(this, commandName, properties);
   }
@@ -34,44 +74,7 @@ module.exports = class User {
     if (this.input.length > 0) {
       let query = this.input.shift();
       if (query == "\r\n") return;
-      query = query.trim().toLowerCase();
-      let [, base, argument] = /(\S+)?(?:\s+(.+))?/.exec(query);
-
-      if (this.dialog) {
-        if (query.length == 0) {
-          this.dialog.interlocutor.tell(this.character, this.dialog.message, this.dialog.answers);
-          return;
-        }
-
-        let answerIndex = parseInt(query) - 1;
-        let answer = this.dialog.answers[answerIndex];
-
-        if (answer) {
-          this.dialog = null;
-          this.message("AI Message", {sender: this.character, message: answer});
-          if (answer.handler) answer.handler(this.character);
-        } else {
-          this.message("No Such Answer");
-        }
-
-        return;
-      }
-
-      let command = game.commands.find((command) => command.synonyms.some((synonym) => synonym.startsWith(base)));
-
-      if (command) {
-        if (command.argument) {
-          let props = command.argument.exec(argument, this);
-
-          if (props != null) {
-            command.action.apply(this, props);
-          }
-        } else {
-          command.action.call(this, command.base);
-        }
-      } else {
-        this.message("Unkown Command");
-      }
+      this.interpret(query.trim().toLowerCase());
     }
   }
 
