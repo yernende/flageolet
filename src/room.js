@@ -1,10 +1,11 @@
 const game = require("./game");
 
 class Exit {
-  constructor({direction, destination, door}) {
+  constructor({direction, destination, door, oneway}) {
     this.direction = direction;
     this.destination = destination;
     this.door = door;
+    this.oneway = oneway;
   }
 }
 
@@ -32,6 +33,10 @@ class Room {
     game.world.rooms.set(this.id, this);
   }
 
+  registerAsCentralRoom() {
+    game.world.map.push({x: 0, y: 0, z: 0, room: this});
+  }
+
   broadcast(...args) {
     let filter, message, data;
 
@@ -56,16 +61,16 @@ class Room {
   }
 
   link(direction, destination, door, options = {}) {
-    this.oneway(direction, destination, door, options);
-    destination.oneway(Room.invertDirection(direction), this, door, options);
+    createCellAtMap(this, destination, direction);
+    link(this, destination, direction, door, Object.assign({oneway: false}, options));
+    link(destination, this, Room.invertDirection(direction), door, Object.assign({oneway: false}, options));
 
     return destination;
   }
 
   oneway(direction, destination, door, options = {}) {
-    this.exits.push(new Exit(Object.assign({
-      direction, destination, door
-    }, options)));
+    createCellAtMap(this, destination, direction);
+    link(this, destination, direction, door, Object.assign({oneway: true}, options));
 
     return destination;
   }
@@ -123,3 +128,28 @@ Room.idCounter = 0;
 Room.Exit = Exit;
 Room.Door = Door;
 module.exports = Room;
+
+function createCellAtMap(baseRoom, destination, direction) {
+  let baseRoomCellAtMap = game.world.map.find((cell) => cell.room == baseRoom);
+
+  if (baseRoomCellAtMap) {
+    let {x, y, z} = baseRoomCellAtMap;
+
+    switch (direction) {
+      case "north": y++; break;
+      case "south": y--; break;
+      case "east": x++; break;
+      case "west": x--; break;
+      case "up": z++; break;
+      case "down": z--; break;
+    }
+
+    game.world.map.push({x, y, z, room: destination});
+  }
+}
+
+function link(baseRoom, destination, direction, door, options) {
+  baseRoom.exits.push(new Exit(Object.assign({
+    direction, destination, door
+  }, options)));
+}

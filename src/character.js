@@ -1,5 +1,4 @@
 const game = require("./game");
-const Room = require("./room");
 const AI = require("./ai");
 
 class Character {

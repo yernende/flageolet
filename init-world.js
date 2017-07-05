@@ -198,6 +198,8 @@ for (let entity of [...Object.values(rooms), ...Object.values(characters), ...Ob
   entity.register();
 }
 
+rooms.altar.registerAsCentralRoom();
+
 // Temple
 rooms.altar.link("north", rooms.trail);
 rooms.trail.link("west", rooms.westGarden);
