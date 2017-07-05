@@ -2,9 +2,12 @@ const game = require("./game");
 const Character = require("./character");
 const Xterm = require("./xterm");
 const Command = require("./command");
+const Dispatcher = require("./dispatcher");
 
-module.exports = class User {
+class User extends Dispatcher {
   constructor(connection) {
+    super();
+
     this.input = [];
     this.output = [];
     this.messageLinesCount = 0;
@@ -52,13 +55,17 @@ module.exports = class User {
     let command = game.commands.find((command) => command.synonyms.some((synonym) => synonym.startsWith(base)));
 
     if (command) {
+      this.dispatch(`command:${command.base}:beforeInterpret`, argument);
+
       if (command.argument) {
         let props = command.argument.exec(argument, this);
 
         if (props != null) {
+          this.dispatch(`command:${command.base}:beforeExecute`, props);
           command.action.apply(this, props);
         }
       } else {
+        this.dispatch(`command:${command.base}:afterExecute`, command.base);
         command.action.call(this, command.base);
       }
     } else {
@@ -101,3 +108,6 @@ module.exports = class User {
     }
   }
 };
+
+User.middlewares = [];
+module.exports = User;
