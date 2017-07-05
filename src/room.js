@@ -86,14 +86,6 @@ class Room {
     }
   }
 
-  static link(scope, firstRoomName, direction, secondRoomName) {
-    let firstRoom = scope.find((room) => room.name == firstRoomName);
-    let secondRoom = scope.find((room) => room.name == secondRoomName);
-
-    firstRoom.exits[direction] = secondRoom;
-    secondRoom.exits[Room.invertDirection(direction)] = firstRoom;
-  }
-
   static calculateCoordinates(baseRoom, direction) {
     let baseRoomCellAtMap = game.world.map.find((cell) => cell.room == baseRoom);
 
