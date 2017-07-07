@@ -14,6 +14,7 @@ class User extends Hookable {
     this.xterm = new Xterm(this);
     this.connection = connection;
     this.dialog = null;
+    this.resolveQueryPromise = null;
 
     let character = new Character({
       name: {en: "a hero", ru: "герой"},
@@ -29,8 +30,20 @@ class User extends Hookable {
     this.connection.destroy();
   }
 
-  interpret(query) {
+  catchQuery() {
+    return new Promise((resolve, reject) => {
+      this.resolveQueryPromise = resolve;
+    });
+  }
+
+  async interpret(query) {
     let [, base, argument] = /(\S+)?(?:\s+(.+))?/.exec(query);
+
+    if (this.resolveQueryPromise) {
+      this.resolveQueryPromise(query);
+      this.resolveQueryPromise = null;
+      return;
+    }
 
     if (this.dialog) {
       if (query.length == 0) {
@@ -62,11 +75,11 @@ class User extends Hookable {
 
         if (props != null) {
           this.dispatchHook(`command:${command.base}:beforeExecute`, props);
-          command.action.apply(this, props);
+          await command.action.apply(this, props);
         }
       } else {
         this.dispatchHook(`command:${command.base}:afterExecute`, command.base);
-        command.action.call(this, command.base);
+        await command.action.call(this, command.base);
       }
     } else {
       this.message("Unkown Command");
