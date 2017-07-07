@@ -2,9 +2,9 @@ const game = require("./game");
 const Character = require("./character");
 const Xterm = require("./xterm");
 const Command = require("./command");
-const Dispatcher = require("./dispatcher");
+const Hookable = require("./hookable");
 
-class User extends Dispatcher {
+class User extends Hookable {
   constructor(connection) {
     super();
 
@@ -55,17 +55,17 @@ class User extends Dispatcher {
     let command = game.commands.find((command) => command.synonyms.some((synonym) => synonym.startsWith(base)));
 
     if (command) {
-      this.dispatch(`command:${command.base}:beforeInterpret`, argument);
+      this.dispatchHook(`command:${command.base}:beforeInterpret`, argument);
 
       if (command.argument) {
         let props = command.argument.exec(argument, this);
 
         if (props != null) {
-          this.dispatch(`command:${command.base}:beforeExecute`, props);
+          this.dispatchHook(`command:${command.base}:beforeExecute`, props);
           command.action.apply(this, props);
         }
       } else {
-        this.dispatch(`command:${command.base}:afterExecute`, command.base);
+        this.dispatchHook(`command:${command.base}:afterExecute`, command.base);
         command.action.call(this, command.base);
       }
     } else {
@@ -109,5 +109,5 @@ class User extends Dispatcher {
   }
 };
 
-User.middlewares = [];
+User.hooks = [];
 module.exports = User;

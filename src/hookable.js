@@ -1,23 +1,23 @@
-module.exports = class Dispatcher {
+module.exports = class Hookable {
   constructor() {
     this.flags = new Set();
   }
 
-  static use(rule, handler) {
-    this.middlewares.push({
+  static registerHook(rule, handler) {
+    this.hooks.push({
       ruleParts: rule.split(":"),
       handler
     });
   }
 
-  dispatch(rule, ...args) {
+  dispatchHook(rule, ...args) {
     let ruleParts = rule.split(":");
 
-    for (let middleware of this.constructor.middlewares) {
+    for (let hook of this.constructor.hooks) {
       let ruleMatchesMiddleware = true;
 
       for (let [i, rulePart] of ruleParts.entries()) {
-        if (middleware.ruleParts[i] == rulePart) {
+        if (hook.ruleParts[i] == rulePart) {
           continue;
         } else {
           ruleMatchesMiddleware = false;
@@ -26,7 +26,7 @@ module.exports = class Dispatcher {
       }
 
       if (ruleMatchesMiddleware) {
-        middleware.handler.apply(this, args);
+        hook.handler.apply(this, args);
       }
     }
   }
