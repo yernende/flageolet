@@ -8,6 +8,30 @@ const NEWLINE = "\n\r";
 const TAB = "  ";
 const DEFAULT_BOX_WIDTH = 80;
 
+const formattingMethods = {
+  foreground(color, model) {
+    this.style({foreground: color});
+    this.writeModel(model);
+    this.reset();
+  },
+  nominative() {},
+  genitive(model) {
+    this.writeModel(model);
+  },
+  dative(model) {
+    this.writeModel(model);
+  },
+  accusative(model) {
+    this.writeModel(model);
+  },
+  instrumental(model) {
+    this.writeModel(model);
+  },
+  prepositional(model) {
+    this.writeModel(model);
+  }
+}
+
 module.exports = class Xterm {
   constructor(user) {
     this.user = user;
@@ -68,22 +92,39 @@ module.exports = class Xterm {
     }
 
     let insideMethod = false;
+    let methodName = false;
+    let methodArguments = [];
 
     for (let part of data.match(/\$\w+\(|\)|, |\$(\w+)|[^$,]+/g)) {
       if (part[0] == "$" && part[part.length - 1] == "(") { // method
         insideMethod = true;
+        methodName = part.slice(1, -1);
         continue;
       } else if (insideMethod && part == ")") {
         insideMethod = false;
+
+        if (formattingMethods[methodName]) {
+          formattingMethods[methodName].apply(this, methodArguments);
+        } else {
+          throw new Error(`Unkown formatting method ${methodName}`);
+        }
+
         continue;
       } else if (insideMethod && part == ", ") {
+        continue;
+      } else if (insideMethod && part[0] != "$") {
+        methodArguments.push(part);
         continue;
       } else if (part[0] == "$") { // Variable
         let variable;
         if (variables) variable = variables[part.substr(1)];
         if (!variable) variable = this.variables.get(part.substr(1));
 
-        this.writeModel(variable);
+        if (insideMethod) {
+          methodArguments.push(variable);
+        } else {
+          this.writeModel(variable);
+        }
       } else {
         this.writeRaw(part, options);
       }
@@ -121,9 +162,7 @@ module.exports = class Xterm {
     } else if (model instanceof Room) {
       this.writeRoom(model, showDetails);
     } else {
-      this.style({foreground: 40});
       this.write(model);
-      this.reset();
     }
   }
 

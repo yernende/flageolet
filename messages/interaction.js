@@ -10,8 +10,8 @@ module.exports = [{
   name: "Private Message",
   perform({sender, message}) {
     this.xterm.writeln({
-      en: `$sender tells you: "$message"`,
-      ru: `$sender говорит тебе: "$message"`
+      en: `$sender tells you: "$foreground(40, $message)"`,
+      ru: `$sender говорит тебе: "$foreground(40, $message)"`
     }, {sender, message});
   }
 }, {
@@ -84,7 +84,7 @@ module.exports = [{
     if (actor == this.character) {
       this.xterm.writeln({
         en: `You say: "$message"`,
-        ru: `Ты произносишь: "$message"`
+        ru: `Ты произносишь: "$foreground(40, $message)"`
       })
     } else {
       this.xterm.writeln({
