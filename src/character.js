@@ -2,12 +2,13 @@ const game = require("./game");
 const AI = require("./ai");
 
 class Character {
-  constructor({name, color = 16, keywords, owner = new AI()}) {
+  constructor({name, color = 16, keywords, owner = new AI(), flags = []}) {
     this.name = name;
     this.color = color;
     this.owner = owner;
     this.owner.character = this;
     this.id = Character.idCounter++;
+    this.flags = flags;
 
     // TODO: repeated code
     if (!keywords) {

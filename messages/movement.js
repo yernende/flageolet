@@ -70,7 +70,7 @@ module.exports = [{
 
       for (let member of members) {
         this.xterm.writeListMark();
-        this.xterm.writeModel(member);
+        this.xterm.writeModel(member, true);
         this.xterm.writeln();
       }
     }

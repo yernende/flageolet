@@ -2,10 +2,26 @@ const AI = require("../src/ai");
 
 module.exports = class AcolyteAI extends AI {
   ["Talk"]({character}) {
-    this.tell(character, {
-      en: `Good luck!`,
-      ru: `Удачи!`
-    });
+    this.dialog(character, {
+      en: `Do you want to buy something?`,
+      ru: `Ты хочешь что-то купить?`
+    }, [{
+      en: "Nope",
+      ru: "Нет"
+    }, {
+      en: "Show me your merchandise.",
+      ru: "Покажи мне свой товар",
+      handler: () => {
+        this.dialog(character, null, [...this.character.inventory.items.map((item) => Object.assign(item.name, {
+          handler: () => {
+            this.execute("give", item, character);
+          }
+        })), {
+          en: "I won't buy nothing.",
+          ru: "Я не буду ничего покупать."
+        }]);
+      }
+    }])
   }
 
   ["Character Entered Game"]({character}) {

@@ -23,10 +23,10 @@ module.exports = [{
     this.xterm.endln();
     this.xterm.startBoxContent();
     this.xterm.style({foreground: 40});
-    this.xterm.writeText(message);
+    if (message) this.xterm.writeText(message);
 
     if (answers) {
-      this.xterm.writeln();
+      if (message) this.xterm.writeln();
 
       for (let i = 0; i < answers.length; i++) {
         let answer = answers[i];
@@ -34,7 +34,7 @@ module.exports = [{
         this.xterm.style({foreground: 45});
         this.xterm.write(`[${i + 1}] `);
         this.xterm.style({foreground: 15, bold: true});
-        this.xterm.writeln(answer);
+        this.xterm.writeln(answer, null, {capitalize: true});
       };
 
       this.xterm.reset();

@@ -34,7 +34,9 @@ module.exports = class Xterm {
     return string[0].toUpperCase() + string.substr(1);
   }
 
-  writeRaw(string) {
+  writeRaw(string, options = {capitilize: false}) {
+    if (options.capitalize) string = this.capitalize(string);
+
     if (this.newLine) {
       if (this.writeIntoBoxHeader) {
         this.left && this.user.output.push(CSI + (this.left + 1) + "G");
@@ -52,7 +54,7 @@ module.exports = class Xterm {
     this.user.output.push(this.styleSetter + string);
   }
 
-  write(data, variables) {
+  write(data, variables, options) {
     data = this.translate(data);
 
     if (!data || data.length == 0) {
@@ -61,7 +63,7 @@ module.exports = class Xterm {
     };
 
     if (data.length == 1 || !data.includes("$")) {
-      this.writeRaw(data);
+      this.writeRaw(data, options);
       return;
     }
 
@@ -83,7 +85,7 @@ module.exports = class Xterm {
 
         this.writeModel(variable);
       } else {
-        this.writeRaw(part);
+        this.writeRaw(part, options);
       }
     }
   }
@@ -104,20 +106,20 @@ module.exports = class Xterm {
     this.user.messageLinesCount++;
   }
 
-  writeln(data, variables) {
-    this.write(data, variables);
+  writeln(data, variables, options) {
+    this.write(data, variables, options);
     this.endln();
   }
 
-  writeModel(model) {
+  writeModel(model, showDetails) {
     if (model instanceof Character) {
-      this.writeCharacter(model);
+      this.writeCharacter(model, showDetails);
     } else if (model instanceof Item) {
-      this.writeItem(model);
+      this.writeItem(model, showDetails);
     } else if (model instanceof Room.Door) {
-      this.writeDoor(model);
+      this.writeDoor(model, showDetails);
     } else if (model instanceof Room) {
-      this.writeRoom(model);
+      this.writeRoom(model, showDetails);
     }
   }
 
@@ -151,7 +153,7 @@ module.exports = class Xterm {
     }
   }
 
-  writeCharacter(character) {
+  writeCharacter(character, showDetails = false) {
     if (character) {
       let name = this.translate(character.name);
       if (this.newLine) name = this.capitalize(name);
@@ -159,6 +161,19 @@ module.exports = class Xterm {
       this.style({foreground: character.color, bold: true});
       this.writeRaw(name);
       this.reset();
+
+      if (showDetails && character.flags.length > 0) {
+        this.writeRaw(" (");
+
+        for (let i = 0; i < character.flags.length; i++) {
+          this.writeRaw(this.translate(character.flags[i]));
+          if (i != character.flags.length - 1) {
+            this.writeRaw(", ");
+          }
+        }
+
+        this.writeRaw(")");
+      }
     } else {
       this.writeRaw({
         en: "Someone",

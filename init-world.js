@@ -161,6 +161,7 @@ let characters = {
   acolyte: new Character({
     name: {en: "acolyte", ru: "аколит"},
     color: 98,
+    flags: [{en: "trader", ru: "торговец"}],
     owner: new AcolyteAI()
   }),
   bird: new Character({
@@ -170,6 +171,7 @@ let characters = {
   }),
   guard: new Character({
     name: {en: "guard", ru: "стражник"},
+    flags: [{en: "questor", ru: "квестор"}],
     color: 31,
     owner: new GuardAI()
   })
