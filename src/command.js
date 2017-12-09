@@ -14,6 +14,7 @@ class CommandArgument extends RegExp {
           isOptional = Boolean(isOptional);
 
           let stringPattern = String.raw `(\S+|'.+?'|".+?")`;
+          let stringGreedyPattern = String.raw `(.+)`;
           let numberPattern = String.raw `(\d+?)`;
 
           parameters.push({ type, location, isOptional });
@@ -21,6 +22,10 @@ class CommandArgument extends RegExp {
           switch (type) {
             case "string":
               patterns.push(filter || stringPattern);
+              break;
+
+            case "string greedy":
+              patterns.push(stringGreedyPattern);
               break;
 
             case "number":
@@ -91,6 +96,7 @@ class CommandArgument extends RegExp {
 
         switch (type) {
           case "string":
+          case "string greedy":
             return parameter;
 
           case "number":

@@ -24,4 +24,9 @@ module.exports = [{
       target.owner.message("Talk", {character: this.character});
     }
   }
+}, {
+  pattern: "say <string greedy>",
+  action(message) {
+    this.character.location.broadcast("Say", {actor: this.character, message});
+  }
 }];

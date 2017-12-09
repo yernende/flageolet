@@ -9,11 +9,10 @@ module.exports = [{
 }, {
   name: "Private Message",
   perform({sender, message}) {
-    this.xterm.writeCharacter(sender);
-    this.xterm.write({ en: " tells you: ", ru: " говорит тебе: " });
-    this.xterm.style({foreground: 40});
-    this.xterm.writeln(`"${message}"`);
-    this.xterm.reset();
+    this.xterm.writeln({
+      en: `$sender tells you: "$message"`,
+      ru: `$sender говорит тебе: "$message"`
+    }, {sender, message});
   }
 }, {
   name: "AI Message",
@@ -77,6 +76,21 @@ module.exports = [{
     for (let user of users) {
       if (!user.character) continue;
       this.xterm.writeln("  • $character ($room)", {character: user.character, room: user.character.location});
+    }
+  }
+}, {
+  name: "Say",
+  perform({actor, message}) {
+    if (actor == this.character) {
+      this.xterm.writeln({
+        en: `You say: "$message"`,
+        ru: `Ты произносишь: "$message"`
+      })
+    } else {
+      this.xterm.writeln({
+        en: `$actor says: "$message".`,
+        ru: `$actor произносит: "$message"`
+      }, {actor, message});
     }
   }
 }];

@@ -81,7 +81,7 @@ module.exports = class Xterm {
       } else if (part[0] == "$") { // Variable
         let variable;
         if (variables) variable = variables[part.substr(1)];
-        if (!variable) variable = this.variables.get(part.substr(1))
+        if (!variable) variable = this.variables.get(part.substr(1));
 
         this.writeModel(variable);
       } else {
@@ -120,6 +120,10 @@ module.exports = class Xterm {
       this.writeDoor(model, showDetails);
     } else if (model instanceof Room) {
       this.writeRoom(model, showDetails);
+    } else {
+      this.style({foreground: 40});
+      this.write(model);
+      this.reset();
     }
   }
 

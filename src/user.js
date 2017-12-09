@@ -94,6 +94,7 @@ class User extends Hookable {
     if (this.input.length > 0) {
       let query = this.input.shift();
       if (query == "\r\n") return;
+      this.xterm.newLine = true;
       this.interpret(query.trim().toLowerCase());
     }
   }
