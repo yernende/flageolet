@@ -11,7 +11,7 @@ module.exports = [
     pattern: "recall",
     priority: 0,
     action() {
-      this.character.move(game.world.rooms.get(0));
+      this.character.move(this.character.location.area.rooms.get(0));
     }
   }
 ];
@@ -26,7 +26,7 @@ module.exports.push({
   pattern: "rooms",
   priority: 1,
   action() {
-    this.message("Room List", {rooms: game.world.rooms})
+    this.message("Room List", {rooms: this.character.location.area.rooms})
   }
 }, {
   pattern: "go/move <exit>",
@@ -36,11 +36,11 @@ module.exports.push({
   pattern: "goto <number>",
   priority: 6,
   action(id) {
-    if (!game.world.rooms.has(id)) {
+    if (!this.character.location.area.rooms.has(id)) {
       return this.message("Unknown Room Id");
     }
 
-    this.character.move(game.world.rooms.get(id));
+    this.character.move(this.character.location.area.rooms.get(id));
   }
 });
 

@@ -12,6 +12,8 @@ let area = new Area({
   name: {en: "Flageolet", ru: "Флажолет"}
 });
 
+area.register();
+
 let rooms = {
   altar: new Room({
     name: {en: "Altar", ru: "Алтарь"},
@@ -207,7 +209,7 @@ for (let room of Object.values(rooms)) {
 }
 
 for (let entity of [...Object.values(rooms), ...Object.values(characters), ...Object.values(items)]) {
-  entity.register();
+  entity.register(area);
 }
 
 rooms.altar.registerAsCentralRoom();

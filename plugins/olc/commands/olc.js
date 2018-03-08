@@ -25,7 +25,7 @@ module.exports = [{
     this.message("Expect Room Surface");
     let surface = await this.catchQuery();
 
-    let targetRoom = id ? game.world.rooms.get(id) : this.character.location;
+    let targetRoom = id ? this.character.location.area.rooms.get(id) : this.character.location;
 
     if (nameEnglish) targetRoom.name.en = nameEnglish;
     if (nameRussian) targetRoom.name.ru = nameRussian;

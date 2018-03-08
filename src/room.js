@@ -30,8 +30,8 @@ class Room {
     this.id = Room.idCounter++;
   }
 
-  register() {
-    game.world.rooms.set(this.id, this);
+  register(area) {
+    area.rooms.set(this.id, this);
   }
 
   registerAsCentralRoom() {

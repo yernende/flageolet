@@ -15,7 +15,7 @@ module.exports = function onlineCreatorPlugin({User, Room, game}) {
           area: this.character.location.area
         });
 
-        room.register();
+        room.register(this.character.location.area);
         this.character.location.link(direction, room);
       }
     }
