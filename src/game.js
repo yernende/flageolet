@@ -3,9 +3,9 @@ module.exports = {
   messages: [],
   users: [],
   world: {
+    areas: new Map(),
     rooms: new Map(),
     characters: new Map(),
-    items: new Map(),
-    map: []
+    items: new Map()
   }
 };

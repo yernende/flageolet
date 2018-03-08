@@ -1,3 +1,4 @@
+const Area = require("./src/area");
 const Room = require("./src/room");
 const Character = require("./src/character");
 const Item = require("./src/item");
@@ -5,6 +6,11 @@ const Item = require("./src/item");
 const AcolyteAI = require("./ai/acolyte");
 const BirdAI = require("./ai/bird");
 const GuardAI = require("./ai/guard");
+
+let area = new Area({
+  id: "flageolet",
+  name: {en: "Flageolet", ru: "Флажолет"}
+});
 
 let rooms = {
   altar: new Room({
@@ -194,6 +200,10 @@ let items = {
     name: {en: "resine boat", ru: "резиновая лодка"},
     type: "boat"
   })
+}
+
+for (let room of Object.values(rooms)) {
+  room.area = area;
 }
 
 for (let entity of [...Object.values(rooms), ...Object.values(characters), ...Object.values(items)]) {

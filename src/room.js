@@ -19,9 +19,10 @@ class Door {
 }
 
 class Room {
-  constructor({name, surface}) {
+  constructor({name, surface, area}) {
     this.name = name;
     this.surface = surface;
+    this.area = area;
 
     this.exits = [];
     this.items = [];
@@ -34,7 +35,7 @@ class Room {
   }
 
   registerAsCentralRoom() {
-    game.world.map.push({x: 0, y: 0, z: 0, room: this});
+    this.area.map.push({x: 0, y: 0, z: 0, room: this});
   }
 
   broadcast(...args) {
@@ -87,7 +88,7 @@ class Room {
   }
 
   static calculateCoordinates(baseRoom, direction) {
-    let baseRoomCellAtMap = game.world.map.find((cell) => cell.room == baseRoom);
+    let baseRoomCellAtMap = baseRoom.area.map.find((cell) => cell.room == baseRoom);
 
     if (baseRoomCellAtMap) {
       let {x, y, z} = baseRoomCellAtMap;
@@ -144,7 +145,7 @@ module.exports = Room;
 
 function createCellAtMap(baseRoom, destination, direction) {
   let coordinates = Room.calculateCoordinates(baseRoom, direction);
-  if (coordinates) game.world.map.push(Object.assign(coordinates, {room: destination}));
+  if (coordinates) baseRoom.area.map.push(Object.assign(coordinates, {room: destination}));
 }
 
 function link(baseRoom, destination, direction, door, options) {
