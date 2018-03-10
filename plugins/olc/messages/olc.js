@@ -54,4 +54,12 @@ module.exports = [{
       ru: "Мир сохранён."
     });
   }
+}, {
+  name: "Room Deleted",
+  perform() {
+    this.xterm.writeln({
+      en: "The room has been deleted.",
+      ru: "Комната удалена"
+    });
+  }
 }];

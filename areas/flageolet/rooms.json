@@ -38,53 +38,5 @@
       "ru": "Врата"
     },
     "surface": "ground"
-  },
-  {
-    "id": 5,
-    "name": {
-      "en": "A dummy room",
-      "ru": "Комната-шаблон"
-    },
-    "surface": "ground"
-  },
-  {
-    "id": 6,
-    "name": {
-      "en": "A dummy room",
-      "ru": "Комната-шаблон"
-    },
-    "surface": "ground"
-  },
-  {
-    "id": 7,
-    "name": {
-      "en": "A dummy room",
-      "ru": "Комната-шаблон"
-    },
-    "surface": "ground"
-  },
-  {
-    "id": 8,
-    "name": {
-      "en": "A dummy room",
-      "ru": "Комната-шаблон"
-    },
-    "surface": "ground"
-  },
-  {
-    "id": 9,
-    "name": {
-      "en": "A dummy room",
-      "ru": "Комната-шаблон"
-    },
-    "surface": "ground"
-  },
-  {
-    "id": 10,
-    "name": {
-      "en": "A dummy room",
-      "ru": "Комната-шаблон"
-    },
-    "surface": "ground"
   }
 ]

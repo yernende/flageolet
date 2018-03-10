@@ -44,10 +44,6 @@
       {
         "direction": "east",
         "destinationId": 1
-      },
-      {
-        "direction": "north",
-        "destinationId": 9
       }
     ]
   },
@@ -60,10 +56,6 @@
       {
         "direction": "west",
         "destinationId": 1
-      },
-      {
-        "direction": "north",
-        "destinationId": 10
       }
     ]
   },
@@ -76,30 +68,6 @@
       {
         "direction": "south",
         "destinationId": 1
-      }
-    ]
-  },
-  {
-    "x": -1,
-    "y": 2,
-    "z": 0,
-    "roomId": 9,
-    "exits": [
-      {
-        "direction": "south",
-        "destinationId": 2
-      }
-    ]
-  },
-  {
-    "x": 1,
-    "y": 2,
-    "z": 0,
-    "roomId": 10,
-    "exits": [
-      {
-        "direction": "south",
-        "destinationId": 3
       }
     ]
   }

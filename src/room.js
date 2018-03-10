@@ -43,22 +43,27 @@ class MapCell {
       }))
     };
   }
+
+  destroy() {
+    let area = this.room.area;
+    area.map.splice(area.map.indexOf(this), 1);
+  }
 }
 
 class Room {
-  constructor({name, surface}) {
+  constructor({name, surface, id}) {
     this.name = name;
     this.surface = surface;
 
     this.exits = [];
     this.items = [];
     this.characters = [];
-    this.id = Room.idCounter++;
   }
 
-  register(area) {
+  register(area, id) {
     this.area = area;
-    area.rooms.set(this.id, this);
+    this.id = id;
+    area.rooms.set(id, this);
   }
 
   serialize() {
@@ -67,6 +72,27 @@ class Room {
       name: this.name,
       surface: this.surface
     };
+  }
+
+  destroy() {
+    for (let character of this.characters) {
+      if (character.isPC) character.execute("recall");
+      if (character.isNPC) throw new Error("Cannot delete a room with an NPC.");
+    }
+
+    for (let room of this.area.rooms.values()) {
+      room.exits = room.exits.filter((exit) => exit.destination != this);
+    }
+
+    this.area.rooms.delete(this.id);
+  }
+
+  destroyMapCell() {
+    for (let mapCell of this.area.map) {
+      if (mapCell.room == this) {
+        mapCell.destroy();
+      }
+    }
   }
 
   registerAsCentralRoom() {
@@ -181,16 +207,21 @@ module.exports = Room;
 
 function createCellAtMap(baseRoom, destination, direction) {
   let coordinates = Room.calculateCoordinates(baseRoom, direction);
-  let mapCell = new MapCell(coordinates);
 
-  mapCell.register(baseRoom.area, destination.id);
-  baseRoom.area.map.push(mapCell);
+  if (!baseRoom.area.map.some(({x, y, z}) => x == coordinates.x && y == coordinates.y && z == coordinates.z)) {
+    let mapCell = new MapCell(coordinates);
+
+    mapCell.register(baseRoom.area, destination.id);
+    baseRoom.area.map.push(mapCell);
+  }
 }
 
 function link(baseRoom, destination, direction, door, options) {
-  baseRoom.exits.push(new Exit(Object.assign({
-    direction, destination, door
-  }, options)));
+  if (!baseRoom.exits.some((exit) => exit.direction == direction)) {
+    baseRoom.exits.push(new Exit(Object.assign({
+      direction, destination, door
+    }, options)));
+  }
 }
 
 Room.link = link;

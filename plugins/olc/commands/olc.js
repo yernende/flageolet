@@ -34,7 +34,19 @@ module.exports = [{
     this.execute("look");
   }
 }, {
+  pattern: "delete room <number?>",
+  priority: 20,
+  action(id) {
+    let targetRoom = id ? this.character.location.area.rooms.get(id) : this.character.location;
+    if (targetRoom == this.character.location) this.execute("recall");
+
+    targetRoom.destroy();
+    targetRoom.destroyMapCell();
+    this.message("Room Deleted");
+  }
+}, {
   pattern: "save world",
+  priority: 20,
   action() {
     this.message("World Being Saved");
     saveWorld().then(() => {

@@ -13,7 +13,7 @@ module.exports = function worldInitDefaultPlugin({Area, Room, Character, Item, g
     // Load rooms
     for (let roomProperties of require(path.join(areaPath, "rooms.json"))) {
       let room = new Room(roomProperties);
-      room.register(area);
+      room.register(area, roomProperties.id);
     }
 
     // Load map
