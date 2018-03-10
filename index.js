@@ -7,12 +7,13 @@ const User = require("./src/user");
 const Character = require("./src/character");
 const Room = require("./src/room");
 const Item = require("./src/item");
+const Area = require("./src/area");
 
 loadCommands(path.join(__dirname, "commands"))
 loadMessages(path.join(__dirname, "messages"));
 loadPlugins(path.join(__dirname, "plugins"));
 
-require("./init-world");
+// require("./init-world");
 
 const server = net.createServer((connection) => {
   let user = new User(connection);
@@ -31,7 +32,7 @@ const server = net.createServer((connection) => {
   });
 
   game.users.push(user);
-  user.character.move(game.world.areas.get("flageolet").rooms.get(0));
+  user.character.move([...game.world.areas.values()][0].rooms.get(0));
 
   user.character.location.broadcast({
     filter: (target) => target != user.character,
@@ -49,13 +50,18 @@ setInterval(function () {
 
 function loadPlugins(directory) {
   for (let file of fs.readdirSync(path.join(directory))) {
-    loadCommands(path.join(directory, file, "commands"));
-    loadMessages(path.join(directory, file, "messages"));
+    if (file.startsWith("_")) continue;
+
+    let commandsPath = path.join(directory, file, "commands");
+    let messagesPath = path.join(directory, file, "messages");
+
+    if (fs.existsSync(commandsPath)) loadCommands(commandsPath);
+    if (fs.existsSync(messagesPath)) loadMessages(messagesPath);
 
     let pluginLoaderPath = path.join(directory, file, "index.js");
 
     if (fs.existsSync(pluginLoaderPath)) {
-      require(pluginLoaderPath)({User, Character, Room, Item, game});
+      require(pluginLoaderPath)({User, Character, Room, Item, Area, game});
     }
   }
 }

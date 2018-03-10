@@ -204,10 +204,6 @@ let items = {
   })
 }
 
-for (let room of Object.values(rooms)) {
-  room.area = area;
-}
-
 for (let entity of [...Object.values(rooms), ...Object.values(characters), ...Object.values(items)]) {
   entity.register(area);
 }

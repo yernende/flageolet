@@ -19,10 +19,9 @@ class Door {
 }
 
 class Room {
-  constructor({name, surface, area}) {
+  constructor({name, surface}) {
     this.name = name;
     this.surface = surface;
-    this.area = area;
 
     this.exits = [];
     this.items = [];
@@ -31,6 +30,7 @@ class Room {
   }
 
   register(area) {
+    this.area = area;
     area.rooms.set(this.id, this);
   }
 
@@ -153,3 +153,5 @@ function link(baseRoom, destination, direction, door, options) {
     direction, destination, door
   }, options)));
 }
+
+Room.link = link;
