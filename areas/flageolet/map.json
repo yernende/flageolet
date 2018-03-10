@@ -4,58 +4,103 @@
     "y": 0,
     "z": 0,
     "roomId": 0,
-    "exits": [{
-      "direction": "north",
-      "destinationId": 1
-    }]
+    "exits": [
+      {
+        "direction": "north",
+        "destinationId": 1
+      }
+    ]
   },
   {
     "x": 0,
     "y": 1,
     "z": 0,
     "roomId": 1,
-    "exits": [{
-      "direction": "south",
-      "destinationId": 0
-    }, {
-      "direction": "west",
-      "destinationId": 2
-    }, {
-      "direction": "east",
-      "destinationId": 3
-    }, {
-      "direction": "north",
-      "destinationId": 4
-    }]
+    "exits": [
+      {
+        "direction": "south",
+        "destinationId": 0
+      },
+      {
+        "direction": "west",
+        "destinationId": 2
+      },
+      {
+        "direction": "east",
+        "destinationId": 3
+      },
+      {
+        "direction": "north",
+        "destinationId": 4
+      }
+    ]
   },
   {
     "x": -1,
     "y": 1,
     "z": 0,
     "roomId": 2,
-    "exits": [{
-      "direction": "east",
-      "destinationId": 1
-    }]
+    "exits": [
+      {
+        "direction": "east",
+        "destinationId": 1
+      },
+      {
+        "direction": "north",
+        "destinationId": 9
+      }
+    ]
   },
   {
     "x": 1,
     "y": 1,
     "z": 0,
     "roomId": 3,
-    "exits": [{
-      "direction": "west",
-      "destinationId": 1
-    }]
+    "exits": [
+      {
+        "direction": "west",
+        "destinationId": 1
+      },
+      {
+        "direction": "north",
+        "destinationId": 10
+      }
+    ]
   },
   {
     "x": 0,
     "y": 2,
     "z": 0,
     "roomId": 4,
-    "exits": [{
-      "direction": "south",
-      "destinationId": 1
-    }]
+    "exits": [
+      {
+        "direction": "south",
+        "destinationId": 1
+      }
+    ]
+  },
+  {
+    "x": -1,
+    "y": 2,
+    "z": 0,
+    "roomId": 9,
+    "exits": [
+      {
+        "direction": "south",
+        "destinationId": 2
+      }
+    ]
+  },
+  {
+    "x": 1,
+    "y": 2,
+    "z": 0,
+    "roomId": 10,
+    "exits": [
+      {
+        "direction": "south",
+        "destinationId": 3
+      }
+    ]
   }
 ]

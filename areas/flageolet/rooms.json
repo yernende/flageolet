@@ -1,27 +1,90 @@
 [
   {
     "id": 0,
-    "name": {"en": "Altar", "ru": "Алтарь"},
+    "name": {
+      "en": "Altar",
+      "ru": "Алтарь"
+    },
     "surface": "marble"
   },
   {
     "id": 1,
-    "name": {"en": "Trail", "ru": "Тропинка"},
+    "name": {
+      "en": "Trail",
+      "ru": "Тропинка"
+    },
     "surface": "ground"
   },
   {
     "id": 2,
-    "name": {"en": "West garden", "ru": "Западный сад"},
+    "name": {
+      "en": "West garden",
+      "ru": "Западный сад"
+    },
     "surface": "grass"
   },
   {
     "id": 3,
-    "name": {"en": "East garden", "ru": "Восточный сад"},
+    "name": {
+      "en": "East garden",
+      "ru": "Восточный сад"
+    },
     "surface": "grass"
   },
   {
     "id": 4,
-    "name": {"en": "Gate", "ru": "Врата"},
+    "name": {
+      "en": "Gate",
+      "ru": "Врата"
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 5,
+    "name": {
+      "en": "A dummy room",
+      "ru": "Комната-шаблон"
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 6,
+    "name": {
+      "en": "A dummy room",
+      "ru": "Комната-шаблон"
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 7,
+    "name": {
+      "en": "A dummy room",
+      "ru": "Комната-шаблон"
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 8,
+    "name": {
+      "en": "A dummy room",
+      "ru": "Комната-шаблон"
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 9,
+    "name": {
+      "en": "A dummy room",
+      "ru": "Комната-шаблон"
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 10,
+    "name": {
+      "en": "A dummy room",
+      "ru": "Комната-шаблон"
+    },
     "surface": "ground"
   }
 ]

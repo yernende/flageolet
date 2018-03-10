@@ -18,6 +18,33 @@ class Door {
   }
 }
 
+class MapCell {
+  constructor(data) {
+    this.x = data.x;
+    this.y = data.y;
+    this.z = data.z;
+
+    this.room = null;
+  }
+
+  register(area, roomId) {
+    this.room = area.rooms.get(roomId);
+  }
+
+  serialize() {
+    return {
+      x: this.x,
+      y: this.y,
+      z: this.z,
+      roomId: this.room.id,
+      exits: this.room.exits.map((exit) => ({
+        direction: exit.direction,
+        destinationId: exit.destination.id
+      }))
+    };
+  }
+}
+
 class Room {
   constructor({name, surface}) {
     this.name = name;
@@ -32,6 +59,14 @@ class Room {
   register(area) {
     this.area = area;
     area.rooms.set(this.id, this);
+  }
+
+  serialize() {
+    return {
+      id: this.id,
+      name: this.name,
+      surface: this.surface
+    };
   }
 
   registerAsCentralRoom() {
@@ -141,11 +176,15 @@ class Room {
 Room.idCounter = 0;
 Room.Exit = Exit;
 Room.Door = Door;
+Room.MapCell = MapCell;
 module.exports = Room;
 
 function createCellAtMap(baseRoom, destination, direction) {
   let coordinates = Room.calculateCoordinates(baseRoom, direction);
-  if (coordinates) baseRoom.area.map.push(Object.assign(coordinates, {room: destination}));
+  let mapCell = new MapCell(coordinates);
+
+  mapCell.register(baseRoom.area, destination.id);
+  baseRoom.area.map.push(mapCell);
 }
 
 function link(baseRoom, destination, direction, door, options) {

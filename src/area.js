@@ -11,4 +11,11 @@ module.exports = class Area {
   register() {
     game.world.areas.set(this.id, this);
   }
+
+  serialize() {
+    return {
+      id: this.id,
+      name: this.name
+    };
+  }
 }

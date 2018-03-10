@@ -38,4 +38,20 @@ module.exports = [{
       ru: "Введите поверхность комнаты"
     });
   }
+}, {
+  name: "World Being Saved",
+  perform() {
+    this.xterm.writeln({
+      en: "Saving the world...",
+      ru: "Сохранение мира..."
+    });
+  }
+}, {
+  name: "World Saved",
+  perform() {
+    this.xterm.writeln({
+      en: "The world has been saved.",
+      ru: "Мир сохранён."
+    });
+  }
 }];

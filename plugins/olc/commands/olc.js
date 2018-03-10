@@ -1,4 +1,4 @@
-const game = require("../../../src/game");
+const saveWorld = require("../save.js");
 
 module.exports = [{
   pattern: "mole",
@@ -32,5 +32,13 @@ module.exports = [{
     if (surface) targetRoom.surface = surface;
 
     this.execute("look");
+  }
+}, {
+  pattern: "save world",
+  action() {
+    this.message("World Being Saved");
+    saveWorld().then(() => {
+      this.message("World Saved");
+    });
   }
 }];

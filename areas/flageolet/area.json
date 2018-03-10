@@ -1,4 +1,7 @@
 {
   "id": "flageolet",
-  "name": {"en": "Flageolet", "ru": "Флажолет"}
+  "name": {
+    "en": "Flageolet",
+    "ru": "Флажолет"
+  }
 }
