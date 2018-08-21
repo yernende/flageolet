@@ -6,7 +6,6 @@ class Character {
     this.name = name;
     this.color = color;
     this.owner = owner;
-    this.owner.character = this;
     this.id = Character.idCounter++;
     this.flags = flags;
 

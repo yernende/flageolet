@@ -9,7 +9,7 @@ const Room = require("./src/room");
 const Item = require("./src/item");
 const Area = require("./src/area");
 
-loadCommands(path.join(__dirname, "commands"))
+loadCommands(path.join(__dirname, "commands"));
 loadMessages(path.join(__dirname, "messages"));
 loadPlugins(path.join(__dirname, "plugins"));
 

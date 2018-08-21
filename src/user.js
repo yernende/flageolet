@@ -16,13 +16,13 @@ class User extends Hookable {
     this.dialog = null;
     this.resolveQueryPromise = null;
 
-    let character = new Character({
+    this.character = new Character({
       name: {en: "a hero", ru: "герой"},
       color: 15,
       owner: this
     });
 
-    character.isPC = true;
+    this.character.isPC = true;
   }
 
   destroy() {
@@ -121,7 +121,7 @@ class User extends Hookable {
       throw new Error(`Unkown message ${name}`);
     }
   }
-};
+}
 
 User.hooks = [];
 module.exports = User;
