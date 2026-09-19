@@ -1,8 +1,11 @@
 {
   "name": "flageolet",
   "version": "0.0.0",
-  "description": "MUD of the new generation",
+  "description": "An early Node.js MUD engine with a TCP terminal interface, ANSI maps, and in-game world editing.",
   "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "chance": "^1.0.6"
   },

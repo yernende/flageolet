@@ -51,8 +51,9 @@ class MapCell {
 }
 
 class Room {
-  constructor({name, surface, id}) {
+  constructor({name, description, surface, id}) {
     this.name = name;
+    this.description = description;
     this.surface = surface;
 
     this.exits = [];
@@ -70,6 +71,7 @@ class Room {
     return {
       id: this.id,
       name: this.name,
+      description: this.description,
       surface: this.surface
     };
   }

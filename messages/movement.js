@@ -13,11 +13,15 @@ module.exports = [{
     this.xterm.reset();
 
     // Room description
-    this.xterm.tab();
-    this.xterm.writeln("Lorem ipsum dolor sit amet, consectetur adipisicing");
-    this.xterm.writeln("sed do eiusmod tempor incididunt ut labore et dolore");
-    this.xterm.writeln("aliqua. Ut enim ad minim veniam, quis nostrud ullamco");
-    this.xterm.writeln("laboris nisi ut aliquip ex ea commodo consequat.");
+    let description = this.xterm.translate(room.description);
+
+    if (description) {
+      for (let line of description.split("\n")) {
+        this.xterm.tab();
+        this.xterm.writeln(line);
+      }
+    }
+
     this.xterm.writeln();
 
     // Exits
@@ -108,8 +112,8 @@ module.exports = [{
         case "south": return {"en": " leaves south.", "ru": " удаляется на юг."};
         case "west": return {"en": " leaves west.", "ru": " удаляется на запад."};
         case "east": return {"en": " leaves east.", "ru": " удаляется на восток."};
-        case "up": return {"en": " leaves up.", "ru": " удаляется вверх."};
-        case "down": return {"en": " leaves down.", "ru": " удаляется вниз."};
+        case "up": return {"en": " heads upward.", "ru": " удаляется вверх."};
+        case "down": return {"en": " heads downward.", "ru": " удаляется вниз."};
       }
     })());
   }
@@ -117,7 +121,7 @@ module.exports = [{
   name: "Room List",
   perform({rooms}) {
     this.xterm.writeln({
-      en: "There are rooms in the world:",
+      en: "Rooms in this area:",
       ru: "В мире есть следующие комнаты:"
     });
 
@@ -159,7 +163,7 @@ module.exports = [{
   name: "Can't Swim",
   perform() {
     this.xterm.writeln({
-      en: "You can not swim.",
+      en: "You cannot swim.",
       ru: "Ты не умеешь плавать."
     });
   }

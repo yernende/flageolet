@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const TempleGuideAI = require("../../ai/temple-guide");
 
 module.exports = function worldInitDefaultPlugin({Area, Room, Character, Item, game}) {
   for (let file of fs.readdirSync(path.join(__dirname, "../../areas"))) {
@@ -28,5 +29,20 @@ module.exports = function worldInitDefaultPlugin({Area, Room, Character, Item, g
 
       area.map.push(mapCell);
     }
+  }
+
+  let temple = game.world.areas.get("flageolet");
+  let altar = temple && temple.rooms.get(0);
+
+  if (altar) {
+    let acolyte = new Character({
+      name: {en: "acolyte", ru: "аколит"},
+      color: 98,
+      flags: [{en: "guide", ru: "проводник"}],
+      owner: new TempleGuideAI()
+    });
+
+    acolyte.register();
+    acolyte.move(altar);
   }
 }

@@ -2,7 +2,7 @@ module.exports = [{
   name: "Unkown Character",
   perform() {
     this.xterm.writeln({
-      en: "There is no such one.",
+      en: "There is no one by that name here.",
       ru: "Здесь таких нет."
     });
   }
@@ -45,7 +45,7 @@ module.exports = [{
   name: "No Such Answer",
   perform() {
     this.xterm.writeln({
-      en: "Type an answer number from the list below, please.",
+      en: "Enter one of the answer numbers shown above.",
       ru: "Ты должен ввести номер ответа из списка."
     });
   }
@@ -53,7 +53,7 @@ module.exports = [{
   name: "Doesn't Want To Talk",
   perform({character}) {
     this.xterm.writeln({
-      en: "He doesn't want to talk with you.",
+      en: "They don't want to talk to you.",
       ru: "Он не хочет разговаривать с тобой."
     });
   }
@@ -61,7 +61,7 @@ module.exports = [{
   name: "Nobody To Talk",
   perform() {
     this.xterm.writeln({
-      en: "There is nobody to talk with.",
+      en: "There is no one here to talk to.",
       ru: "Здесь не с кем пообщаться."
     });
   }
@@ -69,7 +69,7 @@ module.exports = [{
   name: "Users List",
   perform({users}) {
     this.xterm.writeln({
-      en: "There are players in the game:",
+      en: "Players currently in the game:",
       ru: "В игре находятся следующие игроки:"
     });
 

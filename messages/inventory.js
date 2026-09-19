@@ -19,7 +19,7 @@ module.exports = [{
   perform({inventory}) {
     if (inventory.items.length > 0) {
       this.xterm.writeln({
-        en: "You are carrrying:",
+        en: "You are carrying:",
         ru: "Ты несёшь:"
       });
 

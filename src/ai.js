@@ -7,7 +7,7 @@ module.exports = class AI {
   }
 
   // Default talk handler
-  ["Talk"](character) {
+  ["Talk"]({character}) {
     character.owner.message("Doesn't Want To Talk", {character: this.character});
   }
 

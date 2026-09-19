@@ -1,7 +1,7 @@
 module.exports = [{
   name: "Unkown Command",
   perform() {
-    this.xterm.writeln("Unkown command.");
+    this.xterm.writeln("Unknown command.");
   }
 }, {
   name: "Prompt",
@@ -12,7 +12,7 @@ module.exports = [{
   name: "Language Switched",
   perform() {
     this.xterm.writeln({
-      en: "The language switched to English.",
+      en: "Language switched to English.",
       ru: "Язык игры переключён на русский."
     });
   }
@@ -20,7 +20,7 @@ module.exports = [{
   name: "Wrong Syntax",
   perform() {
     this.xterm.writeln({
-      en: "The command's argument are typed wrong.",
+      en: "Invalid command arguments.",
       ru: "Неправильно указаны аргументы команды."
     });
   }
@@ -28,7 +28,7 @@ module.exports = [{
   name: "Commands List",
   perform({commands}) {
     this.xterm.writeln({
-      en: "There are commands available:",
+      en: "Available commands:",
       ru: "Список доступных команд:"
     });
 
@@ -42,7 +42,7 @@ module.exports = [{
   name: "Command Needs Argument",
   perform() {
     this.xterm.writeln({
-      en: "You need to specify argument for the command.",
+      en: "This command requires an argument.",
       ru: "Необходимо указать аргумент для команды."
     });
   }

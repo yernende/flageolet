@@ -39,7 +39,7 @@ const server = net.createServer((connection) => {
     message: "Character Entered Game",
     data: {character: user.character},
   });
-}).listen(7000);
+}).listen(Number(process.env.PORT || 7000));
 
 setInterval(function () {
   for (let user of game.users) {

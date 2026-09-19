@@ -2,40 +2,40 @@ module.exports = [{
   name: "Entering Mole Mode",
   perform() {
     this.xterm.writeln({
-      en: "Entering MOLE mode. Arrrgh!",
-      ru: "Активиция режима КРОТ. Ррррр!"
+      en: "Mole mode enabled.",
+      ru: "Режим крота включён."
     });
   }
 }, {
   name: "Leaving Mole Mode",
   perform() {
     this.xterm.writeln({
-      en: "Leaving mole mode.",
-      ru: "Деактивация режима крота."
+      en: "Mole mode disabled.",
+      ru: "Режим крота выключен."
     });
   }
 }, {
   name: "Expect Room Name English",
   perform() {
     this.xterm.writeln({
-      en: "Type room name (en)",
-      ru: "Введите имя комнаты (en)"
+      en: "Enter the room name (English):",
+      ru: "Введите название комнаты (en):"
     });
   }
 }, {
   name: "Expect Room Name Russian",
   perform() {
     this.xterm.writeln({
-      en: "Type room name (ru)",
-      ru: "Введите имя комнаты (ru)"
+      en: "Enter the room name (Russian):",
+      ru: "Введите название комнаты (ru):"
     });
   }
 }, {
   name: "Expect Room Surface",
   perform() {
     this.xterm.writeln({
-      en: "Type room surface",
-      ru: "Введите поверхность комнаты"
+      en: "Enter the room surface:",
+      ru: "Введите поверхность комнаты:"
     });
   }
 }, {
@@ -59,7 +59,7 @@ module.exports = [{
   perform() {
     this.xterm.writeln({
       en: "The room has been deleted.",
-      ru: "Комната удалена"
+      ru: "Комната удалена."
     });
   }
 }];

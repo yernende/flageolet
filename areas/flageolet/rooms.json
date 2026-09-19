@@ -2,40 +2,60 @@
   {
     "id": 0,
     "name": {
-      "en": "Altar",
-      "ru": "Алтарь"
+      "en": "Temple Altar",
+      "ru": "Алтарь храма"
+    },
+    "description": {
+      "en": "Daylight falls across a weathered marble altar.\nThe temple is quiet, save for leaves stirring\nin the courtyard to the north.",
+      "ru": "Дневной свет падает на старый мраморный алтарь.\nВ храме тихо; лишь во дворе к северу\nслышен шелест листвы."
     },
     "surface": "marble"
   },
   {
     "id": 1,
     "name": {
-      "en": "Trail",
-      "ru": "Тропинка"
+      "en": "Temple Courtyard",
+      "ru": "Храмовый двор"
+    },
+    "description": {
+      "en": "A gravel path runs between two walled gardens.\nBehind you, the altar rests in the temple's shade.\nWeathered gates stand at the northern end.",
+      "ru": "Дорожка из гравия разделяет два огороженных сада.\nК югу, в тени храма, стоит старый алтарь.\nНа северном краю двора виднеются обветшалые врата."
     },
     "surface": "ground"
   },
   {
     "id": 2,
     "name": {
-      "en": "West garden",
+      "en": "Western Garden",
       "ru": "Западный сад"
+    },
+    "description": {
+      "en": "Ivy softens the edges of an old stone wall.\nEmpty benches sit beneath the spreading branches.\nA narrow path leads east, back to the courtyard.",
+      "ru": "Плющ оплетает старую каменную ограду.\nПод раскидистыми ветвями стоят пустые скамьи.\nУзкая тропа ведёт на восток, обратно во двор."
     },
     "surface": "grass"
   },
   {
     "id": 3,
     "name": {
-      "en": "East garden",
+      "en": "Eastern Garden",
       "ru": "Восточный сад"
+    },
+    "description": {
+      "en": "Cherry trees lean over a patch of sunlit grass.\nA warm breeze carries the rustle of their leaves.\nThe courtyard lies beyond the western archway.",
+      "ru": "Вишнёвые деревья склонились над солнечной лужайкой.\nТёплый ветер шелестит листвой над головой.\nЗа аркой на западе виднеется храмовый двор."
     },
     "surface": "grass"
   },
   {
     "id": 4,
     "name": {
-      "en": "Gate",
-      "ru": "Врата"
+      "en": "Temple Gate",
+      "ru": "Врата храма"
+    },
+    "description": {
+      "en": "Tall wooden gates mark the edge of the temple.\nBeyond the wall, a forest stretches into the haze.\nFor now, the only path leads south to the courtyard.",
+      "ru": "Высокие деревянные врата замыкают храмовый двор.\nЗа стеной лес теряется в лёгкой дымке.\nОтсюда путь ведёт лишь на юг, обратно во двор."
     },
     "surface": "ground"
   }

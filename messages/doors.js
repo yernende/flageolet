@@ -18,7 +18,7 @@ module.exports = [{
   name: "Door Already Opened",
   perform() {
     this.xterm.writeln({
-      en: "That door is already opened.",
+      en: "That door is already open.",
       ru: "Эта дверь уже открыта."
     });
   }
@@ -55,7 +55,7 @@ module.exports = [{
       });
     } else {
       this.xterm.writeln({
-        en: "$actor closes $door.",
+        en: "$actor closes the $door.",
         ru: "$actor закрывает $accusative($door)."
       });
     }
@@ -64,7 +64,7 @@ module.exports = [{
   name: "No Key",
   perform({door}) {
     this.xterm.writeln({
-      en: "No key to open the $door.",
+      en: "You do not have the key to unlock the $door.",
       ru: "У тебя нет ключа, чтобы открыть $accusative($door)."
     });
   }
@@ -86,7 +86,7 @@ module.exports = [{
       });
     } else {
       this.xterm.writeln({
-        en: "$actor unlocks a $door.",
+        en: "$actor unlocks the $door.",
         ru: "$actor отпирает $accusative($door)."
       });
     }
@@ -109,7 +109,7 @@ module.exports = [{
       });
     } else {
       this.xterm.writeln({
-        en: "$actor locks a $door.",
+        en: "$actor locks the $door.",
         ru: "$actor запирает $accusative($door)."
       });
     }
