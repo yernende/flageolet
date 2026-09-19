@@ -1,0 +1,75 @@
+name: CI and deploy
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: flageolet-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  checks:
+    name: Test and package
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version-file: .node-version
+      - run: npm test
+      - run: python3 -m unittest discover -s deploy -p 'test_*.py' -v
+      - name: Package tested server
+        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+        run: python3 deploy/release.py --output artifacts/release --run-id "$GITHUB_RUN_ID"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+        with:
+          name: flageolet-release
+          path: artifacts/release/
+          retention-days: 7
+          if-no-files-found: error
+
+  deploy:
+    name: Deploy demo
+    needs: checks
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request' && vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    environment: production
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: flageolet-release
+          path: artifacts/release
+      - name: Skip superseded commits
+        id: head
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          current=$(gh api "repos/$GITHUB_REPOSITORY/commits/master" --jq .sha)
+          if [[ "$current" == "$GITHUB_SHA" ]]; then
+            echo 'current=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'A newer master commit exists; deployment skipped.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Deploy and verify public TCP connection
+        if: steps.head.outputs.current == 'true'
+        env:
+          DEPLOY_SSH_TARGET: ${{ secrets.DEPLOY_SSH_TARGET }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_PUBLIC_HOST: ${{ vars.DEPLOY_PUBLIC_HOST }}
+          DEPLOY_PUBLIC_PORT: ${{ vars.DEPLOY_PUBLIC_PORT }}
+        run: python3 deploy/from-actions.py

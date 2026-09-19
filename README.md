@@ -19,6 +19,14 @@ Flageolet is my early **multi-user dungeon (MUD)** project, built in 2016–2018
 
 The JavaScript/CommonJS code uses Node's TCP and filesystem APIs, with no runtime dependencies.
 
+## Play the demo
+
+```sh
+nc flageolet.yernende.ru 7000
+```
+
+Deployments restart the server and disconnect players. Each release resets the world. The public demo includes the world editor, available to every connected player.
+
 ## Run locally
 
 Tested with **Node.js 24.15.0** and macOS `nc`. Use a UTF-8 terminal at least **80 columns** wide with ANSI colour support.
@@ -67,6 +75,8 @@ Connect twice to explore together.
 | `recall`, `commands`, `quit` | Return to the altar, list commands, or disconnect |
 
 Stop with `Ctrl+C`. The default port is `7000`; `7070` avoids a macOS port conflict. Run checks with `npm test`.
+
+GitHub Actions runs tests for pull requests and pushes. Successful `master` releases deploy automatically when deployment is enabled; operational setup is described in [deployment notes](docs/deployment.md).
 
 ## Prototype boundaries
 
