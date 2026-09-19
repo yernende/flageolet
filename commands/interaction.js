@@ -1,4 +1,5 @@
 const game = require("../src/game");
+const AI = require("../src/ai");
 
 module.exports = [{
   pattern: "who",
@@ -9,11 +10,10 @@ module.exports = [{
   pattern: "talk <character?>",
   action(target) {
     if (!target) {
-      for (let character of this.character.location.characters) {
-        if (character.isNPC && character.owner && typeof character.owner["Talk"] == "function") {
-          target = character;
-        }
-      }
+      let candidates = this.character.location.characters.filter((character) =>
+        character.isNPC && character.owner && typeof character.owner["Talk"] == "function");
+      target = candidates.find((character) => character.owner["Talk"] !== AI.prototype["Talk"])
+        || candidates[0];
     }
 
     if (!target) {

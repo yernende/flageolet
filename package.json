@@ -4,11 +4,10 @@
   "description": "An early Node.js MUD engine with a TCP terminal interface, ANSI maps, and in-game world editing.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "node --test test/*.test.js"
   },
-  "dependencies": {
-    "chance": "^1.0.6"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "author": "yernende",
   "license": "MIT"

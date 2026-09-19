@@ -1,7 +1,15 @@
 module.exports = function onlineCreatorPlugin({User, Room, game}) {
   User.registerHook("command:go:beforeInterpret", function(direction) {
+    if (typeof direction !== "string" || !direction) return;
+    direction = direction.trim().toLowerCase();
+    if (!direction) return;
+    direction = Room.directions.find((candidate) => candidate.startsWith(direction));
+    if (!direction) return;
+
     if (this.flags.has("mole mode") && !this.character.location.exits.some((exit) => exit.direction == direction)) {
-      let {x, y, z} = Room.calculateCoordinates(this.character.location, direction);
+      let coordinates = Room.calculateCoordinates(this.character.location, direction);
+      if (!coordinates) return;
+      let {x, y, z} = coordinates;
       let existingDestinationCell = this.character.location.area.map.find(
         (cell) => cell.x == x && cell.y == y && cell.z == z
       );

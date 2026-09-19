@@ -2,28 +2,26 @@
 
 An early Node.js MUD engine with a TCP terminal interface, ANSI maps, and in-game world editing.
 
-Flageolet is my early **multi-user dungeon (MUD)** project: a shared text world explored through typed commands. It combines networking, command interpretation, world modelling, and terminal rendering.
+Flageolet is my early **multi-user dungeon (MUD)** project, built in 2016–2018 and recently restored. This experimental personal project combines networking, command interpretation, world modelling, and terminal rendering.
 
-It is a working prototype, **not currently under active development**.
+![An English terminal session showing the restored forest, room text, exits, and an ANSI map](docs/images/terminal-demo.png)
 
-![An English terminal session showing the Temple Courtyard, its description, exits, and a coloured map](docs/images/terminal-demo.png)
-
-*Live `nc` session. `@` marks your position; the map shows nearby rooms.*
+*Recorded from a live `nc` session. `@` marks the player; the map shows nearby rooms.*
 
 ## What it implements
 
-- **Shared world over TCP:** multiple terminal clients explore the same rooms and chat.
-- **Command interpretation:** aliases, abbreviations, and argument patterns for directions, items, and characters.
-- **Terminal presentation:** ANSI colours, box drawing, and a local map generated from room connections.
-- **Bilingual content:** English and Russian room text and messages, switchable during a session.
-- **NPC dialogue:** numbered replies, nested menus, and a separate conversation state for each player.
-- **World editing:** plugins extend commands and messages; the editor creates, connects, edits, and deletes rooms, saving areas as JSON.
+- **Shared TCP world:** multiple terminal clients explore and chat, with buffered UTF-8 input and case-insensitive commands.
+- **Command interpreter:** aliases, abbreviations, and typed argument patterns for directions, items, and characters.
+- **ANSI interface:** colours, box drawing, and a local map built from room connections.
+- **English and Russian:** room descriptions, messages, and NPC conversations.
+- **Gameplay:** numbered dialogue trees, a shared sword-for-key quest, inventory transfers, locked doors, a wandering bird, and boat-dependent water travel.
+- **World editing:** plugins extend commands and messages; the editor creates, connects, edits, and deletes rooms, saving the world as JSON.
 
-The code uses JavaScript/CommonJS and Node's built-in TCP and filesystem APIs, with separate command, presentation, entity, and plugin modules. Earlier trading and guard-quest experiments remain in the source; their world initializer is disabled.
+The JavaScript/CommonJS code uses Node's TCP and filesystem APIs, with no runtime dependencies.
 
 ## Run locally
 
-Tested with **Node.js 24.15.0** and macOS `nc` (netcat). Use a UTF-8 terminal at least **80 columns** wide with ANSI colour support. The default demo needs no dependency installation.
+Tested with **Node.js 24.15.0** and macOS `nc`. Use a UTF-8 terminal at least **80 columns** wide with ANSI colour support.
 
 ```sh
 git clone https://github.com/yernende/flageolet.git
@@ -37,38 +35,39 @@ In another terminal:
 nc localhost 7070
 ```
 
-Sessions start in Russian. Enter these commands **one line at a time**:
+Sessions start in Russian. Switch with `language en`. The world has **35 connected rooms** across a temple, forest, ravine, bridge, and river. At the altar, try `talk acolyte`, then `2` for directions, `2` to return, and `3` to leave. An empty line repeats a dialogue menu.
+
+To recover the guard's sword and open the northern gates, start at the altar:
 
 ```text
 language en
-look
 north
 west
+get sword
 east
-east
-recall
+north
+talk guard
+2
+give sword guard
+open north
+north
 ```
 
-The five-room demo contains an altar, courtyard, two gardens, and a gate. At the altar, try `talk acolyte`, then `2` to ask for directions, `2` to return, and `3` to say farewell. During conversations, enter reply numbers; an empty line repeats the menu.
+![The guard receiving a sword and handing over the gate key in a live terminal session](docs/images/dialogue-demo.png)
 
-![Acolyte dialogue with numbered replies and directions around the temple](docs/images/dialogue-demo.png)
-
-*A live `nc` conversation with the temple guide.*
-
-Open a second connection to try `who` and `say hello` with another player.
+Connect twice to explore together.
 
 | Command | Action |
 | --- | --- |
-| `look` | Show the current room and map |
-| `north`, `south`, `east`, `west` | Move; `n`, `s`, `e`, `w` also work |
-| `recall` | Return to the altar |
-| `talk` / `talk acolyte` | Speak with the guide at the altar |
-| `language en` / `language ru` | Switch language |
-| `commands` | List all command patterns, including editor commands |
-| `quit` | Disconnect |
+| `look`, `inventory`, `who` | Inspect the room, carried items, or players |
+| `north`, `south`, `east`, `west`, `up`, `down` | Move; abbreviations also work |
+| `get sword`, `drop sword`, `give sword guard` | Move items |
+| `open north`, `lock north` | Operate a door |
+| `say Hello!`, `talk` | Chat or start a conversation |
+| `recall`, `commands`, `quit` | Return to the altar, list commands, or disconnect |
 
-Stop with `Ctrl+C`. The default port is `7000`; this example uses `7070` to avoid a macOS port conflict.
+Stop with `Ctrl+C`. The default port is `7000`; `7070` avoids a macOS port conflict. Run checks with `npm test`.
 
 ## Prototype boundaries
 
-This is a local demonstration: there are no accounts or access controls, and every player can use the world editor. `save world` overwrites the area files. Player sessions are temporary. The guide is recreated on startup; trading and quests are outside this demo.
+Every connected player can use the editor. `save world` writes authored rooms and startup definitions; player progress is temporary. Disconnecting drops inventory in the last room. Restarting resets NPCs, items, the quest, and doors; an item stranded behind a locked gate may require a restart. Accounts, persistent progress, and a trading economy are not implemented. See [recovery notes](docs/recovery.md) for the historical regressions and test coverage.

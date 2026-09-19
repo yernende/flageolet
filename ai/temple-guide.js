@@ -30,8 +30,8 @@ module.exports = class TempleGuideAI extends AI {
   }
 
   showDirectionsMenu(character, message = {
-    en: "Go north from the altar to reach the courtyard.\nThe gardens lie west and east; the gate is farther north.\nThere is no passage beyond the gate. Return south to the courtyard.",
-    ru: "Иди на север от алтаря, чтобы попасть во двор.\nСады лежат к западу и востоку, а врата — дальше на север.\nЗа врата пройти нельзя. Путь на юг вернёт тебя во двор."
+    en: "Go north from the altar to reach the courtyard.\nThe gardens lie west and east; the gate is farther north.\nAsk the guard for the gate key to explore the forest beyond.",
+    ru: "Иди на север от алтаря, чтобы попасть во двор.\nСады лежат к западу и востоку, а врата — дальше на север.\nПоговори со стражником о ключе, чтобы выйти в лес."
   }) {
     this.dialog(character, message, [{
       en: "Tell me about the gardens.",

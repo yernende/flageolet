@@ -8,28 +8,30 @@ const Character = require("./src/character");
 const Room = require("./src/room");
 const Item = require("./src/item");
 const Area = require("./src/area");
+const areasDirectory = path.resolve(process.env.WORLD_DIR || path.join(__dirname, "areas"));
 
 loadCommands(path.join(__dirname, "commands"));
 loadMessages(path.join(__dirname, "messages"));
 loadPlugins(path.join(__dirname, "plugins"));
 
-// require("./init-world");
-
-const server = net.createServer((connection) => {
+const server = net.createServer({allowHalfOpen: true}, (connection) => {
   let user = new User(connection);
   user.language = "ru";
 
   connection.on("data", (data) => {
-    user.input.push(data.toString());
+    user.receive(data);
   });
 
   connection.on("error", (error) => {
     console.error(error);
+    user.destroy();
   });
 
   connection.on("end", () => {
-    user.execute("quit");
+    user.endInput();
   });
+
+  connection.on("close", () => user.destroy());
 
   game.users.push(user);
   user.character.move([...game.world.areas.values()][0].rooms.get(0));
@@ -39,10 +41,12 @@ const server = net.createServer((connection) => {
     message: "Character Entered Game",
     data: {character: user.character},
   });
-}).listen(Number(process.env.PORT || 7000));
+}).listen(Number(process.env.PORT || 7000), () => {
+  console.log(`Flageolet listening on port ${server.address().port}.`);
+});
 
 setInterval(function () {
-  for (let user of game.users) {
+  for (let user of [...game.users]) {
     user.handleInput();
     user.handleOutput();
   }
@@ -61,7 +65,7 @@ function loadPlugins(directory) {
     let pluginLoaderPath = path.join(directory, file, "index.js");
 
     if (fs.existsSync(pluginLoaderPath)) {
-      require(pluginLoaderPath)({User, Character, Room, Item, Area, game});
+      require(pluginLoaderPath)({User, Character, Room, Item, Area, game, areasDirectory});
     }
   }
 }

@@ -16,6 +16,9 @@ module.exports = [{
   pattern: "edit room <number?>",
   priority: 20,
   async action(id) {
+    let targetRoom = id == null ? this.character.location : this.character.location.area.rooms.get(id);
+    if (!targetRoom) return this.message("Unknown Room Id");
+
     this.message("Expect Room Name English");
     let nameEnglish = await this.catchQuery();
 
@@ -24,8 +27,6 @@ module.exports = [{
 
     this.message("Expect Room Surface");
     let surface = await this.catchQuery();
-
-    let targetRoom = id ? this.character.location.area.rooms.get(id) : this.character.location;
 
     if (nameEnglish) targetRoom.name.en = nameEnglish;
     if (nameRussian) targetRoom.name.ru = nameRussian;
@@ -37,20 +38,22 @@ module.exports = [{
   pattern: "delete room <number?>",
   priority: 20,
   action(id) {
-    let targetRoom = id ? this.character.location.area.rooms.get(id) : this.character.location;
-    if (targetRoom == this.character.location) this.execute("recall");
-
-    targetRoom.destroy();
-    targetRoom.destroyMapCell();
+    let targetRoom = id == null ? this.character.location : this.character.location.area.rooms.get(id);
+    if (!targetRoom) return this.message("Unknown Room Id");
+    if (!targetRoom.destroy()) return this.message("Room Protected");
     this.message("Room Deleted");
   }
 }, {
   pattern: "save world",
   priority: 20,
-  action() {
+  async action() {
     this.message("World Being Saved");
-    saveWorld().then(() => {
+    try {
+      await saveWorld();
       this.message("World Saved");
-    });
+    } catch (error) {
+      console.error("Could not save world:", error);
+      this.message("World Save Failed");
+    }
   }
 }];

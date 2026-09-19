@@ -54,9 +54,369 @@
       "ru": "Врата храма"
     },
     "description": {
-      "en": "Tall wooden gates mark the edge of the temple.\nBeyond the wall, a forest stretches into the haze.\nFor now, the only path leads south to the courtyard.",
-      "ru": "Высокие деревянные врата замыкают храмовый двор.\nЗа стеной лес теряется в лёгкой дымке.\nОтсюда путь ведёт лишь на юг, обратно во двор."
+      "en": "Tall wooden gates mark the edge of the temple.\nA guard keeps watch beside the northern passage.\nBeyond the wall, a forest stretches into the haze.",
+      "ru": "Высокие деревянные врата замыкают храмовый двор.\nУ северного прохода несёт дозор стражник.\nЗа стеной лес теряется в лёгкой дымке."
     },
     "surface": "ground"
+  },
+  {
+    "id": 5,
+    "name": {
+      "en": "Well",
+      "ru": "Колодец"
+    },
+    "description": {
+      "en": "Still water fills a stone-lined well.\nDaylight filters down through the narrow shaft.\nThe temple courtyard lies directly overhead.",
+      "ru": "Тихая вода наполняет каменный колодец.\nСвет пробивается сквозь узкую шахту.\nПрямо над головой находится храмовый двор."
+    },
+    "surface": "water"
+  },
+  {
+    "id": 6,
+    "name": {
+      "en": "Woodland Edge",
+      "ru": "Опушка"
+    },
+    "description": {
+      "en": "The temple wall gives way to a line of tall trees.\nA winding forest path begins to the north.\nThe wooden gates stand behind you to the south.",
+      "ru": "За храмовой стеной начинается полоса высоких деревьев.\nНа север уходит извилистая лесная тропа.\nПозади, на юге, стоят деревянные ворота."
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 7,
+    "name": {
+      "en": "Forest Trail",
+      "ru": "Тропинка в лесу"
+    },
+    "description": {
+      "en": "Roots twist across a fork in the forest path.\nThe trail bends west; a gentle slope lies east.\nLoose earth falls away into a ravine to the north.",
+      "ru": "Корни пересекают развилку лесной тропы.\nТропа сворачивает на запад; к востоку пологий склон.\nНа севере рыхлая земля обрывается в овраг."
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 8,
+    "name": {
+      "en": "Forest Trail",
+      "ru": "Тропинка в лесу"
+    },
+    "description": {
+      "en": "The path turns between closely spaced trunks.\nDry leaves soften the ground beneath your feet.\nA bend leads north, away from the eastern fork.",
+      "ru": "Тропа петляет между тесно стоящими стволами.\nСухие листья мягко шуршат под ногами.\nПоворот ведёт на север, прочь от восточной развилки."
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 9,
+    "name": {
+      "en": "Forest Trail",
+      "ru": "Тропинка в лесу"
+    },
+    "description": {
+      "en": "The trail follows the western rim of a ravine.\nSteep, crumbling earth drops away to the east.\nThe safer path continues north and south.",
+      "ru": "Тропа идёт по западному краю оврага.\nКрутая осыпь обрывается на востоке.\nНадёжный путь продолжается на север и юг."
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 10,
+    "name": {
+      "en": "Forest Trail",
+      "ru": "Тропинка в лесу"
+    },
+    "description": {
+      "en": "A moss-covered boulder marks a turn in the path.\nTrees shelter this quiet corner of the forest.\nThe trail runs east and back to the south.",
+      "ru": "Поросший мхом валун отмечает поворот тропы.\nДеревья укрывают тихий уголок леса.\nТропа ведёт на восток и обратно на юг."
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 11,
+    "name": {
+      "en": "Forest Trail",
+      "ru": "Тропинка в лесу"
+    },
+    "description": {
+      "en": "The forest path skirts the top of a deep hollow.\nIts southern edge drops sharply into the ravine.\nFirm ground continues to the east and west.",
+      "ru": "Лесная тропа огибает глубокую впадину.\nЕё южный край резко обрывается в овраг.\nТвёрдая земля тянется на восток и запад."
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 12,
+    "name": {
+      "en": "Forest Trail",
+      "ru": "Тропинка в лесу"
+    },
+    "description": {
+      "en": "Sunlight breaks through the thinning branches.\nThe sound of running water comes from the east.\nThe path returns west into the shade.",
+      "ru": "Солнечный свет пробивается сквозь редкие ветви.\nС востока доносится шум бегущей воды.\nНа запад тропа возвращается в тень."
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 13,
+    "name": {
+      "en": "Steep Riverbank",
+      "ru": "Яр"
+    },
+    "description": {
+      "en": "A steep bank overlooks the river to the east.\nThe forest trail ends here from the west.\nA narrow path follows the bank to the south.",
+      "ru": "Крутой берег возвышается над рекой на востоке.\nС запада сюда выходит лесная тропа.\nУзкая дорожка идёт вдоль берега на юг."
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 14,
+    "name": {
+      "en": "Steep Riverbank",
+      "ru": "Яр"
+    },
+    "description": {
+      "en": "Exposed roots cling to the steep riverbank.\nWater slides past below, just to the east.\nThe bank path runs north and south to the bridge.",
+      "ru": "Оголённые корни цепляются за крутой берег.\nВнизу, на востоке, скользит речная вода.\nТропа идёт на север и на юг, к мосту."
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 15,
+    "name": {
+      "en": "Near A Bridge",
+      "ru": "У моста"
+    },
+    "description": {
+      "en": "Worn wooden planks reach across the river.\nThe bridge leads east to the opposite bank.\nA narrow path climbs north along the water.",
+      "ru": "Потёртые деревянные доски тянутся через реку.\nМост ведёт на восток, к другому берегу.\nУзкая тропа поднимается на север вдоль воды."
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 16,
+    "name": {
+      "en": "Bridge",
+      "ru": "Мост"
+    },
+    "description": {
+      "en": "Old timbers creak above the flowing water.\nThe crossing joins the western and eastern banks.\nWith a boat, the river is open north and south.",
+      "ru": "Старые брёвна скрипят над бегущей водой.\nПереправа соединяет западный и восточный берега.\nНа лодке можно плыть по реке на север и юг."
+    },
+    "surface": "wood"
+  },
+  {
+    "id": 17,
+    "name": {
+      "en": "Near A Bridge",
+      "ru": "У моста"
+    },
+    "description": {
+      "en": "The bridge meets a patch of smooth river stones.\nIts planks lead west across the water.\nA quieter bank path winds away to the north.",
+      "ru": "Мост выходит на россыпь гладких речных камней.\nЕго доски ведут на запад через воду.\nТихая береговая тропа уходит на север."
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 18,
+    "name": {
+      "en": "Riverbank",
+      "ru": "Берег реки"
+    },
+    "description": {
+      "en": "Reeds rustle along the shallow edge of the bank.\nThe river flows past to the west.\nThe riverside path continues north and south.",
+      "ru": "Камыш шуршит у пологого края берега.\nК западу от тебя течёт река.\nБереговая тропа продолжается на север и юг."
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 19,
+    "name": {
+      "en": "Riverbank",
+      "ru": "Берег реки"
+    },
+    "description": {
+      "en": "The bank widens into a stretch of pale gravel.\nAcross the water to the west rises a steep slope.\nTrees gather to the east; the path runs south.",
+      "ru": "Берег расширяется в полосу светлого гравия.\nЗа водой на западе поднимается крутой склон.\nК востоку стоят деревья; тропа ведёт на юг."
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 20,
+    "name": {
+      "en": "Woodland Edge",
+      "ru": "Опушка"
+    },
+    "description": {
+      "en": "Trees shelter a quiet clearing beside the river.\nFlattened grass marks a small riverside landing.\nThe only path leads west, back toward the water.",
+      "ru": "Деревья укрывают тихую поляну у реки.\nПримятая трава отмечает небольшой спуск к воде.\nЕдинственная тропа ведёт на запад, обратно к воде."
+    },
+    "surface": "ground"
+  },
+  {
+    "id": 23,
+    "name": {
+      "en": "Ravine",
+      "ru": "Овраг"
+    },
+    "description": {
+      "en": "Loose stones lie at the bottom of a shaded ravine.\nThe steep walls offer no easy way back up.\nAn opening to the east leads deeper into the hollow.",
+      "ru": "На дне тенистого оврага лежат осыпавшиеся камни.\nПо крутым стенам так просто не подняться.\nНа востоке виден проход в глубину впадины."
+    },
+    "surface": "grass"
+  },
+  {
+    "id": 24,
+    "name": {
+      "en": "Ravine",
+      "ru": "Овраг"
+    },
+    "description": {
+      "en": "Fern-covered walls narrow around a quiet hollow.\nThe deeper ravine lies to the west.\nA gentler slope offers a way out to the south.",
+      "ru": "Стены с папоротником сужаются вокруг тихой впадины.\nГлубокий овраг остаётся на западе.\nНа юге пологий склон обещает выход."
+    },
+    "surface": "grass"
+  },
+  {
+    "id": 25,
+    "name": {
+      "en": "Gentle Descent",
+      "ru": "Пологий спуск"
+    },
+    "description": {
+      "en": "A gentle slope climbs out from the shaded ravine.\nThe hollow lies north, below the trees.\nTo the west, firm ground meets the forest trail.",
+      "ru": "Пологий склон выводит из тенистого оврага.\nНа севере, под деревьями, лежит впадина.\nНа западе твёрдая земля переходит в лесную тропу."
+    },
+    "surface": "grass"
+  },
+  {
+    "id": 26,
+    "name": {
+      "en": "River",
+      "ru": "Река"
+    },
+    "description": {
+      "en": "Clear water slips between low, mossy stones.\nThe river source lies a short way to the west.\nThe stream continues east beneath the trees.",
+      "ru": "Чистая вода скользит между низкими мшистыми камнями.\nЧуть западнее находится речной исток.\nПоток уходит на восток под деревья."
+    },
+    "surface": "water"
+  },
+  {
+    "id": 27,
+    "name": {
+      "en": "River",
+      "ru": "Река"
+    },
+    "description": {
+      "en": "Branches lean over a narrow stretch of the river.\nSmall ripples break against the boat.\nThe waterway runs east and west.",
+      "ru": "Ветви склоняются над узким участком реки.\nМелкая рябь разбивается о борт лодки.\nВодный путь тянется на восток и запад."
+    },
+    "surface": "water"
+  },
+  {
+    "id": 28,
+    "name": {
+      "en": "River",
+      "ru": "Река"
+    },
+    "description": {
+      "en": "Sunlight shimmers on a broad ribbon of water.\nThe banks are thick with roots and reeds.\nThe river continues east and back to the west.",
+      "ru": "Свет мерцает на широкой ленте воды.\nБерега густо оплетены корнями и камышом.\nРека продолжается на восток и обратно на запад."
+    },
+    "surface": "water"
+  },
+  {
+    "id": 29,
+    "name": {
+      "en": "River",
+      "ru": "Река"
+    },
+    "description": {
+      "en": "The river curves around a stand of dark pines.\nIts upper reaches stretch away to the west.\nThe bend carries the water south.",
+      "ru": "Река огибает небольшую рощу тёмных сосен.\nВерховья тянутся вдаль на запад.\nЗа поворотом вода уходит на юг."
+    },
+    "surface": "water"
+  },
+  {
+    "id": 30,
+    "name": {
+      "en": "River",
+      "ru": "Река"
+    },
+    "description": {
+      "en": "The channel straightens between wooded banks.\nA bend disappears behind you to the north.\nOpen water continues toward the south.",
+      "ru": "Русло выпрямляется между лесистыми берегами.\nНа севере за деревьями скрывается поворот.\nСвободная вода продолжается на юг."
+    },
+    "surface": "water"
+  },
+  {
+    "id": 31,
+    "name": {
+      "en": "River",
+      "ru": "Река"
+    },
+    "description": {
+      "en": "The western bank rises steeply above the river.\nA gentler shore is within reach to the east.\nThe channel continues north and south.",
+      "ru": "Западный берег круто поднимается над рекой.\nНа востоке можно пристать к пологому берегу.\nРусло продолжается на север и юг."
+    },
+    "surface": "water"
+  },
+  {
+    "id": 32,
+    "name": {
+      "en": "River",
+      "ru": "Река"
+    },
+    "description": {
+      "en": "The old bridge comes into view to the south.\nBoth banks offer places to come ashore.\nTo the north, the river winds back into the forest.",
+      "ru": "На юге появляется старый деревянный мост.\nНа обоих берегах можно выйти на сушу.\nНа севере река возвращается в лес."
+    },
+    "surface": "water"
+  },
+  {
+    "id": 33,
+    "name": {
+      "en": "River",
+      "ru": "Река"
+    },
+    "description": {
+      "en": "The wooden bridge stands just to the north.\nThe banks narrow around the flowing water.\nA distant roar rises from farther south.",
+      "ru": "Деревянный мост остался к северу.\nБерега сужаются вокруг бегущей воды.\nС далёкого юга доносится нарастающий гул."
+    },
+    "surface": "water"
+  },
+  {
+    "id": 34,
+    "name": {
+      "en": "River",
+      "ru": "Река"
+    },
+    "description": {
+      "en": "White foam gathers along the edge of the channel.\nA waterfall lies south, with no way back upstream.\nTurn north to return toward the bridge.",
+      "ru": "У края русла собирается белая пена.\nНа юге водопад: оттуда не вернуться вверх по реке.\nПоверни на север, чтобы вернуться к мосту."
+    },
+    "surface": "water"
+  },
+  {
+    "id": 35,
+    "name": {
+      "en": "River Source",
+      "ru": "Исток реки"
+    },
+    "description": {
+      "en": "Cold water bubbles from beneath a shelf of stone.\nThe forest is still around this small spring.\nThe young river flows away to the east.",
+      "ru": "Холодная вода бьёт из-под каменного выступа.\nВокруг маленького родника лес неподвижен.\nМолодая река уходит на восток."
+    },
+    "surface": "water"
+  },
+  {
+    "id": 36,
+    "name": {
+      "en": "Waterfall",
+      "ru": "Водопад"
+    },
+    "description": {
+      "en": "White water crashes into a mist-filled hollow.\nThere is no route back upstream from here.\nUse recall to return to the temple altar.",
+      "ru": "Белая вода падает в окутанную туманом впадину.\nОтсюда нет пути обратно вверх по реке.\nКоманда recall вернёт тебя к храмовому алтарю."
+    },
+    "surface": "water"
   }
 ]

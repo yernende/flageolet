@@ -32,6 +32,10 @@
       {
         "direction": "north",
         "destinationId": 4
+      },
+      {
+        "direction": "down",
+        "destinationId": 5
       }
     ]
   },
@@ -68,7 +72,528 @@
       {
         "direction": "south",
         "destinationId": 1
+      },
+      {
+        "direction": "north",
+        "destinationId": 6,
+        "doorId": "temple-gates"
       }
     ]
+  },
+  {
+    "x": 0,
+    "y": 1,
+    "z": -1,
+    "roomId": 5,
+    "exits": [
+      {
+        "direction": "up",
+        "destinationId": 1
+      }
+    ]
+  },
+  {
+    "x": 0,
+    "y": 3,
+    "z": 0,
+    "roomId": 6,
+    "exits": [
+      {
+        "direction": "south",
+        "destinationId": 4,
+        "doorId": "temple-gates"
+      },
+      {
+        "direction": "north",
+        "destinationId": 7
+      }
+    ]
+  },
+  {
+    "x": 0,
+    "y": 4,
+    "z": 0,
+    "roomId": 7,
+    "exits": [
+      {
+        "direction": "south",
+        "destinationId": 6
+      },
+      {
+        "direction": "west",
+        "destinationId": 8
+      },
+      {
+        "direction": "north",
+        "destinationId": 23,
+        "oneway": true
+      },
+      {
+        "direction": "east",
+        "destinationId": 25
+      }
+    ]
+  },
+  {
+    "x": -1,
+    "y": 4,
+    "z": 0,
+    "roomId": 8,
+    "exits": [
+      {
+        "direction": "east",
+        "destinationId": 7
+      },
+      {
+        "direction": "north",
+        "destinationId": 9
+      }
+    ]
+  },
+  {
+    "x": -1,
+    "y": 5,
+    "z": 0,
+    "roomId": 9,
+    "exits": [
+      {
+        "direction": "south",
+        "destinationId": 8
+      },
+      {
+        "direction": "north",
+        "destinationId": 10
+      },
+      {
+        "direction": "east",
+        "destinationId": 23,
+        "oneway": true
+      }
+    ]
+  },
+  {
+    "x": -1,
+    "y": 6,
+    "z": 0,
+    "roomId": 10,
+    "exits": [
+      {
+        "direction": "south",
+        "destinationId": 9
+      },
+      {
+        "direction": "east",
+        "destinationId": 11
+      }
+    ]
+  },
+  {
+    "x": 0,
+    "y": 6,
+    "z": 0,
+    "roomId": 11,
+    "exits": [
+      {
+        "direction": "west",
+        "destinationId": 10
+      },
+      {
+        "direction": "east",
+        "destinationId": 12
+      },
+      {
+        "direction": "south",
+        "destinationId": 23,
+        "oneway": true
+      }
+    ]
+  },
+  {
+    "x": 1,
+    "y": 6,
+    "z": 0,
+    "roomId": 12,
+    "exits": [
+      {
+        "direction": "west",
+        "destinationId": 11
+      },
+      {
+        "direction": "east",
+        "destinationId": 13
+      }
+    ]
+  },
+  {
+    "x": 2,
+    "y": 6,
+    "z": 0,
+    "roomId": 13,
+    "exits": [
+      {
+        "direction": "west",
+        "destinationId": 12
+      },
+      {
+        "direction": "south",
+        "destinationId": 14
+      },
+      {
+        "direction": "east",
+        "destinationId": 31
+      }
+    ]
+  },
+  {
+    "x": 2,
+    "y": 5,
+    "z": 0,
+    "roomId": 14,
+    "exits": [
+      {
+        "direction": "north",
+        "destinationId": 13
+      },
+      {
+        "direction": "south",
+        "destinationId": 15
+      },
+      {
+        "direction": "east",
+        "destinationId": 32
+      }
+    ]
+  },
+  {
+    "x": 2,
+    "y": 4,
+    "z": 0,
+    "roomId": 15,
+    "exits": [
+      {
+        "direction": "north",
+        "destinationId": 14
+      },
+      {
+        "direction": "east",
+        "destinationId": 16
+      }
+    ]
+  },
+  {
+    "x": 3,
+    "y": 4,
+    "z": 0,
+    "roomId": 16,
+    "exits": [
+      {
+        "direction": "west",
+        "destinationId": 15
+      },
+      {
+        "direction": "east",
+        "destinationId": 17
+      },
+      {
+        "direction": "north",
+        "destinationId": 32
+      },
+      {
+        "direction": "south",
+        "destinationId": 33
+      }
+    ]
+  },
+  {
+    "x": 4,
+    "y": 4,
+    "z": 0,
+    "roomId": 17,
+    "exits": [
+      {
+        "direction": "west",
+        "destinationId": 16
+      },
+      {
+        "direction": "north",
+        "destinationId": 18
+      }
+    ]
+  },
+  {
+    "x": 4,
+    "y": 5,
+    "z": 0,
+    "roomId": 18,
+    "exits": [
+      {
+        "direction": "south",
+        "destinationId": 17
+      },
+      {
+        "direction": "north",
+        "destinationId": 19
+      },
+      {
+        "direction": "west",
+        "destinationId": 32
+      }
+    ]
+  },
+  {
+    "x": 4,
+    "y": 6,
+    "z": 0,
+    "roomId": 19,
+    "exits": [
+      {
+        "direction": "south",
+        "destinationId": 18
+      },
+      {
+        "direction": "east",
+        "destinationId": 20
+      },
+      {
+        "direction": "west",
+        "destinationId": 31
+      }
+    ]
+  },
+  {
+    "x": 5,
+    "y": 6,
+    "z": 0,
+    "roomId": 20,
+    "exits": [
+      {
+        "direction": "west",
+        "destinationId": 19
+      }
+    ]
+  },
+  {
+    "x": 0,
+    "y": 5,
+    "z": 0,
+    "roomId": 23,
+    "exits": [
+      {
+        "direction": "east",
+        "destinationId": 24
+      }
+    ]
+  },
+  {
+    "x": 1,
+    "y": 5,
+    "z": 0,
+    "roomId": 24,
+    "exits": [
+      {
+        "direction": "west",
+        "destinationId": 23
+      },
+      {
+        "direction": "south",
+        "destinationId": 25
+      }
+    ]
+  },
+  {
+    "x": 1,
+    "y": 4,
+    "z": 0,
+    "roomId": 25,
+    "exits": [
+      {
+        "direction": "north",
+        "destinationId": 24
+      },
+      {
+        "direction": "west",
+        "destinationId": 7
+      }
+    ]
+  },
+  {
+    "x": 0,
+    "y": 8,
+    "z": 0,
+    "roomId": 26,
+    "exits": [
+      {
+        "direction": "west",
+        "destinationId": 35
+      },
+      {
+        "direction": "east",
+        "destinationId": 27
+      }
+    ]
+  },
+  {
+    "x": 1,
+    "y": 8,
+    "z": 0,
+    "roomId": 27,
+    "exits": [
+      {
+        "direction": "west",
+        "destinationId": 26
+      },
+      {
+        "direction": "east",
+        "destinationId": 28
+      }
+    ]
+  },
+  {
+    "x": 2,
+    "y": 8,
+    "z": 0,
+    "roomId": 28,
+    "exits": [
+      {
+        "direction": "west",
+        "destinationId": 27
+      },
+      {
+        "direction": "east",
+        "destinationId": 29
+      }
+    ]
+  },
+  {
+    "x": 3,
+    "y": 8,
+    "z": 0,
+    "roomId": 29,
+    "exits": [
+      {
+        "direction": "west",
+        "destinationId": 28
+      },
+      {
+        "direction": "south",
+        "destinationId": 30
+      }
+    ]
+  },
+  {
+    "x": 3,
+    "y": 7,
+    "z": 0,
+    "roomId": 30,
+    "exits": [
+      {
+        "direction": "north",
+        "destinationId": 29
+      },
+      {
+        "direction": "south",
+        "destinationId": 31
+      }
+    ]
+  },
+  {
+    "x": 3,
+    "y": 6,
+    "z": 0,
+    "roomId": 31,
+    "exits": [
+      {
+        "direction": "north",
+        "destinationId": 30
+      },
+      {
+        "direction": "south",
+        "destinationId": 32
+      },
+      {
+        "direction": "west",
+        "destinationId": 13
+      },
+      {
+        "direction": "east",
+        "destinationId": 19
+      }
+    ]
+  },
+  {
+    "x": 3,
+    "y": 5,
+    "z": 0,
+    "roomId": 32,
+    "exits": [
+      {
+        "direction": "north",
+        "destinationId": 31
+      },
+      {
+        "direction": "south",
+        "destinationId": 16
+      },
+      {
+        "direction": "west",
+        "destinationId": 14
+      },
+      {
+        "direction": "east",
+        "destinationId": 18
+      }
+    ]
+  },
+  {
+    "x": 3,
+    "y": 3,
+    "z": 0,
+    "roomId": 33,
+    "exits": [
+      {
+        "direction": "north",
+        "destinationId": 16
+      },
+      {
+        "direction": "south",
+        "destinationId": 34
+      }
+    ]
+  },
+  {
+    "x": 3,
+    "y": 2,
+    "z": 0,
+    "roomId": 34,
+    "exits": [
+      {
+        "direction": "north",
+        "destinationId": 33
+      },
+      {
+        "direction": "south",
+        "destinationId": 36,
+        "oneway": true
+      }
+    ]
+  },
+  {
+    "x": -1,
+    "y": 8,
+    "z": 0,
+    "roomId": 35,
+    "exits": [
+      {
+        "direction": "east",
+        "destinationId": 26
+      }
+    ]
+  },
+  {
+    "x": 3,
+    "y": 1,
+    "z": 0,
+    "roomId": 36,
+    "exits": []
   }
 ]

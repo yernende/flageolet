@@ -10,7 +10,8 @@ class Exit {
 }
 
 class Door {
-  constructor({name = {en: "a door", ru: "дверь"}, closed = true, locked = false, keyId = null}) {
+  constructor({id, name = {en: "a door", ru: "дверь"}, closed = true, locked = false, keyId = null}) {
+    this.id = id;
     this.name = name;
     this.closed = closed;
     this.locked = locked;
@@ -39,7 +40,9 @@ class MapCell {
       roomId: this.room.id,
       exits: this.room.exits.map((exit) => ({
         direction: exit.direction,
-        destinationId: exit.destination.id
+        destinationId: exit.destination.id,
+        ...(exit.door ? {doorId: exit.door.id} : {}),
+        ...(exit.oneway != null ? {oneway: exit.oneway} : {})
       }))
     };
   }
@@ -76,10 +79,23 @@ class Room {
     };
   }
 
+  get isProtected() {
+    return this.id === 0 || this.area.spawnRoomIds.has(this.id)
+      || this.characters.some((character) => character.isNPC)
+      || this.exits.some((exit) => exit.door)
+      || [...this.area.rooms.values()].some((room) =>
+        room.exits.some((exit) => exit.destination === this && exit.door));
+  }
+
   destroy() {
-    for (let character of this.characters) {
-      if (character.isPC) character.execute("recall");
-      if (character.isNPC) throw new Error("Cannot delete a room with an NPC.");
+    if (this.isProtected) return false;
+
+    for (let character of [...this.characters]) {
+      if (character.isPC) character.owner.execute("recall");
+    }
+
+    for (let item of [...this.items]) {
+      item.move(this.area.rooms.get(0));
     }
 
     for (let room of this.area.rooms.values()) {
@@ -87,10 +103,12 @@ class Room {
     }
 
     this.area.rooms.delete(this.id);
+    this.destroyMapCell();
+    return true;
   }
 
   destroyMapCell() {
-    for (let mapCell of this.area.map) {
+    for (let mapCell of [...this.area.map]) {
       if (mapCell.room == this) {
         mapCell.destroy();
       }
@@ -98,7 +116,9 @@ class Room {
   }
 
   registerAsCentralRoom() {
-    this.area.map.push({x: 0, y: 0, z: 0, room: this});
+    let cell = new MapCell({x: 0, y: 0, z: 0});
+    cell.register(this.area, this.id);
+    this.area.map.push(cell);
   }
 
   broadcast(...args) {
@@ -112,7 +132,7 @@ class Room {
       message = args[0], data = args[1];
     }
 
-    let characters = this.characters.sort((character) => character.isPC ? -1 : 1)
+    let characters = [...this.characters].sort((character) => character.isPC ? -1 : 1);
 
     for (let character of characters) {
       if (typeof filter == "function" && !filter(character)) continue;
@@ -151,6 +171,7 @@ class Room {
   }
 
   static calculateCoordinates(baseRoom, direction) {
+    if (!Room.directions.includes(direction)) return null;
     let baseRoomCellAtMap = baseRoom.area.map.find((cell) => cell.room == baseRoom);
 
     if (baseRoomCellAtMap) {
@@ -202,6 +223,7 @@ class Room {
 }
 
 Room.idCounter = 0;
+Room.directions = ["north", "east", "south", "west", "up", "down"];
 Room.Exit = Exit;
 Room.Door = Door;
 Room.MapCell = MapCell;
@@ -209,6 +231,7 @@ module.exports = Room;
 
 function createCellAtMap(baseRoom, destination, direction) {
   let coordinates = Room.calculateCoordinates(baseRoom, direction);
+  if (!coordinates) throw new Error("Cannot map a room without a valid direction and origin.");
 
   if (!baseRoom.area.map.some(({x, y, z}) => x == coordinates.x && y == coordinates.y && z == coordinates.z)) {
     let mapCell = new MapCell(coordinates);

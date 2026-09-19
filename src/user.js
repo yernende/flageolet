@@ -3,18 +3,25 @@ const Character = require("./character");
 const Xterm = require("./xterm");
 const Command = require("./command");
 const Hookable = require("./hookable");
+const {StringDecoder} = require("string_decoder");
 
 class User extends Hookable {
   constructor(connection) {
     super();
 
     this.input = [];
+    this.inputBuffer = "";
+    this.inputEnded = false;
+    this.pendingCommands = 0;
+    this.decoder = new StringDecoder("utf8");
+    this.closed = false;
     this.output = [];
     this.messageLinesCount = 0;
     this.xterm = new Xterm(this);
     this.connection = connection;
     this.dialog = null;
     this.resolveQueryPromise = null;
+    this.rejectQueryPromise = null;
 
     this.character = new Character({
       name: {en: "a hero", ru: "герой"},
@@ -25,23 +32,93 @@ class User extends Hookable {
     this.character.isPC = true;
   }
 
-  destroy() {
-    game.users.splice(game.users.indexOf(this), 1);
-    this.connection.destroy();
+  destroy({graceful = false} = {}) {
+    if (this.closed) return;
+    this.closed = true;
+    this.input = [];
+    this.inputBuffer = "";
+    this.dialog = null;
+
+    if (this.rejectQueryPromise) {
+      this.rejectQueryPromise(new Error("Player disconnected."));
+      this.resolveQueryPromise = null;
+      this.rejectQueryPromise = null;
+    }
+
+    let index = game.users.indexOf(this);
+    if (index >= 0) game.users.splice(index, 1);
+
+    try {
+      let room = this.character.location;
+      if (room) {
+        for (let item of [...this.character.inventory.items]) item.move(room);
+        this.character.destroy();
+        room.broadcast("Character Left Game", {character: this.character});
+      }
+    } finally {
+      if (graceful && !this.connection.destroyed && typeof this.connection.end == "function") {
+        this.connection.end();
+      } else {
+        this.connection.destroy();
+      }
+    }
+  }
+
+  receive(data) {
+    if (this.closed || this.inputEnded) return;
+    this.inputBuffer += typeof data == "string" ? data : this.decoder.write(data);
+
+    let newline;
+    while ((newline = this.inputBuffer.indexOf("\n")) >= 0) {
+      let line = this.inputBuffer.slice(0, newline);
+      this.input.push(line.endsWith("\r") ? line.slice(0, -1) : line);
+      this.inputBuffer = this.inputBuffer.slice(newline + 1);
+    }
+  }
+
+  endInput() {
+    if (this.closed || this.inputEnded) return;
+    this.inputEnded = true;
+    // An EOF is not a command terminator: keep only complete queued lines.
+    this.inputBuffer = "";
+    this.decoder.end();
+    this.finishInput();
+  }
+
+  finishInput() {
+    if (this.closed || !this.inputEnded || this.input.length > 0) return;
+    // Cancel an unanswered prompt, but let any other asynchronous work finish.
+    if (this.rejectQueryPromise) {
+      let reject = this.rejectQueryPromise;
+      this.resolveQueryPromise = null;
+      this.rejectQueryPromise = null;
+      let error = new Error("Input ended before all replies were received.");
+      error.code = "INPUT_ENDED";
+      reject(error);
+    }
+    if (this.pendingCommands > 0) return;
+    this.handleOutput();
+    this.destroy({graceful: true});
   }
 
   catchQuery() {
     return new Promise((resolve, reject) => {
+      if (this.closed) return reject(new Error("Player disconnected."));
       this.resolveQueryPromise = resolve;
+      this.rejectQueryPromise = reject;
+      this.finishInput();
     });
   }
 
   async interpret(query) {
-    let [, base, argument] = /(\S+)?(?:\s+(.+))?/.exec(query);
+    if (this.closed) return;
+    query = query.trim();
 
     if (this.resolveQueryPromise) {
-      this.resolveQueryPromise(query);
+      let resolve = this.resolveQueryPromise;
       this.resolveQueryPromise = null;
+      this.rejectQueryPromise = null;
+      resolve(query);
       return;
     }
 
@@ -51,13 +128,13 @@ class User extends Hookable {
         return;
       }
 
-      let answerIndex = parseInt(query) - 1;
+      let answerIndex = /^\d+$/.test(query) ? Number(query) - 1 : -1;
       let answer = this.dialog.answers[answerIndex];
 
       if (answer) {
         this.dialog = null;
         this.message("AI Message", {sender: this.character, message: answer});
-        if (answer.handler) answer.handler(this.character);
+        if (answer.handler) await answer.handler(this.character);
       } else {
         this.message("No Such Answer");
       }
@@ -65,7 +142,12 @@ class User extends Hookable {
       return;
     }
 
-    let command = game.commands.find((command) => command.synonyms.some((synonym) => synonym.startsWith(base)));
+    if (query.length == 0) return;
+    let [, base, argument] = /^(\S+)(?:\s+(.+))?$/.exec(query);
+    base = base.toLowerCase();
+    let command = game.commands.find((command) => command.synonyms.some(
+      (synonym) => command.requireFullType ? synonym == base : synonym.startsWith(base)
+    ));
 
     if (command) {
       this.dispatchHook(`command:${command.base}:beforeInterpret`, argument);
@@ -76,10 +158,12 @@ class User extends Hookable {
         if (props != null) {
           this.dispatchHook(`command:${command.base}:beforeExecute`, props);
           await command.action.apply(this, props);
+          this.dispatchHook(`command:${command.base}:afterExecute`, props);
         }
       } else {
-        this.dispatchHook(`command:${command.base}:afterExecute`, command.base);
+        this.dispatchHook(`command:${command.base}:beforeExecute`, command.base);
         await command.action.call(this, command.base);
+        this.dispatchHook(`command:${command.base}:afterExecute`, command.base);
       }
     } else {
       this.message("Unkown Command");
@@ -91,12 +175,22 @@ class User extends Hookable {
   }
 
   handleInput() {
-    if (this.input.length > 0) {
+    if (!this.closed && this.input.length > 0) {
       let query = this.input.shift();
-      if (query == "\r\n") return;
       this.xterm.newLine = true;
-      this.interpret(query.trim().toLowerCase());
+      this.pendingCommands++;
+      let command = this.interpret(query).catch((error) => {
+        if (this.closed || (this.inputEnded && error && error.code == "INPUT_ENDED")) return;
+        console.error(error);
+        this.message("Command Failed");
+      }).finally(() => {
+        this.pendingCommands--;
+        this.finishInput();
+      });
+      this.finishInput();
+      return command;
     }
+    this.finishInput();
   }
 
   handleOutput() {
@@ -110,6 +204,7 @@ class User extends Hookable {
   }
 
   message(name, ...args) {
+    if (this.closed) return;
     let message = game.messages.find((message) => message.name == name);
 
     if (message) {

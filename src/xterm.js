@@ -99,6 +99,7 @@ module.exports = class Xterm {
       if (part[0] == "$" && part[part.length - 1] == "(") { // method
         insideMethod = true;
         methodName = part.slice(1, -1);
+        methodArguments = [];
         continue;
       } else if (insideMethod && part == ")") {
         insideMethod = false;
@@ -162,7 +163,9 @@ module.exports = class Xterm {
     } else if (model instanceof Room) {
       this.writeRoom(model, showDetails);
     } else {
-      this.write(model);
+      // Values substituted into a template are text, not another template.
+      const value = model == null ? "" : this.translate(model);
+      this.writeRaw(value == null ? "" : String(value));
     }
   }
 
@@ -175,7 +178,7 @@ module.exports = class Xterm {
       this.writeRaw(name);
       this.reset();
     } else {
-      this.writeRaw({
+      this.write({
         en: "Somewhere",
         ru: "Где-то"
       });
@@ -189,7 +192,7 @@ module.exports = class Xterm {
 
       this.writeRaw(name);
     } else {
-      this.writeRaw({
+      this.write({
         en: "Something",
         ru: "Что-то"
       });
@@ -218,7 +221,7 @@ module.exports = class Xterm {
         this.writeRaw(")");
       }
     } else {
-      this.writeRaw({
+      this.write({
         en: "Someone",
         ru: "Кто-то"
       });
@@ -234,7 +237,7 @@ module.exports = class Xterm {
       this.writeRaw(name);
       this.reset();
     } else {
-      this.writeRaw({
+      this.write({
         en: "Something",
         ru: "Что-то"
       });

@@ -1,4 +1,12 @@
 module.exports = [{
+  name: "Command Failed",
+  perform() {
+    this.xterm.writeln({
+      en: "That command could not be completed. Please try again.",
+      ru: "Не удалось выполнить команду. Попробуй ещё раз."
+    });
+  }
+}, {
   name: "Unkown Command",
   perform() {
     this.xterm.writeln("Unknown command.");

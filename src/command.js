@@ -13,9 +13,9 @@ class CommandArgument extends RegExp {
           let [, type, isOptional, filter, location] = /<(.+?)(\?)?(?::(.+?))?(?:@(.+?))?>/.exec(node);
           isOptional = Boolean(isOptional);
 
-          let stringPattern = String.raw `(\S+|'.+?'|".+?")`;
+          let stringPattern = String.raw `('.+?'|".+?"|\S+)`;
           let stringGreedyPattern = String.raw `(.+)`;
-          let numberPattern = String.raw `(\d+?)`;
+          let numberPattern = String.raw `(\d+)`;
 
           parameters.push({ type, location, isOptional });
 
@@ -50,7 +50,13 @@ class CommandArgument extends RegExp {
           }
 
           if (isOptional) {
-            patterns[patterns.length - 1] += "?";
+            let optional = patterns.pop();
+            if (patterns[patterns.length - 1] == String.raw `\s+`) {
+              patterns.pop();
+              patterns.push(String.raw `(?:\s+${optional})?`);
+            } else {
+              patterns.push(optional + "?");
+            }
           }
         } else if (/ \(/.test(node)) {
           patterns.push(String.raw `(?:\s+`);
@@ -69,7 +75,7 @@ class CommandArgument extends RegExp {
       }
     }
 
-    super(`^${patterns.join("")}$`);
+    super(`^${patterns.join("")}$`, "i");
 
     this.parameters = parameters;
   }
@@ -103,16 +109,16 @@ class CommandArgument extends RegExp {
             return Number(parameter);
 
           case "item":
-            if (location.includes("location")) {
+            if (location && location.includes("location")) {
               scope.push(...user.character.location.items);
             }
 
-            if (location.includes("inventory")) {
+            if (location && location.includes("inventory")) {
               scope.push(...user.character.inventory.items);
             }
 
             item = scope.find(
-              (item) => item.keywords.some((keyword) => keyword.startsWith(parameter))
+              (item) => matchesName(item, parameter)
             );
 
             if (item) {
@@ -129,7 +135,7 @@ class CommandArgument extends RegExp {
             }
 
             character = scope.find(
-              (character) => character.keywords.some((keyword) => keyword.startsWith(parameter))
+              (character) => matchesName(character, parameter)
             );
 
             if (character) {
@@ -141,7 +147,7 @@ class CommandArgument extends RegExp {
             }
 
           case "exit":
-            exit = user.character.location.exits.find((exit) => exit.direction.startsWith(parameter));
+            exit = user.character.location.exits.find((exit) => exit.direction.startsWith(parameter.toLowerCase()));
 
             if (exit) {
               return exit;
@@ -163,7 +169,7 @@ class CommandArgument extends RegExp {
 }
 
 class Command {
-  constructor({pattern, action, priority = 10}) {
+  constructor({pattern, action, priority = 10, requireFullType = false}) {
     let [, base, argument] = /(\S+)(?:\s+(.+))?/.exec(pattern);
     let synonyms = base.split("/");
 
@@ -172,6 +178,7 @@ class Command {
     this.action = action;
     this.priority = priority;
     this.pattern = pattern;
+    this.requireFullType = requireFullType;
 
     if (argument) {
       this.argument = new CommandArgument(argument);
@@ -202,6 +209,11 @@ function stripSurroundingQuotes(string) {
   }
 
   return string;
+}
+
+function matchesName(entity, query) {
+  let names = typeof entity.name == "string" ? [entity.name] : Object.values(entity.name);
+  return [...entity.keywords, ...names].some((name) => name.toLowerCase().startsWith(query.toLowerCase()));
 }
 
 module.exports = Command;

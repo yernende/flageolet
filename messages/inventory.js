@@ -58,8 +58,8 @@ module.exports = [{
       });
     } else {
       this.xterm.writeln({
-        en: "$character drops $item.",
-        ru: "$character бросает $accusative($item)."
+        en: "$actor drops $item.",
+        ru: "$actor бросает $accusative($item)."
       });
     }
   }
@@ -85,10 +85,10 @@ module.exports = [{
   }
 }, {
   name: "Receiver's Hands Full",
-  perform({receiver}) {
+  perform({target}) {
     this.xterm.writeln({
-      en: "$receiver's hands are full.",
-      ru: "Руки $genitive($receiver) полны."
+      en: "$target's hands are full.",
+      ru: "Руки $genitive($target) полны."
     });
   }
 }];

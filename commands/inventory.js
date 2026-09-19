@@ -26,11 +26,25 @@ module.exports = [{
   pattern: "give <item@inventory> (to) <character@location>",
   priority: 4,
   action(item, target) {
+    if (!item || typeof item.move != "function" || item.location != this.character.inventory ||
+        !this.character.inventory.items.includes(item)) {
+      this.message("Unkown Item");
+      return false;
+    }
+
+    if (!this.character.location || !target || !target.inventory || !Array.isArray(target.inventory.items) ||
+        target.location != this.character.location || !this.character.location.characters.includes(target)) {
+      this.message("Unkown Character");
+      return false;
+    }
+
     if (target.inventory.items.length >= target.inventory.capacity) {
-      return this.message("Receiver's Hands Full", {target});
+      this.message("Receiver's Hands Full", {target});
+      return false;
     }
 
     item.move(target.inventory);
     this.character.location.broadcast("Item Given", {actor: this.character, target, item});
+    return true;
   }
 }];

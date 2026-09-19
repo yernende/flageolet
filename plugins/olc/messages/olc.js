@@ -55,6 +55,22 @@ module.exports = [{
     });
   }
 }, {
+  name: "World Save Failed",
+  perform() {
+    this.xterm.writeln({
+      en: "The world could not be saved. Check the server log.",
+      ru: "Не удалось сохранить мир. Проверьте журнал сервера."
+    });
+  }
+}, {
+  name: "Room Protected",
+  perform() {
+    this.xterm.writeln({
+      en: "This room is protected: it contains a spawn point, an NPC, or a door.",
+      ru: "Комната защищена: здесь точка появления, персонаж или дверь."
+    });
+  }
+}, {
   name: "Room Deleted",
   perform() {
     this.xterm.writeln({

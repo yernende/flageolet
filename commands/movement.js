@@ -45,7 +45,7 @@ module.exports.push({
 });
 
 function moveCharacterToDirection(direction) {
-  this.interpret("move " + direction);
+  return this.interpret("move " + direction);
 }
 
 function moveCharacterToExit(exit) {

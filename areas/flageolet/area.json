@@ -4,5 +4,104 @@
     "en": "Flageolet",
     "ru": "Флажолет"
   },
-  "largestRoomId": 4
+  "largestRoomId": 36,
+  "npcs": [
+    {
+      "id": "guide",
+      "ai": "guide",
+      "roomId": 0,
+      "name": {
+        "en": "acolyte",
+        "ru": "аколит"
+      },
+      "color": 98,
+      "flags": [
+        {
+          "en": "guide",
+          "ru": "проводник"
+        }
+      ]
+    },
+    {
+      "id": "guard",
+      "ai": "guard",
+      "roomId": 4,
+      "name": {
+        "en": "guard",
+        "ru": "стражник"
+      },
+      "color": 31,
+      "flags": [
+        {
+          "en": "quest giver",
+          "ru": "квестор"
+        }
+      ],
+      "quest": {
+        "swordItemId": "sword",
+        "keyItemId": "key"
+      }
+    },
+    {
+      "id": "bird",
+      "ai": "bird",
+      "roomId": 3,
+      "name": {
+        "en": "bird",
+        "ru": "птичка"
+      },
+      "color": 94
+    }
+  ],
+  "items": [
+    {
+      "id": "sword",
+      "name": {
+        "en": "rusty sword",
+        "ru": "ржавый меч"
+      },
+      "color": 130,
+      "roomId": 2
+    },
+    {
+      "id": "cherry",
+      "name": {
+        "en": "cherry",
+        "ru": "вишня"
+      },
+      "color": 125,
+      "roomId": 3
+    },
+    {
+      "id": "key",
+      "name": {
+        "en": "big steel key",
+        "ru": "большой стальной ключ"
+      },
+      "color": 147,
+      "npcId": "guard"
+    },
+    {
+      "id": "boat",
+      "name": {
+        "en": "rubber boat",
+        "ru": "резиновая лодка"
+      },
+      "color": 99,
+      "type": "boat",
+      "roomId": 20
+    }
+  ],
+  "doors": [
+    {
+      "id": "temple-gates",
+      "name": {
+        "en": "temple gates",
+        "ru": "храмовые ворота"
+      },
+      "closed": true,
+      "locked": true,
+      "keyItemId": "key"
+    }
+  ]
 }
