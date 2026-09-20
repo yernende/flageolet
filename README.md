@@ -22,10 +22,8 @@ The JavaScript/CommonJS code uses Node's TCP and filesystem APIs, with no runtim
 ## Play the demo
 
 ```sh
-nc flashalet.irln.ru 4000
+nc flageolet.yernende.ru 4000
 ```
-
-The requested hostname still needs to point to the demo server. Until its DNS is updated, connect with `nc 88.218.62.136 4000`.
 
 Deployments restart the server and disconnect players. Each release resets the world. The public demo includes the world editor, available to every connected player.
 

@@ -1,6 +1,6 @@
 # Demo deployment
 
-The public game uses raw TCP: `nc flashalet.irln.ru 4000`. The requested hostname must point to `88.218.62.136`; until its DNS is updated, use `nc 88.218.62.136 4000`. It does not serve HTTP or require an HTTPS certificate. Sessions start in Russian; enter `language en` to switch.
+The public game uses raw TCP: `nc flageolet.yernende.ru 4000`. The hostname resolves to `88.218.62.136`; direct access is also available with `nc 88.218.62.136 4000`. It does not serve HTTP or require an HTTPS certificate. Sessions start in Russian; enter `language en` to switch.
 
 `.github/workflows/deploy.yml` runs the engine and deployment tests on pull requests, pushes to `master`, and manual workflow runs. A successful run packages the dependency-free Node.js server and starting world as a checked artifact. Only `master` can deploy, and repository variable `DEPLOY_ENABLED` must be `true`. Forks have deployment disabled by default.
 
@@ -10,7 +10,7 @@ The deployment job uses the `production` environment, limited to the `master` br
 - `DEPLOY_SSH_KEY`: its dedicated Ed25519 private key.
 - `DEPLOY_KNOWN_HOSTS`: the server's verified SSH host key.
 
-Environment variables `DEPLOY_PUBLIC_HOST` and `DEPLOY_PUBLIC_PORT` select the external TCP health check. The host can be an IP while DNS changes propagate. The application expects Node.js 24.15.0, pinned in `.node-version`. No runtime dependency installation is needed.
+Environment variables `DEPLOY_PUBLIC_HOST=flageolet.yernende.ru` and `DEPLOY_PUBLIC_PORT=4000` select the external TCP health check, which verifies the same hostname players use. The application expects Node.js 24.15.0, pinned in `.node-version`. No runtime dependency installation is needed.
 
 GitHub-hosted runners send the tested archive over host-pinned SSH. The server validates it, activates the release, restarts only the game service and checks the initial room over TCP. Actions also tests the public endpoint. Deployments are serialized; superseded commits are skipped before activation. A failed server activation restores the previous release and world.
 
