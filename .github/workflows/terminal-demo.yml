@@ -1,0 +1,51 @@
+name: Terminal screenshots
+
+on:
+  workflow_dispatch:
+    inputs:
+      scenario:
+        description: Recorded scene
+        type: choice
+        options: [all, map, quest]
+        default: all
+
+permissions:
+  contents: read
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version-file: .node-version
+      - run: npm ci --prefix tools/terminal-demo
+      - name: Install Chromium
+        working-directory: tools/terminal-demo
+        run: npx playwright install --with-deps chromium
+      - name: Test, capture and render
+        env:
+          SCENARIO: ${{ inputs.scenario }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/terminal-demo
+          npm --prefix tools/terminal-demo test 2>&1 | tee artifacts/terminal-demo/tests.log
+          npm --prefix tools/terminal-demo run capture -- --scenario "$SCENARIO" 2>&1 | tee artifacts/terminal-demo/capture.log
+          npm --prefix tools/terminal-demo run render -- --scenario "$SCENARIO" 2>&1 | tee artifacts/terminal-demo/render.log
+          # Re-render the saved recordings after their game processes are gone.
+          find artifacts/terminal-demo -name '*.png' -print0 | sort -z | xargs -0 sha256sum > /tmp/terminal-demo.sha256
+          npm --prefix tools/terminal-demo run render -- --scenario "$SCENARIO" 2>&1 | tee artifacts/terminal-demo/rerender.log
+          sha256sum -c /tmp/terminal-demo.sha256
+          git diff --exit-code -- areas
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: terminal-demo-${{ github.sha }}-${{ inputs.scenario }}
+          path: artifacts/terminal-demo/
+          retention-days: 30
+          if-no-files-found: warn

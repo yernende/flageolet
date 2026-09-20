@@ -1,0 +1,23 @@
+@font-face { font-family: 'JetBrains Mono'; src: url('/fonts/regular.woff2') format('woff2'); font-weight: 400; font-display: block; }
+@font-face { font-family: 'JetBrains Mono'; src: url('/fonts/bold.woff2') format('woff2'); font-weight: 700; font-display: block; }
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: #0b1018; color: #e6edf3; font-family: 'JetBrains Mono', monospace; font-variant-ligatures: none; }
+body { min-height: 100vh; display: grid; place-items: center; padding: 40px; }
+.demo { width: 900px; max-width: 100%; }
+.intro { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 22px; }
+h1 { font-size: 29px; letter-spacing: -.7px; font-weight: 700; margin: 0; }
+#subtitle { font-size: 13px; color: #93a5ba; letter-spacing: .03em; }
+.frame { border: 1px solid #303b4c; border-radius: 12px; background: #101721; box-shadow: 0 16px 48px #0004; overflow: hidden; }
+.bar { height: 43px; display: flex; align-items: center; padding: 0 20px; border-bottom: 1px solid #253040; color: #9aabbe; font-size: 12px; gap: 8px; }
+.dot { height: 8px; width: 8px; background: #536174; border-radius: 50%; }
+.bar-label { margin-left: 10px; }
+.screen { padding: 24px 24px 14px; }
+#terminal { width: 100%; }
+.footer { display: flex; justify-content: space-between; gap: 20px; font-size: 11px; line-height: 1.5; color: #91a0b1; margin-top: 16px; }
+.xterm-viewport { overflow: hidden !important; }
+.xterm .xterm-screen { margin: 0 auto; }
+.xterm-cursor-layer { visibility: hidden; }
+nav { position: fixed; top: 12px; left: 20px; display: flex; gap: 16px; font-size: 12px; }
+nav a { color: #93a5ba; }
+body.export nav { display: none; }
+#error { position: fixed; inset: auto 20px 20px; color: #ed6a6a; }

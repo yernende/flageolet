@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flageolet · Terminal demo</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/xterm.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/xterm.js"></script>
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <nav aria-label="Recorded scenarios"></nav>
+  <main class="demo">
+    <div class="intro"><h1>Flageolet</h1><span id="subtitle"></span></div>
+    <div class="frame">
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="bar-label">Local demo · TCP session</span></div>
+      <div class="screen"><div id="terminal"></div></div>
+    </div>
+    <div class="footer"><span id="source"></span><span>80 columns · ANSI colour</span></div>
+  </main>
+  <p id="error" role="alert" hidden></p>
+</body>
+</html>

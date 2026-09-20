@@ -8,6 +8,8 @@ Flageolet is my early **multi-user dungeon (MUD)** project, built in 2016–2018
 
 *Recorded from a live `nc` session. `@` marks the player; the map shows nearby rooms.*
 
+[Record and style new terminal screenshots](tools/terminal-demo/README.md).
+
 ## What it implements
 
 - **Shared TCP world:** multiple terminal clients explore and chat, with buffered UTF-8 input and case-insensitive commands.

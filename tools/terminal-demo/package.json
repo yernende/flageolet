@@ -1,0 +1,17 @@
+{
+  "name": "flageolet-terminal-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Record isolated Flageolet sessions and render documentation screenshots",
+  "scripts": {
+    "capture": "node capture.js",
+    "preview": "node preview.js",
+    "render": "node render.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": { "node": ">=24" },
+  "dependencies": {
+    "@xterm/xterm": "6.0.0",
+    "playwright": "1.63.0"
+  }
+}
