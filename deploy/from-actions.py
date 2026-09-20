@@ -61,7 +61,7 @@ def main():
                 target, f"deploy {release} {digest}"
             ], stdin=source, check=True, timeout=180)
     host = os.environ["DEPLOY_PUBLIC_HOST"]
-    port = int(os.environ.get("DEPLOY_PUBLIC_PORT", "7000"))
+    port = int(os.environ.get("DEPLOY_PUBLIC_PORT", "4000"))
     for attempt in range(5):
         try:
             probe(host, port)

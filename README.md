@@ -22,8 +22,10 @@ The JavaScript/CommonJS code uses Node's TCP and filesystem APIs, with no runtim
 ## Play the demo
 
 ```sh
-nc flageolet.yernende.ru 7000
+nc flashalet.irln.ru 4000
 ```
+
+The requested hostname still needs to point to the demo server. Until its DNS is updated, connect with `nc 88.218.62.136 4000`.
 
 Deployments restart the server and disconnect players. Each release resets the world. The public demo includes the world editor, available to every connected player.
 
@@ -34,13 +36,13 @@ Tested with **Node.js 24.15.0** and macOS `nc`. Use a UTF-8 terminal at least **
 ```sh
 git clone https://github.com/yernende/flageolet.git
 cd flageolet
-PORT=7070 npm start
+npm start
 ```
 
 In another terminal:
 
 ```sh
-nc localhost 7070
+nc localhost 4000
 ```
 
 Sessions start in Russian. Switch with `language en`. The world has **35 connected rooms** across a temple, forest, ravine, bridge, and river. At the altar, try `talk acolyte`, then `2` for directions, `2` to return, and `3` to leave. An empty line repeats a dialogue menu.
@@ -74,7 +76,7 @@ Connect twice to explore together.
 | `say Hello!`, `talk` | Chat or start a conversation |
 | `recall`, `commands`, `quit` | Return to the altar, list commands, or disconnect |
 
-Stop with `Ctrl+C`. The default port is `7000`; `7070` avoids a macOS port conflict. Run checks with `npm test`.
+Stop with `Ctrl+C`. The default port is `4000`; set `PORT` to override it. Run checks with `npm test`.
 
 GitHub Actions runs tests for pull requests and pushes. Successful `master` releases deploy automatically when deployment is enabled; operational setup is described in [deployment notes](docs/deployment.md).
 

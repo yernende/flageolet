@@ -1,6 +1,6 @@
 # Demo deployment
 
-The public game uses raw TCP: `nc flageolet.yernende.ru 7000`. It does not serve HTTP or require an HTTPS certificate. Sessions start in Russian; enter `language en` to switch.
+The public game uses raw TCP: `nc flashalet.irln.ru 4000`. The requested hostname must point to `88.218.62.136`; until its DNS is updated, use `nc 88.218.62.136 4000`. It does not serve HTTP or require an HTTPS certificate. Sessions start in Russian; enter `language en` to switch.
 
 `.github/workflows/deploy.yml` runs the engine and deployment tests on pull requests, pushes to `master`, and manual workflow runs. A successful run packages the dependency-free Node.js server and starting world as a checked artifact. Only `master` can deploy, and repository variable `DEPLOY_ENABLED` must be `true`. Forks have deployment disabled by default.
 

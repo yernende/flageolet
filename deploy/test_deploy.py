@@ -84,12 +84,12 @@ class DeploymentTests(unittest.TestCase):
         client.recv.side_effect = [welcome[:1], welcome[1:7], welcome[7:], b"Language switched to English.\n", b"Exits: north.\n> "]
         with patch.object(actions.socket, "create_connection") as connect:
             connect.return_value.__enter__.return_value = client
-            actions.probe("localhost", 7000)
+            actions.probe("localhost", 4000)
             self.assertEqual(client.sendall.call_args_list[0].args, (b"language en\nlook\n",))
             self.assertEqual(client.sendall.call_args_list[1].args, (b"quit\n",))
             client.recv.side_effect = [b"HTTP/1.1 200 OK\r\n", b""]
             with self.assertRaisesRegex(RuntimeError, "language and look"):
-                actions.probe("localhost", 7000)
+                actions.probe("localhost", 4000)
 
 
 if __name__ == "__main__":

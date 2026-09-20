@@ -41,7 +41,7 @@ const server = net.createServer({allowHalfOpen: true}, (connection) => {
     message: "Character Entered Game",
     data: {character: user.character},
   });
-}).listen(Number(process.env.PORT || 7000), () => {
+}).listen(Number(process.env.PORT || 4000), () => {
   console.log(`Flageolet listening on port ${server.address().port}.`);
 });
 
